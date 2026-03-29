@@ -13,10 +13,11 @@ export default function FormChangeService({
     const [dados, setDados] = useState<ServiceAndData>({
             nome_servico: "",
             preco_desconto: "",
-            preco: ""
+            preco: "",
+            descricao: ""
     });
 
-    const handleChanger = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChanger = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setDados((d) => ({
             ...d, 
@@ -47,6 +48,18 @@ export default function FormChangeService({
                     value={dados.nome_servico}
                     onChange={handleChanger}
                     className="text-black bg-[white]"
+                />
+
+                <label>Alterar descrição</label>
+                <textarea
+                    name="descricao"
+                    value={dados.descricao}
+                    onChange={handleChanger}
+                    className="max-w-[400px] h-[20vw]   p-2 
+                    text-black bg-[white] rounded-md
+
+                    overflow-y-auto 
+                    "
                 />
 
                 <label>Alterar preço</label>

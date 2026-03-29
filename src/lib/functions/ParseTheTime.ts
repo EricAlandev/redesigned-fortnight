@@ -18,5 +18,5 @@ export const ParseTheTime = (data: string | Date) => {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-    }).format(data)
+    }).format(date)
 }

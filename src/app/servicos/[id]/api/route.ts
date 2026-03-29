@@ -92,6 +92,7 @@ export async function PUT(req:Request, {params} : params){
             idParameter : idParameter,
             nome_servico: body?.dados?.nome_servico,
             preco_desconto: body?.dados?.preco_desconto,
+            descricao: body?.dados?.descricao,
             preco: body?.dados?.preco
         }
 

@@ -22,11 +22,11 @@ export type services = {
 //normal Service
 export type ServiceAndData = dataService & {
     id?: number,
-    nome_servico: string,
-    preco: string,
+    nome_servico?: string,
+    preco?: string,
     preco_desconto?: string,
     descricao?: string,
-    horario: string,
+    horario?: string,
     ServicesData?: NServicosData[],
     url?: string
 }

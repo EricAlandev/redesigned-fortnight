@@ -42,7 +42,7 @@ export default function ServicesList(){
             </div>
 
             <div
-             className="w-[80vw] mx-auto pt-20.5"
+             className="w-[80vw] mx-auto mt-5"
             >
                 <RenderServices
                     services={services}

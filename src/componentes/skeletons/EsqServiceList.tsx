@@ -22,7 +22,6 @@ export default function EsqServiceList({
 
     //user
     nome,
-    endress,
     number
 
 }: ServicesList){
@@ -33,11 +32,12 @@ export default function EsqServiceList({
             {/*image product */}
             <img
                 src={url}
+                className=""
             />
             
             {/*product name */}
             <p
-             className="text-[18px]"
+             className=" text-[18px]"
             >
                 {nome_servico}
             </p>

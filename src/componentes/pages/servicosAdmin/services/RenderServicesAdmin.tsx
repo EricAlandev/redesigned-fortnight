@@ -2,7 +2,6 @@
 
 import EsqService from "@/componentes/skeletons/EsqService";
 import { ServiceAndData, services } from "@/types/TypeService";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 type renderServices = {
     dataService?: ServiceAndData[],
@@ -26,33 +25,46 @@ export default function RenderServicesAdmin({
     return(
         <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 ">
 
-                <p className="mt-2 mb-5 text-center ">
-                    Seus serviços
-                </p>
 
                 <div
                  className="flex flex-col gap-4"
                 >
                     
-                        {dataService?.map((s) => (
-                        <div
-                        key={s?.id}
-                        className="min-w-[50px]"
-                        
-                        >
-                            <EsqService
-                                id={s?.id}
-                                nome_servico={s?.nome_servico}
-                                preco={s?.preco}
-                                preco_desconto={s?.preco_desconto}
-                                isAdmin={isAdmin}
+                        {dataService?.length > 0 ? (
+                            <>
+                                <p className="mt-2 mb-5 text-center ">
+                                    Seus serviços
+                                </p>
+
+                                {dataService?.map((s) => (
+                                <div
+                                key={s?.id}
+                                className="min-w-[50px]"
                                 
-                                editar={() => alterarService(s?.id!)}
-                                adicionar={() => adicionarHorario(s?.id!)}
-                                deletar={() => deleteService(s?.id!)}
-                            />
-                        </div>
-                    ))}
+                                >
+                                    <EsqService
+                                        id={s?.id}
+                                        nome_servico={s?.nome_servico}
+                                        preco={s?.preco}
+                                        preco_desconto={s?.preco_desconto}
+                                        isAdmin={isAdmin}
+                                        url={s?.url}
+                                        editar={() => alterarService(s?.id!)}
+                                        adicionar={() => adicionarHorario(s?.id!)}
+                                        deletar={() => deleteService(s?.id!)}
+                                    />
+                                </div>
+                            ))}
+                            </>
+                        ) : (
+                            <>
+                                <p
+                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[18px]"
+                                >
+                                    Você ainda não tem nenhum produto
+                                </p>
+                            </>
+                        )}
                     
                 </div>
         </div>

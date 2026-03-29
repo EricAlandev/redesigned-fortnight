@@ -7,7 +7,7 @@ import { UsuarioServicos } from "../entitys/User/EntityUserServices";
 import { NServicosDataHorario } from "../entitys/PetServices/EntityNServicosData";
 import { ParseTheTime } from "@/lib/functions/ParseTheTime";
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
-import { MoreThan } from "typeorm";
+import { ILike, MoreThan } from "typeorm";
 
 type servicePutParameter = ServiceAndData & {
     idParameter: string
@@ -26,7 +26,7 @@ export const pullServices = async() => {
 
 
     if(services.length === 0){
-        throw new Error("Fail to find the services created");
+        return []
     }
 
     //fix the array and give the photo;
@@ -35,12 +35,11 @@ export const pullServices = async() => {
     for(let i = 0; i < services.length; i++){
         const urlPhotos = await PhotoImage(services[i].nome_servico);
         const objectService = {
-            escolhido: services[i].escolhido,
             id: services[i].id,
             nome_servico: services[i].nome_servico,
             preco: services[i].preco,
             preco_desconto: services[i].preco_desconto,
-            ulr: urlPhotos
+            url: urlPhotos
         }
 
         arrayServices.push(objectService);
@@ -96,6 +95,7 @@ export const pullOneService = async(id: number) => {
         preco: services.preco,
         preco_desconto: services.preco_desconto,
         descricao: services?.descricao,
+        url: await PhotoImage(services?.nome_servico),
         ServicesData:  arrayServices
     }
 
@@ -177,6 +177,8 @@ export const pullQueueOfServices = async(typeSearch: string) => {
     //picking only the date of the services
     //picking the data of the service; 
         for(let i = 0; i < services.length; i++){
+             console.log("SERVICOS nome serviço",services[i]?.servicos.nome_servico);
+
             oficialData = {
                 idData: services[i]?.NServicosData.DataService.id,
                 dia_horario: ParseTheTime(services[i]?.NServicosData.DataService.dia_horario),
@@ -185,8 +187,7 @@ export const pullQueueOfServices = async(typeSearch: string) => {
                 nome_servico: services[i]?.servicos.nome_servico,
                 preco: services[i]?.servicos.preco,
                 preco_desconto: services[i]?.servicos.preco_desconto,
-                url: PhotoImage(services[i]?.servicos.nome_servico),
-
+                url: await PhotoImage(services[i]?.servicos.nome_servico),
                 idUser: services[i]?.usuarios.id,
                 authorizations: services[i]?.usuarios.authorizations,
                 nome: services[i]?.usuarios.nome,
@@ -198,6 +199,27 @@ export const pullQueueOfServices = async(typeSearch: string) => {
     }
 
     return finalArray;
+}
+
+//POST
+export const searchServiceController = async(searchValue: string) => {
+
+    const AppDataSource = await getDataSource();
+
+    console.log("value of SearchValue inside of searchController", searchValue)
+    const search = await AppDataSource.getRepository(Services).find({
+        where: {
+            nome_servico: ILike(`%${searchValue}%`)
+        }
+    })
+
+    console.log("result search", search);
+
+    if(search.length === 0){
+        return []
+    }
+
+    return search;
 }
 
 //POST
@@ -368,10 +390,11 @@ export const changeService = async({
     idParameter,
     nome_servico,
     preco_desconto,
-    preco
+    preco,
+    descricao
 }: servicePutParameter) => {
 
-    console.log(nome_servico, preco_desconto, preco, idParameter);
+    console.log(nome_servico, preco_desconto, preco, idParameter, descricao);
 
     const AppDataSource = await getDataSource();
 
@@ -395,6 +418,10 @@ export const changeService = async({
     if(nome_servico !== ""){
         console.log("NOME SERVÇO", nome_servico);
         parameters.nome_servico = nome_servico;
+    }
+
+    if(descricao !== ""){
+        parameters.descricao = descricao;
     }
 
     if(preco_desconto !== ""){

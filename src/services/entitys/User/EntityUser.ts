@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
 import type { UserNumber } from "./EntityUserNumber";
-import type { Cart } from "../cart/EntityCart";
 import { AutoUser } from "../auhorizations/EntityAutoUser";
 import { UsuarioServicos } from "./EntityUserServices";
 
@@ -26,9 +25,6 @@ export class User {
 
     @OneToMany("AutoUser", (auto : any) => auto.user)
     authorizations!: AutoUser[]
-
-    @OneToMany("Cart", (cart : any) => cart.users)
-    cartUsers!: Cart[];
 
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.usuarios)
     servicosEscolhidos!: UsuarioServicos[];

@@ -1,5 +1,26 @@
 import { dataService, ServiceAndData } from "@/types/TypeService";
 
+export const searchService = async(searchValue: string) => {
+    try{    
+        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/pesquisa/api`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                searchValue
+            })
+        })
+
+        const response = await request.json();
+        
+        return response;
+    }
+
+    catch(error){
+        console.log();
+    }
+}
 
 export const pullServices = async() => {
     try{    

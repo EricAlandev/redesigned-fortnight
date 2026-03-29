@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne, OneToMany} from "typeorm";
-import type { Cart } from "../cart/EntityCart";
 import { UsuarioServicos } from "../User/EntityUserServices";
 import { NServicosDataHorario } from "./EntityNServicosData";
 
@@ -19,12 +18,6 @@ export class Services {
 
     @Column()
     descricao!: string;
-
-    @Column()
-    escolhido!: boolean;
-
-    @OneToMany("Cart", (cart : any) => cart.sevices)
-    cartServices!: Cart[];
 
     //users who selected services;
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.servicos)

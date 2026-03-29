@@ -10,8 +10,7 @@ type EsqServiceAdmin = ServiceAndData & {
     deletar?: () => void,
     editar?: (id: number) => void,
     adicionar?: (id: number) => void,
-    isAdmin: boolean,
-    imageService: string
+    isAdmin: boolean
 }
 
 export default function EsqService({
@@ -19,7 +18,7 @@ export default function EsqService({
     nome_servico,
     preco,
     preco_desconto,
-    imageService,
+    url,
     isAdmin,
     deletar,
     editar,
@@ -27,7 +26,7 @@ export default function EsqService({
 } : EsqServiceAdmin){
 
     const router = useRouter();
-    console.log("data", nome_servico, preco, preco_desconto, isAdmin, imageService);
+    console.log("data", nome_servico, preco, preco_desconto, isAdmin, url);
 
     return(
         <div
@@ -39,7 +38,7 @@ export default function EsqService({
         >
             <div className="">
                 <img
-                    src={imageService}
+                    src={url}
                 />
 
                 <p

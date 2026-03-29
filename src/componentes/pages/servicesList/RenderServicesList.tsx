@@ -58,7 +58,7 @@ export default function RenderServices(
                 <label>Serviços do(a)</label>
 
                 <select
-                 className="flex"
+                 className="flex mt-2 p-2 bg-[#A0A0A0] rounded-md"
                  name="ordem"
                  value={data.ordem}
                  onChange={handleChanger}
@@ -82,37 +82,54 @@ export default function RenderServices(
                     </option>
                 </select>
             </form>
-
-            <Swiper
-             slidesPerView={1}
-             spaceBetween={15}
-             breakpoints={{
-                640: {
-                    slidesPerView: 1.15
-                },
-                320: {
-                    slidesPerView: 1.15
-                }
-             }}
-            >
-                {services?.map((s) => (
-                  <SwiperSlide
-                    key={s.id}
-                    >
-
-                     <EsqServiceList
-                         url={s?.url}
-                         nome_servico={s?.nome_servico}
-                         idService={s?.id}
-                         preco={s?.preco}
-                         preco_desconto={s?.preco_desconto}
-                         nome={s?.nome}
-                         dia_horario={s?.dia_horario}
-                         number={s?.number}
-                     />
-                 </SwiperSlide>
-                ))}
-            </Swiper>
+                
+                {/*slides in vertical */}
+                <Swiper
+                direction={'vertical'}
+                className="h-[66.5vh] max-h-[550px]  mt-5"
+                slidesPerView={2}
+                spaceBetween={15}
+                breakpoints={{
+                    320: {
+                        slidesPerView: 1.5
+                    },
+                    640: {
+                        slidesPerView: 2
+                    }
+                }}
+                >
+                    {services?.length > 0 ? (
+                        <>
+                            {
+                                services?.map((s) => (
+                                    <SwiperSlide
+                                        key={s.id}
+                                        >
+        
+                                        <EsqServiceList
+                                            url={s?.url}
+                                            nome_servico={s?.nome_servico}
+                                            idService={s?.id}
+                                            preco={s?.preco}
+                                            preco_desconto={s?.preco_desconto}
+                                            nome={s?.nome}
+                                            dia_horario={s?.dia_horario}
+                                            number={s?.number}
+                                        />
+                                    </SwiperSlide>
+                                    ))
+                            }
+                        </>
+                    ): (
+                        <>
+                                <p
+                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-[18px]"
+                                >
+                                    Sem nenhum produto ainda.
+                                </p>
+                        </>
+                    )}
+                </Swiper>
         </div>
     )
 }

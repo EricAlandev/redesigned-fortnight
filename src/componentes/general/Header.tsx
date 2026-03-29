@@ -15,7 +15,7 @@ export default function Header(){
     console.log(user);
 
     return(
-        <div className="relative w-full h-auto p-2 bg-[black]">
+        <div className="relative w-full h-auto p-2 bg-[black] z-50">
             <img
                 src={"/general/Hamburguer.png"}
                 onClick={() => setDropper(!dropper)}

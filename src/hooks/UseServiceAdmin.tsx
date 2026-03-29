@@ -57,6 +57,7 @@ export function useServicesAdmin(){
                 if(idDelete !== -1){
                     console.log("")
                     const service = await changeActualService(idDelete,dados, token!);
+                    console.log("dados changeValuesService", dados);
                     setNextPage("first page");
                     pullAllServices();
                 }  
