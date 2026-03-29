@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne, OneToMany} from "typeorm";
 import type { Cart } from "../cart/EntityCart";
-import type { NCategorysServices } from "../categorys/EntityNCategory";
 import { UsuarioServicos } from "../User/EntityUserServices";
 import { NServicosDataHorario } from "./EntityNServicosData";
 
@@ -26,10 +25,6 @@ export class Services {
 
     @OneToMany("Cart", (cart : any) => cart.sevices)
     cartServices!: Cart[];
-
-    //category of services;
-    @OneToMany("CategorysServices", (category : any) => category.servicos)
-    NCategoryServices!: NCategorysServices[];
 
     //users who selected services;
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.servicos)
