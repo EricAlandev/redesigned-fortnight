@@ -29,9 +29,7 @@ export default function PesquisaPage(){
             <SearchBar
                 enviar={(value) => {
                         router.push(`/pesquisa?pesquisa=${value}`)
-                 }}
-                 valueSearchBar={pesquisa}
-            />
+                 }}            />
 
             {/*Render of results */}
             <div

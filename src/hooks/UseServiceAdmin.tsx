@@ -1,18 +1,23 @@
 import { useGlobal } from "@/lib/GlobalContext";
 import { changeActualService, createNewData, createService, deleteService, pullServices } from "@/services/services/ServicesService";
 import { dataService, ServiceAndData, services } from "@/types/TypeService";
+import { pullQueueServices } from "@/services/services/ServicesService";
 
 import { useEffect, useState } from "react";
+
+import { ServicesList } from "@/types/TypeService";
 
 
 export function useServicesAdmin(){
         const [nextPage, setNextPage] = useState<string | null>("first page");
         const [dataService, setDataService] = useState<ServiceAndData[]>([]);
         const [idDelete, setIdDelete] = useState<number>(-1);
+        const [services, setServices] = useState<ServicesList>();
 
 
         const {token} = useGlobal();
 
+        //crud services 
         const pullAllServices = async() => {
             try{
                     const services = await pullServices();
@@ -81,8 +86,25 @@ export function useServicesAdmin(){
             }
         }
 
+        //services list
+        const callQueue = async(enviar?: string) => {
+        
+                try{
+                    const queue = await pullQueueServices(enviar);
+                    setServices(queue);
+                }
+        
+                catch(error){
+                    console.log(error);
+                }
+        
+            }
+        
     return {
+        //pull all services
         pullAllServices,
+
+        //crud/values
         addNewService,
         addNewData,
         changeValuesService,
@@ -92,7 +114,10 @@ export function useServicesAdmin(){
         dataService,
         setDataService,
         setNextPage,
-        nextPage
+        nextPage,
 
+        //services
+        callQueue,
+        services
         }
 }

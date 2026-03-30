@@ -61,7 +61,7 @@ export default function PageServicosAdmin(){
 
             {nextPage === "first page" && (
                 <div
-                className="w-[80vw] pt-20.5 mx-auto"
+                className="w-[80vw] pt-8.5 mx-auto"
                 >
                    <ButtonCreateServer
                        click={() => {

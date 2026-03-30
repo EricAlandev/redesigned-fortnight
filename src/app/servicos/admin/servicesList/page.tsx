@@ -2,7 +2,8 @@
 
 import Header from "@/componentes/general/Header";
 import RenderServices from "@/componentes/pages/servicesList/RenderServicesList";
-import { pullQueueServices } from "@/services/services/ServicesService";
+import { useServicesAdmin } from "@/hooks/UseServiceAdmin";
+
 import {dataService, ServiceAndData, services, type ServicesList } from "@/types/TypeService";
 import { typeUsuario } from "@/types/TypeUsuarios";
 import { useEffect, useState } from "react";
@@ -11,29 +12,11 @@ import { useEffect, useState } from "react";
 
 export default function ServicesList(){
 
-    const [services, setServices] = useState<ServicesList>();
-
-
-    const callQueue = async(enviar?: string) => {
-
-        try{
-            const queue = await pullQueueServices(enviar);
-            console.log(queue);
-            setServices(queue);
-        }
-
-        catch(error){
-            console.log(error);
-        }
-
-    }
-
-    //first call
+    const {callQueue, services} = useServicesAdmin();
+    
     useEffect(() => {
-
         callQueue();
-    }, [])
-
+    }, []);
 
     return(
         <>
