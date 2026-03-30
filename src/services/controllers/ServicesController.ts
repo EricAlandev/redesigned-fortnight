@@ -1,13 +1,13 @@
 import { getDataSource } from "@/lib/db"
 import { Services } from "../entitys/PetServices/EntityServices";
-import { ServiceAndData } from "@/types/TypeService";
+import { ServiceAndData, services } from "@/types/TypeService";
 import { DataService } from "../entitys/PetServices/EntityDataService";
 import { User } from "../entitys/User/EntityUser";
 import { UsuarioServicos } from "../entitys/User/EntityUserServices";
 import { NServicosDataHorario } from "../entitys/PetServices/EntityNServicosData";
 import { ParseTheTime } from "@/lib/functions/ParseTheTime";
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
-import { ILike, MoreThan } from "typeorm";
+import { ILike, Like, MoreThan } from "typeorm";
 
 type servicePutParameter = ServiceAndData & {
     idParameter: string
@@ -206,20 +206,39 @@ export const searchServiceController = async(searchValue: string) => {
 
     const AppDataSource = await getDataSource();
 
+    const cleanSearch = decodeURIComponent(searchValue).trim();
     console.log("value of SearchValue inside of searchController", searchValue)
     const search = await AppDataSource.getRepository(Services).find({
         where: {
-            nome_servico: ILike(`%${searchValue}%`)
+            nome_servico: Like(`%${cleanSearch}%`)
         }
     })
 
-    console.log("result search", search);
-
+    console.log("values of search", search, searchValue);
     if(search.length === 0){
         return []
+            
     }
 
-    return search;
+    let finalArray: services[] = [];
+    let quantityResult = search.length || 0;
+    for(let i = 0; i < search.length; i++){
+        const objeto = {
+            id: search[i]?.id,
+            descricao: search[i]?.descricao,
+            nome_servico: search[i]?.nome_servico,
+            preco: search[i]?.preco,
+            preco_desconto: search[i]?.preco_desconto,
+            url: await PhotoImage(search[i]?.nome_servico)
+        }
+
+        finalArray.push(objeto);
+    }
+
+
+    console.log("resultado finalArray", finalArray, quantityResult);
+
+    return {services: finalArray, quantityResult};
 }
 
 //POST

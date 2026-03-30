@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from "react"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 
 type SearchValue = {
     search: string
@@ -15,6 +16,8 @@ export default function SearchBar({
 } : SearchBarPage){
 
     const [data, setData] = useState<SearchValue>({search: ""});
+    const searchParams = useSearchParams();
+    const pesquisa = searchParams.get("pesquisa");
 
     const handleChanger = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -25,6 +28,17 @@ export default function SearchBar({
             }
         ))
     }
+
+        //verify the normal value
+        useEffect(() => {
+        if(pesquisa){
+            setData((s) => (
+                {
+                    ...s, search: pesquisa
+                }
+            ))
+        }
+    }, [pesquisa]);
 
     return(
         <>

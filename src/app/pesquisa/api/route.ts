@@ -5,7 +5,7 @@ export async function POST(req: Request){
     try{
 
         const {searchValue} = await req.json();
-        if(searchValue === "" && !searchValue){
+        if(searchValue === "" || !searchValue){
             throw new Error("Parameters of search invalids");
         }
 

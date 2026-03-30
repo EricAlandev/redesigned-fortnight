@@ -3,54 +3,24 @@
 import Header from "@/componentes/general/Header";
 import SearchBar from "@/componentes/pages/homePage/SearchBar";
 import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderServices";
-import { pullServices, searchService } from "@/services/services/ServicesService";
-import { ServiceAndData } from "@/types/TypeService";
-import Image from "next/image";
+import { useHomePage } from "@/hooks/UseHomePage";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function Home() {
 
-  const [dados, setDados] = useState<ServiceAndData[]>([]);
-
   const router = useRouter();
+  const {dados} = useHomePage();
+  
 
-  const pullAllServices = async () => {
-    try{
-      const services = await pullServices();
-
-      setDados(services);
-    }
-
-    catch(error){
-      console.log(error);
-    }
-  }
-
-  const FetchSearch = async (searchValue: string) => {
-    try{
-      const services = await searchService(searchValue);
-      console.log(services)
-    }
-
-    catch(error){
-      console.log(error);
-    }
-  }
-
-
-  useEffect(() => {
-    pullAllServices();
-  }, []);
   return (
     <div className="">
-      <Header
-        
-      />
+      <Header/>
 
         {/*SearchBar */}
         <SearchBar
-           enviar={FetchSearch}
+           enviar={(value) => {
+              router.push(`/pesquisa?pesquisa=${value}`)
+           }}
         />
 
         {/*Render of services */}
