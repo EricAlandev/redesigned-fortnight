@@ -14,10 +14,7 @@ export default function DataChange(){
 
     const [message, setMessage] = useState<string>();
     const [popUp, setPopUp] = useState<TypePopUp>('none');
-    const {user, token} = useGlobal();
     const {change} = UseUser();
-
-    const router = useRouter();
 
     return(
         <>

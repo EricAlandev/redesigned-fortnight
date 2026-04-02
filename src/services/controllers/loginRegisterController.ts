@@ -39,7 +39,10 @@ export async function loginController(loginData: dadoLogin){
         throw new Error("User dosn't exists");
     }
 
-    const password = bcrypt.compare(senha, user.senha);
+    console.log("senha",senha, "nome", nome);
+    const password = await bcrypt.compare(senha, user.senha);
+    console.log("password", password);
+    
 
     if(!password){
         throw new Error("wrong password");

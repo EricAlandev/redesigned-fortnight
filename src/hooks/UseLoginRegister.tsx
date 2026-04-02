@@ -19,12 +19,11 @@ export default function UseLoginRegister(){
                 if(valueLogin?.user && valueLogin?.token){
                     login(valueLogin?.user, valueLogin?.token);
                     router.push("/")
-        
                 }
             }
     
-        catch(error){
-            console.log(error);
+        catch(error : any){
+            return {message: error?.message, status: 'error'}
         }
     }
 

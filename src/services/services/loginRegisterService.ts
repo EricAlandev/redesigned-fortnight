@@ -2,7 +2,6 @@ import { dadoCadastro, dadoLogin, loginType } from "@/types/TypeLoginCadastro";
 
 
 export const loginFunction = async(loginData: dadoLogin) => {
-    try{
         const login = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login/api`, {
             method: 'POST',
             headers: {
@@ -13,14 +12,20 @@ export const loginFunction = async(loginData: dadoLogin) => {
             }))
         })
 
-        const {user, token} = await login.json();
+        const data = await login.json();
+
+        if(!login.ok) {
+            // We throw the message sent by your API (e.g., "O nome é igual ao nome atual")
+            throw new Error(data?.message);
+        }
+
+        const {user, token} = data;
+
         return {user, token};
     }
 
-    catch(error){
-        console.log(error);
-    }
-}
+
+
 
 export const registerFunction = async(registerData: dadoCadastro) => {
     try{

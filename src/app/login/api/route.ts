@@ -17,9 +17,11 @@ export async function POST(req: Request){
         )
     }
 
-    catch(error){
+    catch(error : any){
+        const errorMessage = error.message || "Ocorreu um erro inesperado";
+
         return new Response(JSON.stringify
-            (error), {
+            ({message:errorMessage}), {
                 status: 400,
                 headers: {
                     'Content-type' : 'application/json'
