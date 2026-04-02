@@ -6,24 +6,32 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 interface GlobalContextType {
   user: typeUsuario | null;
   token: string | null;
-  login: (data: any, token : any) => void;
+  login: (data: any, token? : any) => void;
   logOut: () => void;
 }
 
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
+
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<typeUsuario | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  const login = (data: typeUsuario, token?: string) => {
+      if(data){
+        setUser((d) => (
+          data
+        ));
+        localStorage.setItem("user", JSON.stringify(data));
+      }
 
-  const login = (data: typeUsuario, token : string) => {
-     setUser(data);
-     setToken(token);
-     localStorage.setItem("user", JSON.stringify(data));
-     localStorage.setItem("token", JSON.stringify(token));
-
+      if(token){
+        setToken((d) => (
+          token
+        ));
+        localStorage.setItem("token", JSON.stringify(token));
+      }
   }
 
   const logOut = () => {
@@ -37,18 +45,30 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     const userStorage = localStorage.getItem("user");
     const tokenStorage = localStorage.getItem("token");
 
-    if(userStorage){
-        setUser(JSON.parse(userStorage));
+    if(userStorage && userStorage !== "undefined"){
+        try{
+          setUser(JSON.parse(userStorage));
+        }
+
+        catch(error){
+          console.log(error);
+        }
     }
 
-    if(tokenStorage){
-        setToken(JSON.parse(tokenStorage));
+    if(tokenStorage && tokenStorage !== "undefined"){
+        try{
+          setToken(JSON.parse(tokenStorage));
+        }
+        
+        catch(error){
+          console.log(error);
+        }
     }
 
   }, []);
 
   return (
-    <GlobalContext.Provider value={{ user, login, token, logOut }}>
+    <GlobalContext.Provider value={{ user, login, token, logOut}}>
       {children}
     </GlobalContext.Provider>
   );

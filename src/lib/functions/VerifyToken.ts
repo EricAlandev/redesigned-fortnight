@@ -1,4 +1,3 @@
-
 import jwt from 'jsonwebtoken'
 
 //function to verify the token of the user;
@@ -18,7 +17,7 @@ export const VerifyToken = async(req: Request) => {
         return tokenVerify;
     }
 
-    catch(error){
-        throw new Error("Token not authentificaded");
+    catch(error){   
+        throw new Error("Sua sessão expirou! \n Logue novamente!");
     }
 }

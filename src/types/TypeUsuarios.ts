@@ -13,10 +13,19 @@ export type adress = {
 }
 
 export type typeUsuario = {
-    id: number,
+    id?: number,
     nome: string, 
     number: numer,
-    endress: adress,
+    endress?: adress,
     authorizations: arrayAuthorizations[]
     admin?: boolean
+}
+
+//for dataChange
+export type DataUser = {
+    nome: string,
+    dd: string,
+    numero: string,
+    endereco: string,
+    numero_casa: string
 }

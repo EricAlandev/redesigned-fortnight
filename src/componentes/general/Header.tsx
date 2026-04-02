@@ -46,11 +46,12 @@ export default function Header(){
                                 {/*Name of user */}
                                 {(user && token ) && (
                                     <>
-                                        <li
+                                        <Link
+                                        href={"/user"}
                                         className="mt-5 pb-2 border-[white] border-b-[2px]"
                                         >
                                             {user?.nome}
-                                        </li>
+                                        </Link>
                                     </>
                                 )}
 
