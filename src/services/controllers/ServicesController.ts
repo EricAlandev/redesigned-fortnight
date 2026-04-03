@@ -242,108 +242,104 @@ export const searchServiceController = async(searchValue: string) => {
 }
 
 //POST
-export const createService = async({
+export const createService = async ({
     nome_servico,
     preco,
     preco_desconto,
     horario,
     descricao
-} : ServiceAndData) => {
-
+}: ServiceAndData) => {
     const AppDataSource = await getDataSource();
 
-    //CREATION OF THE SERVICE LOGICS
-    let dataFinal = {
-        nome_servico: nome_servico,
-        preco: Number(preco),
-        escolhido: false,
-        descricao: descricao
-    };
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        
+        // 1. Prepare Service Data
+        let dataFinal: any = {
+            nome_servico: nome_servico,
+            preco: Number(preco),
+            escolhido: false,
+            descricao: descricao
+        };
 
-    if(preco_desconto !== null && preco_desconto !== ""){
-        const data2 = {
-            preco_desconto: Number(preco_desconto)
+        if (preco_desconto !== null && preco_desconto !== "") {
+            dataFinal.preco_desconto = Number(preco_desconto);
         }
 
-        dataFinal = {...dataFinal,...data2} 
-    }
+        // 2. Create and Save Service
+        const serviceEntity = transactionalEntityManager.create(Services, dataFinal);
+        const savedService = await transactionalEntityManager.save(Services, serviceEntity);
 
-    console.log("dataFinal", dataFinal);
-    //Creation of services;
-    const service = await AppDataSource.getRepository(Services).create(dataFinal);
+        if (!savedService) {
+            throw new Error("Erro na criação do serviço");
+        }
 
-    const createService = await AppDataSource.getRepository(Services).save(service);
+        // 3. Create and Save Date/Time
+        const dateEntity = transactionalEntityManager.create(DataService, {
+            dia_horario: horario
+        });
 
-    if(!createService){
-        throw new Error("Error in the creation of the service");
-    }
+        const savedDate = await transactionalEntityManager.save(DataService, dateEntity);
 
-    const idService = createService?.id;
+        if (!savedDate) {
+            throw new Error("Erro na criação do horário");
+        }
 
-    //Creation of data;
-    const date = await AppDataSource.getRepository(DataService).create({
-        dia_horario: horario
+        // 4. Create and Save Relation (Junction Table)
+        const relationEntity = transactionalEntityManager.create(NServicosDataHorario, {
+            data_horario_id: savedDate.id,
+            servicos_id: savedService.id,
+            choosed: false
+        });
+
+        const savedRelation = await transactionalEntityManager.save(NServicosDataHorario, relationEntity);
+
+        if (!savedRelation) {
+            throw new Error("Falha ao criar a relação entre serviço e horário");
+        }
+
+        return { 
+            message: "Serviço e horário criados com sucesso!", 
+            serviceId: savedService.id 
+        };
     });
-
-    const dateCreated = await AppDataSource.getRepository(DataService).save(date);
-
-    if(!dateCreated){
-        throw new Error("Error in the creation of data");
-    }
-
-    const idDateCreated = dateCreated?.id;
-
-    //Creation of relation data and service;
-    const relationDate = await AppDataSource.getRepository(NServicosDataHorario).create({
-        data_horario_id: idDateCreated,
-        servicos_id: idService,
-        choosed: false
-    });
-
-    const relationDateCreated = await AppDataSource.getRepository(NServicosDataHorario).save(relationDate);
-
-    if(!relationDateCreated){
-        throw new Error("Fail to create the realation of data");
-    }
-
-    console.log("create service", createService);
-}
+};
 
 //POST - ADD NEW DATA
 export const AddNewDataController = async(dia_horario: string, idConvertido: number) => {
     
     const AppDataSource = await getDataSource();
 
-    console.log("enter in the add new data, dia_horario", dia_horario);
-    const newData = await AppDataSource.getRepository(DataService).create({
-        dia_horario: dia_horario
-    })
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        
+        // 1. Create and save the new Date/Time record
+        const newData = transactionalEntityManager.create(DataService, {
+            dia_horario: dia_horario
+        });
 
-    const dataSave = await AppDataSource.getRepository(DataService).save(newData)
+        const dataSave = await transactionalEntityManager.save(DataService, newData);
 
-    if(!dataSave){
-        throw new Error("Error saving the data")
-    }
-    
-    const idDate = dataSave.id;
+        if (!dataSave) {
+            throw new Error("Erro ao salvar o novo horário");
+        }
+        
+        const idDate = dataSave.id;
 
-    console.log("after the data save", dataSave);
+        // 2. Create and save the relation in the junction table
+        const servicoHorario = transactionalEntityManager.create(NServicosDataHorario, {
+            servicos_id: idConvertido,
+            data_horario_id: idDate,
+            choosed: false
+        });
 
-    const servicoHorario = await AppDataSource.getRepository(NServicosDataHorario).create({
-        servicos_id: idConvertido,
-        data_horario_id: idDate,
-        choosed: false
-    })
+        const saveServicoHorario = await transactionalEntityManager.save(NServicosDataHorario, servicoHorario);
 
-    const saveServicoHorario = await AppDataSource.getRepository(NServicosDataHorario).save(servicoHorario)
+        if (!saveServicoHorario) {
+            throw new Error("Erro ao criar a relação entre serviço e horário");
+        }
 
-    if(!saveServicoHorario){
-        throw new Error("Error creating the relation of Servico Horario");
-    }
-
-    console.log("after the relaiton saove", saveServicoHorario);
-
-
+        // Optional: return the saved relation or a success message
+        return { success: true, relationId: saveServicoHorario.id };
+    });
 }
 
 //POST
@@ -351,61 +347,60 @@ export const userSelectService = async(id: number, idService: number, horario: s
 
     const AppDataSource = await getDataSource();
 
-    console.log("Dentro do controller, id", id, "idService", idService, horario);
-
-    {/*Verify if service exists.*/}
-    const services = await AppDataSource.getRepository(Services).findOne({
-        where: {
-                id: idService
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        
+        // 1. Verify if service exists
+        const service = await transactionalEntityManager.findOne(Services, {
+            where: { id: idService }
+        });
+        
+        if (!service) {
+            throw new Error("O serviço selecionado não existe.");
         }
-    });
-    
-    if(!services){
-        throw new Error("that service dosn't exists");
-    }
 
-    const serviceDataHorario = await await AppDataSource.getRepository(NServicosDataHorario).findOne({
-        where: {
+        // 2. Find the specific relationship between Service and Date
+        const serviceDataHorario = await transactionalEntityManager.findOne(NServicosDataHorario, {
+            where: {
+                servicos_id: idService,
+                data_horario_id: Number(idDate)
+            }
+        });
+
+        if (!serviceDataHorario) {
+            throw new Error("Este horário não está disponível para este serviço.");
+        }
+
+        // 3. Update the slot to 'choosed: true'
+        // This "locks" the slot so no one else can take it
+        const updateResult = await transactionalEntityManager.update(
+            NServicosDataHorario,
+            { id: serviceDataHorario.id },
+            { choosed: true }
+        );
+
+        if (updateResult.affected === 0) {
+            throw new Error("Falha ao reservar o horário do serviço.");
+        }
+
+        // 4. Create the User-Service link (The actual booking)
+        const servicoUser = transactionalEntityManager.create(UsuarioServicos, {
+            usuario_id: id,
             servicos_id: idService,
-            data_horario_id: Number(idDate)
+            NServicosData: { id: serviceDataHorario.id }
+        });
+
+        const servicoUserCreated = await transactionalEntityManager.save(UsuarioServicos, servicoUser);
+
+        if (!servicoUserCreated) {
+            throw new Error("Falha ao vincular o usuário ao serviço.");
         }
-    })
 
-    if(!serviceDataHorario){
-        throw new Error("Dosn't exist this NServicosDataHorairo");
-    }
-
-    const idServiceDataHorario = serviceDataHorario?.id;
-
-    const updateService = await AppDataSource.getRepository(NServicosDataHorario).update(
-        {
-            id: idServiceDataHorario
-        },
-        {choosed: true}
-    )
-
-    if(updateService.affected === 0){
-        throw new Error("fail to update Service");
-    }
-
-    {/*create servicoUser.*/}
-    const servicoUser = await AppDataSource.getRepository(UsuarioServicos).create({
-        usuario_id: id,
-        servicos_id: idService,
-        NServicosData: {id: idServiceDataHorario}
-    })
-
-    const servicoUserCreated = await AppDataSource.getRepository(UsuarioServicos).save(servicoUser)
-
-    if(!servicoUserCreated){
-        throw new Error("Fail to create the service table");
-    }
-
-    return 
+        return { success: true, message: "Serviço agendado com sucesso!" };
+    });
 }
 
 //PUT
-export const changeService = async({
+export const changeService = async ({
     idParameter,
     nome_servico,
     preco_desconto,
@@ -413,69 +408,59 @@ export const changeService = async({
     descricao
 }: servicePutParameter) => {
 
-    console.log(nome_servico, preco_desconto, preco, idParameter, descricao);
-
     const AppDataSource = await getDataSource();
 
-    console.log("Enterend in the changeService")
-    const service =  await AppDataSource.getRepository(Services).findOne({
-        where: {
-            id: Number(idParameter)
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        
+        // 1. Verify if the service exists using the transaction manager
+        const service = await transactionalEntityManager.findOne(Services, {
+            where: {
+                id: Number(idParameter)
+            }
+        });
+
+        if (!service) {
+            throw new Error("Não foi possível encontrar o serviço atual");
         }
+
+        // 2. Build the update object dynamically
+        const parameters: any = {};
+
+        if (nome_servico && nome_servico !== "") {
+            parameters.nome_servico = nome_servico;
+        }
+
+        if (descricao && descricao !== "") {
+            parameters.descricao = descricao;
+        }
+
+        if (preco_desconto !== undefined && preco_desconto !== "") {
+            parameters.preco_desconto = Number(preco_desconto);
+        }
+
+        if (preco && preco !== "") {
+            parameters.preco = Number(preco);
+        }
+
+        // 3. Safety check: Don't hit the DB if there's nothing to change
+        if (Object.keys(parameters).length === 0) {
+            throw new Error("Nenhum campo para atualizar");
+        }
+
+        // 4. Execute the update
+        const updateService = await transactionalEntityManager.update(
+            Services,
+            { id: Number(idParameter) },
+            parameters
+        );
+
+        if (updateService.affected === 0) {
+            throw new Error("Falha na atualização do serviço");
+        }
+
+        return { mensagem: "Serviço atualizado com sucesso" };
     });
-
-    if(!service){
-        throw new Error("Error to find the actual service");
-    }
-
-    console.log("service found", service)
-
-
-    //Verify if have some filed to change
-    const parameters : Record<string,string | number> = {};
-
-    if(nome_servico !== ""){
-        console.log("NOME SERVÇO", nome_servico);
-        parameters.nome_servico = nome_servico;
-    }
-
-    if(descricao !== ""){
-        parameters.descricao = descricao;
-    }
-
-    if(preco_desconto !== ""){
-        console.log("NOME preco_desconto", preco_desconto);
-        parameters.preco_desconto = Number(preco_desconto);
-    }
-
-    if(preco !== ""){
-        console.log("NOME preco_desconto", preco_desconto);
-        parameters.preco = Number(preco);
-    }
-
-    if(Object.keys(parameters).length === 0){
-        throw new Error("Nothing to update")
-    }
-
-    console.log("parameters", parameters)
-
-
-    const updateService = await AppDataSource.getRepository(Services).update(
-    {
-        id: Number(idParameter)
-    }, 
-    parameters
-    )
-
-    if(updateService.affected === 0){
-        throw new Error("fail in the update of the service");
-    }
-    
-    
-    console.log("after the update");
-
-    return {mensagem: "service deleted"}
-}
+};
 
 //DELETE
 export const deleteService = async(id: string) => {

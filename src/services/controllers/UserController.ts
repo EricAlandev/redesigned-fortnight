@@ -5,190 +5,118 @@ import { EndressUser } from "../entitys/User/EntityEnderecoUser";
 import { UserNumber } from "../entitys/User/EntityUserNumber";
 import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
 
-export const ChangeDataOfUser = async(
-    id:number, 
-    nome : string, 
-    endereco : string ,
-    numero_casa : string ,
-    dd : string ,
-    numero : string
+export const ChangeDataOfUser = async (
+    id: number,
+    nome: string,
+    endereco: string,
+    numero_casa: string,
+    dd: string,
+    numero: string
 ) => {
-    
     const AppDataSource = await getDataSource();
 
-    const objectAdress: Record<string, string> = {};
-    const objectNumber: Record<string, string> = {};
-    
-    //gonna have a array of text(its gonna be converted after);
-    let textMensage: any = [];
-    let quantityChanges = 0;
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        const objectAdress: Record<string, string> = {};
+        const objectNumber: Record<string, string> = {};
+        let textMensage: string[] = [];
+        let quantityChanges = 0;
 
-    //Name Change
-    if(nome){
-        try{
-            //make the verification first, to see if the value is the same of the actual value in database;
-            const nameActualUser = await AppDataSource.getRepository(User).findOne(
-                {
-                    where: {
-                        id: id
-                    }
-                }
-            );
+        //Name Change Logic
+        if (nome) {
+            const nameActualUser = await transactionalEntityManager.findOne(User, {
+                where: { id }
+            });
 
-            if(!nameActualUser){
-                throw new Error("Error ao achar o usuário para alteração");
+            if (!nameActualUser) {
+                throw new Error("Usuário não encontrado para alteração");
             }
 
-            if(nameActualUser?.nome === nome){
+            if (nameActualUser.nome === nome) {
                 throw new Error("O nome é igual ao nome atual");
             }
 
-            const updateName = await AppDataSource.getRepository(User).update(
-                id,
-                { nome }
-            )
-    
-            if(updateName.affected === 0){
-                throw new Error("Error ao atualizar o nome do usuário");
+            const updateName = await transactionalEntityManager.update(User, id, { nome });
+
+            if (updateName.affected === 0) {
+                throw new Error("Erro ao atualizar o nome do usuário");
             }
-    
+
             textMensage.push(`Name changed`);
             quantityChanges++;
         }
 
-        catch(error){
-            throw new Error("Error to update the name of the user");
-        }
-    }
+        //Address Change Logic
+        if (endereco) objectAdress.endereco = endereco;
+        if (numero_casa) objectAdress.numero_casa = numero_casa;
 
-    //Adress change
-    if(endereco){
-        objectAdress.endereco = endereco;
-    }
+        if (Object.keys(objectAdress).length > 0) {
+            const actualAdress = await transactionalEntityManager.findOne(EndressUser, {
+                where: { user: { id } }
+            });
 
-    if(numero_casa){
-        objectAdress.numero_casa = numero_casa;
-    }
+            if (!actualAdress) {
+                throw new Error("Endereço atual não encontrado");
+            }
 
-    if(Object.keys(objectAdress).length > 0){
-        try{
-            //make the verification first, to see if the value is the same of the actual value in database;
-            const actualAdress = await AppDataSource.getRepository(EndressUser).findOne(
-                {
-                    where: {
-                        user: {
-                            id: id
-                        }
-                    }
-                }
+            if (endereco && actualAdress.endereco === endereco) {
+                throw new Error("O endereço é igual ao atual");
+            }
+            if (numero_casa && actualAdress.numero_casa === numero_casa) {
+                throw new Error("O número da casa é igual ao atual");
+            }
+
+            const updateAdress = await transactionalEntityManager.update(EndressUser, 
+                { user: { id } }, // Using relation criteria for update
+                objectAdress
             );
 
-            if(!actualAdress){
-                throw new Error("Error ao achar o endereço do usuário atual");
-            }
-
-            if(actualAdress?.endereco === endereco){
-                throw new Error("O endereço é igual ao seu endereço atual.");
-            }
-
-            if(actualAdress?.numero_casa === numero_casa){
-                throw new Error("O número atual é o mesmo da casa atual.");
-            }
-
-
-            const updateAdress = await AppDataSource.getRepository(EndressUser).update(
-                id,
-                objectAdress
-            )
-
-            if(updateAdress.affected === 0){
-                throw new Error("Error to update the adress of the user");
+            if (updateAdress.affected === 0) {
+                throw new Error("Erro ao atualizar o endereço");
             }
 
             textMensage.push(`Adress changed`);
             quantityChanges++;
         }
 
-        catch(error){
-            throw new Error(`Error, trying to change the adress. Error: ${error}`);
-        }
-    }
+        //Number Change Logic
+        if (numero) objectNumber.numero = numero;
+        if (dd) objectNumber.dd = dd;
 
-    //Number change
-    if(numero){
-        objectNumber.numero = numero;
-    }
+        if (Object.keys(objectNumber).length > 0) {
+            const actualNumber = await transactionalEntityManager.findOne(UserNumber, {
+                where: { user: { id } }
+            });
 
-    if(dd){
-        objectNumber.dd = dd;
-    }
+            if (!actualNumber) {
+                throw new Error("Número de telefone não encontrado");
+            }
 
-    if(Object.keys(objectNumber).length > 0){
-        try{
-            //make the verification first, to see if the value is the same of the actual value in database;
-            const actualNumber = await AppDataSource.getRepository(UserNumber).findOne(
-                {
-                    where: {
-                        user: {
-                            id: id
-                        }
-                    }
-                }
+            if (dd && actualNumber.dd === dd) {
+                throw new Error("O DD é igual ao atual");
+            }
+            if (numero && actualNumber.numero === numero) {
+                throw new Error("O número é igual ao atual");
+            }
+
+            const updateNum = await transactionalEntityManager.update(UserNumber, 
+                { user: { id } }, 
+                objectNumber
             );
 
-            if(!actualNumber){
-                throw new Error("Error ao achar o número do usuário atual");
-            }
-
-            if(actualNumber?.dd === dd){
-                throw new Error("O dd é igual ao seu dd atual.");
-            }
-
-            if(actualNumber?.numero === numero){
-                throw new Error("O número digitado é o mesmo número de telefone atual.");
-            }
-
-            const updateAdress = await AppDataSource.getRepository(UserNumber).update(
-                id,
-                objectNumber
-            )
-
-            if(updateAdress.affected === 0){
-                throw new Error("Error to update the adress of the user");
+            if (updateNum.affected === 0) {
+                throw new Error("Erro ao atualizar o número");
             }
 
             textMensage.push(`Number changed`);
             quantityChanges++;
         }
 
-        catch(error){
-            throw new Error(`Error, trying to change the number. Error: ${error}`);
-        }
-    }
-    
-    //have the final message;
-    let finalMessage: string = "";  
-    let userAfterUpdates = {};
-    
-    //conver the final message and pick the data of the user after change;
-    if(quantityChanges > 0){
-        for(let i = 0; i < textMensage.length; i++){
-            if((i + 1) === textMensage.length){
-                finalMessage += textMensage[i];
-            }
-    
-            else{
-                finalMessage += textMensage[i] + ", ";
-    
-            }
-        }
+        //Final Verification and User Return
+        if (quantityChanges > 0) {
+            const finalMessage = textMensage.join(", ");
 
-        //find the user and pull;
-        try{
-            const user = await AppDataSource.getRepository(User).findOne({
-                where: {
-                    id
-                },
+            const user = await transactionalEntityManager.findOne(User, {
+                where: { id },
                 relations: {
                     endress: true,
                     number: true,
@@ -196,37 +124,27 @@ export const ChangeDataOfUser = async(
                         authorization: true
                     }
                 }
-            })
-    
-            if(!user){
-                throw new Error("User dosn't founded after changes");
+            });
+
+            if (!user) {
+                throw new Error("Usuário não encontrado após as alterações");
             }
 
             const userFormatado = {
-                id: user?.id,
-                nome: user?.nome,
-                number: user?.number,
-                endress: user?.endress,
-                authorizations: user?.authorizations,
-                admin: await VerifyAuthorization(user?.authorizations)
+                id: user.id,
+                nome: user.nome,
+                number: user.number,
+                endress: user.endress,
+                authorizations: user.authorizations,
+                admin: await VerifyAuthorization(user.authorizations)
             };
-            
-            userAfterUpdates = userFormatado;
 
             return {
-                message: finalMessage, 
-                user: userAfterUpdates
-            }
+                message: finalMessage,
+                user: userFormatado
+            };
+        } else {
+            throw new Error("Nenhuma alteração foi concluída");
         }
-
-        catch(error){
-            throw new Error("User dosn't founded after changes");
-        }
-
-    }
-
-    else{
-        throw new Error("Nenhuma alteração foi conclúida. Error")
-    }
-
-}
+    });
+};

@@ -19,7 +19,7 @@ export async function loginController(loginData: dadoLogin){
     const {nome, senha} = loginData;
     
     if(!nome || !senha){
-        throw new Error("Its faulting the name and password");
+        throw new Error("Faltando o nome ou a senha");
     }
 
     const user = await AppDataSource.getRepository(User).findOne({
@@ -36,7 +36,7 @@ export async function loginController(loginData: dadoLogin){
     })
 
     if(!user){
-        throw new Error("User dosn't exists");
+        throw new Error("Usuário não existe");
     }
 
     console.log("senha",senha, "nome", nome);
@@ -45,7 +45,7 @@ export async function loginController(loginData: dadoLogin){
     
 
     if(!password){
-        throw new Error("wrong password");
+        throw new Error("Senha errada");
     }
 
     const SECRET_KEY = process.env.JWT_SECRET!
@@ -69,7 +69,7 @@ export async function loginController(loginData: dadoLogin){
     )
 
     if(updateUser.affected === 0){
-        throw new Error("Fail to create the user token");
+        throw new Error("Falha para criar o token");
     }
 
     const admin = await VerifyAuthorization(user?.authorizations);
@@ -88,93 +88,73 @@ export async function loginController(loginData: dadoLogin){
 }
 
 
-export async function registerController(dadoCadastro: dadoCadastro){   
+export async function registerController(dadoCadastro: dadoCadastro) {
+    const AppDataSource = await getDataSource();
 
-        const AppDataSource = await getDataSource();
+    // Use the transaction method
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        const { nome, senha, dd, numero, endereco, numero_casa } = dadoCadastro;
 
-    const {nome, senha, dd, numero, endereco, numero_casa} = dadoCadastro;
-    
-    //verify if the user already exists
-    if(nome){
-        console.log("enter the if")
-        const user = await AppDataSource.getRepository(User).findOne({
-            where: {
-                 nome: nome
+        if (nome) {
+            const existingUser = await transactionalEntityManager.findOne(User, {
+                where: { nome: nome }
+            });
+
+            if (existingUser) {
+                throw new Error("Já existe um usuário com esse nome");
             }
-        })
-
-        if(user){
-            throw new Error("Já existe um usuário com esse nome");
         }
-    }
 
-    const password = await bcrypt.hash(senha, 10);
+        const password = await bcrypt.hash(senha, 10);
 
-
-    //REGISTERING THE NEW VALUES OF THE USER
-
-    //USER CREATING
-    const usuario =  AppDataSource.getRepository(User).create(
-        {
+        const usuario = transactionalEntityManager.create(User, {
             nome: nome,
             senha: password
-        },
-    )
+        });
 
-    const userFeito = await AppDataSource.getRepository(User).save(usuario);
+        const userFeito = await transactionalEntityManager.save(User, usuario);
 
+        if (!userFeito) {
+            throw new Error("Erro ao cadastrar o user");
+        }
 
-    if(!userFeito){
-        throw new Error("error in the creation of the user");
-    }
+        const userId = userFeito.id;
 
-    const userId = userFeito?.id;
-
-    //NUMBER CREATING
-    const numberUser =  AppDataSource.getRepository(UserNumber).create(
-        {
+        const numberUser = transactionalEntityManager.create(UserNumber, {
             dd: dd,
             numero: numero,
-            user: {id: userId}
-        },
-    )
+            user: { id: userId }
+        });
 
-    const numberCreated = await AppDataSource.getRepository(UserNumber).save(numberUser);
+        const numberCreated = await transactionalEntityManager.save(UserNumber, numberUser);
 
-    console.log("number created", numberCreated);
+        if (!numberCreated) {
+            throw new Error("Erro ao cadastrar o número");
+        }
 
-    if(!numberCreated){
-        throw new Error("error in the creation of the user number");
-    }
-
-    //ENDRESS CREATING
-    const endress =  AppDataSource.getRepository(EndressUser).create(
-        {
+        const address = transactionalEntityManager.create(EndressUser, {
             endereco: endereco,
             numero_casa: numero_casa,
-            user: {id: userId}
-        },
-    )
+            user: { id: userId }
+        });
 
-    const endressCreated = await AppDataSource.getRepository(EndressUser).save(endress);
+        const endressCreated = await transactionalEntityManager.save(EndressUser, address);
 
-    if(!endressCreated){
-        throw new Error("error in the creation of the user endress");
-    }
+        if (!endressCreated) {
+            throw new Error("Erro ao cadastrar o endereço");
+        }
 
-    //create authorization
-    const authorization =  AppDataSource.getRepository(AutoUser).create(
-        {
-            authorization: {id: 1},
-            user: {id: userId}
-        },
-    )
+        const authorization = transactionalEntityManager.create(AutoUser, {
+            authorization: { id: 1 },
+            user: { id: userId }
+        });
 
-    const userAuthorization = await AppDataSource.getRepository(AutoUser).save(authorization);
+        const userAuthorization = await transactionalEntityManager.save(AutoUser, authorization);
 
-    if(!userAuthorization){
-        throw new Error("error in the creation in the creation of the user authorization");
-    }
+        if (!userAuthorization) {
+            throw new Error("Erro na criação da autorização do usuário");
+        }
 
-    return {mensagem: "Usuário criado!"}
+        return { mensagem: "Usuário criado!" };
+    });
 }
