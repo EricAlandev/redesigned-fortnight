@@ -36,11 +36,14 @@ export function useServicesAdmin(){
                 if(token){
                     const service = await createService(dados, token);
                     pullAllServices();
+
+
+                    return {message: service?.message, status: 'sucess'}
                 }  
             }
     
-            catch(error){
-                
+            catch(error : any){
+                return {message: error?.message, status: 'error'}
             }
         }
     

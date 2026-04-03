@@ -114,10 +114,6 @@ export const UserSelectService = async(dados: dataService, token: string, idConv
 
 
 export const createService = async(dados: ServiceAndData, token: string) => {
-    try{    
-
-        console.log(dados);
-
         const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/api`, {
             method: 'POST',
             headers: {
@@ -128,11 +124,14 @@ export const createService = async(dados: ServiceAndData, token: string) => {
                 dados
             })
         })
-    }
 
-    catch(error){
-        console.log();
-    }
+        const response : any = await request.json();
+
+        if(!request.ok){
+            throw new Error(response?.message);
+        }
+
+        return {message: response?.message}
 }
 
 export const createNewData = async(dados: dataService, token: string, id: number) => {

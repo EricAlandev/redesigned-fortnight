@@ -4,4 +4,4 @@ export type returnForPopUp = {
     status: string
 }
 
-export type TypePopUp = 'error' |'sucess' | 'register' | 'none';
+export type TypePopUp = 'error' |'sucess' | 'register' | 'delete'  | 'none';

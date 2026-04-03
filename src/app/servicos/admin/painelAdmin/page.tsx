@@ -7,9 +7,11 @@ import FormCreationService from "@/componentes/pages/servicosAdmin/createServers
 import FormChangeService from "@/componentes/pages/servicosAdmin/services/FormChangeService";
 import RenderServicesAdmin from "@/componentes/pages/servicosAdmin/services/RenderServicesAdmin";
 import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderServicesAdmin";
+import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import EsqPopUpDelete from "@/componentes/skeletons/popup/EsqPopUpDelete";
 import {useServicesAdmin} from "@/hooks/UseServiceAdmin";
 import { useGlobal } from "@/lib/GlobalContext";
+import { TypePopUp } from "@/types/TypePopUp";
 
 import { dataService, ServiceAndData, services } from "@/types/TypeService";
 import { useRouter } from "next/navigation";
@@ -17,7 +19,10 @@ import { useEffect, useState } from "react";
 
 export default function PageServicosAdmin(){
 
-    const [popUp, setPopUp] = useState<boolean>(false);
+    const [popUp, setPopUp] = useState<TypePopUp>('none');
+    const [message, setMesage] = useState<string>();
+
+    
 
     const {pullAllServices,
         addNewService,
@@ -75,7 +80,7 @@ export default function PageServicosAdmin(){
                             setIdDelete(id);
                         }}
                         deleteService={(id) => {
-                            setPopUp(true)
+                            setPopUp('delete')
                             setIdDelete(id)
                         }
                         }
@@ -95,7 +100,11 @@ export default function PageServicosAdmin(){
                     className="w-[80vw] pt-20.5 mx-auto"
                 >
                     <FormCreationService
-                        enviar={addNewService}
+                        enviar={async (f) => {
+                            const add : any = await addNewService(f);
+                            setPopUp(add?.status);
+                            setMesage(add?.message);
+                        }}
                         back={() => setNextPage("first page")}
                     />
        
@@ -127,16 +136,23 @@ export default function PageServicosAdmin(){
             )}  
 
 
-            {/*POP UPS PAGES */}
-            {popUp === true && (
+            {/*POP UPS */}
+            {popUp !== 'none' && popUp !== 'delete' && (
+                <EsqPopUp
+                    type={popUp}
+                    message={message}
+                    setPopUp={setPopUp}
+                />
+            )}
+            {popUp === 'delete' && (
                 <EsqPopUpDelete
                     fecharPopup={() => {
-                        setPopUp(false)
+                        setPopUp('none')
                     }}
                     deletar={() => 
                         {
                             deleteActualService(idDelete);
-                            setPopUp(false);
+                            setPopUp('none');
                             pullAllServices();
                         }
 

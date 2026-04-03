@@ -66,8 +66,8 @@ export async function POST(req: Request){
         })
     }
 
-    catch(error){
-        return new Response(JSON.stringify(error), {
+    catch(error: any){
+        return new Response(JSON.stringify({message: error?.message}), {
             status: 400,
             headers: {
                 "Content-type" : "application/json"
