@@ -311,7 +311,7 @@ export const AddNewDataController = async(dia_horario: string, idConvertido: num
 
     return await AppDataSource.transaction(async (transactionalEntityManager) => {
         
-        // 1. Create and save the new Date/Time record
+        //Create and save the new Date/Time record
         const newData = transactionalEntityManager.create(DataService, {
             dia_horario: dia_horario
         });
@@ -324,7 +324,7 @@ export const AddNewDataController = async(dia_horario: string, idConvertido: num
         
         const idDate = dataSave.id;
 
-        // 2. Create and save the relation in the junction table
+        // Create and save the relation in the junction table
         const servicoHorario = transactionalEntityManager.create(NServicosDataHorario, {
             servicos_id: idConvertido,
             data_horario_id: idDate,
@@ -337,8 +337,7 @@ export const AddNewDataController = async(dia_horario: string, idConvertido: num
             throw new Error("Erro ao criar a relação entre serviço e horário");
         }
 
-        // Optional: return the saved relation or a success message
-        return { success: true, relationId: saveServicoHorario.id };
+        return {message: "Data adicionada!"};
     });
 }
 

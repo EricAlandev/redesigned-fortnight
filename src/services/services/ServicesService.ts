@@ -135,10 +135,6 @@ export const createService = async(dados: ServiceAndData, token: string) => {
 }
 
 export const createNewData = async(dados: dataService, token: string, id: number) => {
-    try{    
-
-        console.log(dados);
-
         const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
             method: 'POST',
             headers: {
@@ -149,11 +145,15 @@ export const createNewData = async(dados: dataService, token: string, id: number
                 dia_horario : dados
             })
         })
-    }
 
-    catch(error){
-        console.log();
-    }
+        const response = await request.json();
+
+        if(!request.ok){
+            throw new Error(response?.message);
+        }
+
+        return {message: response?.message}
+
 }
 
 export const changeActualService = async(id: number, dados: ServiceAndData, token: string) => {   

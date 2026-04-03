@@ -132,7 +132,11 @@ export default function PageServicosAdmin(){
                     className="w-[80vw] pt-20.5 mx-auto"
                 >
                     <NewData
-                        enviar={addNewData}
+                        enviar={async(data) => {
+                            const newData : any = await addNewData(data);
+                            setPopUp(newData?.status);
+                            setMesage(newData?.message);
+                        }}
                         back={() => setNextPage("first page")}
                     />
        

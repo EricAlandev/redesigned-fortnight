@@ -31,9 +31,15 @@ export default function NewData({
 
     return(
         <>
+            <img
+                src={"/general/back.png"}
+                onClick={back}
+                className="max-w-[45px] max-h-[45px] mb-5 p-2 rounded-[50%] border-[2px] cursor-pointer"
+            />
+
             {/*Tittle */}
             <p
-             className="text-center mb-5"
+             className="text-center text-[17px] mb-5"
             >
                 Adicione um novo horário a regra
             </p>

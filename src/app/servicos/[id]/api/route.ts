@@ -64,8 +64,8 @@ export async function POST(req:Request, {params} : params){
         })
     }
 
-    catch(error){
-        return new Response(JSON.stringify(error), {
+    catch(error : any){
+        return new Response(JSON.stringify({message: error?.message}), {
             status: 400,
             headers: {
                 "Content-type" : "application/json"
@@ -96,7 +96,9 @@ export async function PUT(req:Request, {params} : params){
             preco: body?.dados?.preco
         }
 
-        console.log("values", bodyFinal);
+        if(!idParameter && !body?.dados?.nome_servico && body?.dados?.preco_desconto && body?.dados?.descricao && body?.dados?.preco){
+            throw new Error('Todos os campos estão vazios');
+        }
 
         const services = await changeService(bodyFinal);
 
