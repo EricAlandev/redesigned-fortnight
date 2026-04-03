@@ -7,8 +7,10 @@ export async function POST(req: Request){
         console.log("enterede post register");
         const {registerData} = await req.json();
 
-        if(!registerData || registerData === undefined){
-            throw new Error("Error to register Data");
+        const {nome, senha, dd, numero, endereco, numero_casa} = registerData;
+
+        if(!nome || !senha || !dd || !numero || !endereco || !numero_casa){
+            throw new Error("Necessário preencher todos os campos");
         }
 
         const register = await registerController(registerData);
@@ -24,8 +26,8 @@ export async function POST(req: Request){
         })
     }
 
-    catch(error){
-        return new Response(JSON.stringify(error),({
+    catch(error: any){
+        return new Response(JSON.stringify({message: error?.message}),({
             status: 400,
             headers: {
                 "Content-type" : "application/json"

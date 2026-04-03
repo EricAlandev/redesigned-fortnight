@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 type popUp = {
     setPopUp: any,
@@ -34,8 +35,11 @@ export default function EsqPopUp({
                     type === 'sucess' 
                      ?
                         "w-full bg-[green] " 
-                     :  
-                        "w-full bg-[red] " 
+                    : type === 'register' ?
+                        "w-full bg-[green] " 
+                    : 
+                    "w-full bg-[red] "
+                    
                  }`}
                 >
                     <img
@@ -61,6 +65,10 @@ export default function EsqPopUp({
                         <p>
                             Erro!
                         </p>
+                    ) : type === 'register' ?(
+                        <p>
+                            Mudanças realizadas!
+                        </p>
                     ) : (
                         <p>
                             Error deconhecido
@@ -72,6 +80,16 @@ export default function EsqPopUp({
                     >
                         {message}
                     </p>
+
+
+                    {type === 'register' && (
+                        <Link
+                            href={"/login"}
+                            className="block w-max mx-auto mt-4 py-2 px-5 bg-[#A0A0A0] rounded-md"
+                        >
+                            página login
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

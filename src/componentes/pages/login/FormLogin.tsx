@@ -19,8 +19,14 @@ export default function FormLogin({enviar} : loginType){
 
     return(
         <div 
-            className="w-[80vw] mx-auto"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] mx-auto"
         >
+            <h1
+             className="text-[18px] text-center"
+            >
+                Login
+            </h1>
+
             <form
             onSubmit={(e) => {
                 e.preventDefault();
@@ -40,6 +46,7 @@ export default function FormLogin({enviar} : loginType){
                 name="nome"
                 value={dados.nome}
                 onChange={pickValues}
+                className="w-full min-h-[35px] bg-[#A0A0A0] rounded-md"
                 />
 
                 <label htmlFor="senha">
@@ -51,11 +58,12 @@ export default function FormLogin({enviar} : loginType){
                 name="senha"
                 value={dados.senha}
                 onChange={pickValues}
+                className="w-full min-h-[35px] bg-[#A0A0A0] rounded-md"
                 />
 
                 <button
                     type="submit"
-                    className="p-2 bg-[blue] text-[white] rounded-md"
+                    className="mt-3 p-2 bg-[blue] text-[white] rounded-md"
                 >
                     Logar
                 </button>
@@ -64,7 +72,7 @@ export default function FormLogin({enviar} : loginType){
             <Link
                 href={"/cadastro"}
             >
-                <p className="flex gap-2">
+                <p className="flex gap-2 mt-5">
                     Não tem conta? 
                     <span className="underline">
                         criar

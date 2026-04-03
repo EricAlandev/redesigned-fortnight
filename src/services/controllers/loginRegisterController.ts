@@ -90,7 +90,6 @@ export async function loginController(loginData: dadoLogin){
 
 export async function registerController(dadoCadastro: dadoCadastro){   
 
-    try{
         const AppDataSource = await getDataSource();
 
     const {nome, senha, dd, numero, endereco, numero_casa} = dadoCadastro;
@@ -105,7 +104,7 @@ export async function registerController(dadoCadastro: dadoCadastro){
         })
 
         if(user){
-            throw new Error("User already exists");
+            throw new Error("Já existe um usuário com esse nome");
         }
     }
 
@@ -177,11 +176,5 @@ export async function registerController(dadoCadastro: dadoCadastro){
         throw new Error("error in the creation in the creation of the user authorization");
     }
 
-    return {mensagem: "user created"}
-
-    }
-
-    catch(error){
-        console.log(error);
-    }
+    return {mensagem: "Usuário criado!"}
 }

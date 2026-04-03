@@ -15,7 +15,7 @@ export default function LoginPage(){
     const {makeLogin} = UseLoginRegister();
 
     return(
-        <div className="max-w-[400px]">
+        <div>
             <Header/>
 
             <div className="pt-20.5">

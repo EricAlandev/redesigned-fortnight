@@ -28,23 +28,21 @@ export const loginFunction = async(loginData: dadoLogin) => {
 
 
 export const registerFunction = async(registerData: dadoCadastro) => {
-    try{
-        const login = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cadastro/api`, {
-            method: 'POST',
-            headers: {
+    const register = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cadastro/api`, {
+        method: 'POST',
+        headers: {
                 'Content-Type' : 'application/json'
-            },
-            body: (JSON.stringify({
+        },
+        body: (JSON.stringify({
                 registerData
-            }))
-        })
+        }))
+    })
 
-        console.log(login);
+    const response = await register.json();
 
-        return login;
+    if(!register.ok){
+        throw new Error(response?.message);
     }
 
-    catch(error){
-        console.log(error);
-    }
+    return {message: response?.mensagem};
 }

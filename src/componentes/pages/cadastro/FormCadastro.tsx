@@ -22,22 +22,26 @@ export default function FormCadastro({enviar} : registerType){
     }
 
     return(
-        <>
+        <div
+         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
             <h2 className="mt-5 mb-5 text-center">CADASTRO DE USUÁRIO</h2>
             <form
             onSubmit={(e) => {
                 e.preventDefault();
                 enviar(dados);
             }}
-             className="flex flex-col w-[80vw] mx-auto bg-[black] text-[white]"
+             className="flex flex-col w-[90vw] mx-auto p-3 bg-[#F1F1F1] text-[black] rounded-md"
             >
                 {/*Basic data 
                 -- name, senha
                  */}
                 <fieldset
-                 className="flex w-[70vw] mx-auto"
+                 className="flex w-[70vw] mx-auto items-center gap-10"
                 >
-                   <div>
+                   <div
+                     className="flex flex-col gap-1.5"
+                   >
                     <label htmlFor="nome">
                             Digite seu nome
                         </label>
@@ -46,11 +50,15 @@ export default function FormCadastro({enviar} : registerType){
                         id="nome"
                         name="nome"
                         value={dados.nome}
+                        required
                         onChange={pickValues}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                    </div>
 
-                    <div>
+                    <div
+                     className="flex flex-col gap-1.5"
+                    >
                         <label htmlFor="senha">
                             Digite sua senha
                         </label>
@@ -59,7 +67,9 @@ export default function FormCadastro({enviar} : registerType){
                         id="senha"
                         name="senha"
                         value={dados.senha}
+                        required
                         onChange={pickValues}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                     </div>
                 </fieldset>
@@ -68,9 +78,11 @@ export default function FormCadastro({enviar} : registerType){
                 -- dd, number
                  */}
                 <fieldset
-                 className="flex w-[70vw] mx-auto"
+                 className="flex w-[70vw] mx-auto items-center gap-10 mt-2"
                 >
-                    <div>
+                    <div
+                     className="flex flex-col gap-1.5"
+                    >
                         <label htmlFor="dd">
                             Digite seu dd
                         </label>
@@ -79,11 +91,15 @@ export default function FormCadastro({enviar} : registerType){
                         id="dd"
                         name="dd"
                         value={dados.dd}
+                        required
                         onChange={pickValues}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                     </div>
 
-                    <div>
+                    <div
+                     className="flex flex-col gap-1.5"
+                    >
                         <label htmlFor="numero">
                             Digite seu numero
                         </label>
@@ -92,7 +108,11 @@ export default function FormCadastro({enviar} : registerType){
                         id="numero"
                         name="numero"
                         value={dados.numero}
+                        required
                         onChange={pickValues}
+                        minLength={9}
+                        maxLength={9}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                     </div>
                 </fieldset>
@@ -101,9 +121,12 @@ export default function FormCadastro({enviar} : registerType){
                 --number houve, house localization
                  */}
                 <fieldset
-                 className="flex w-[70vw] mx-auto"
+                 className="flex items-center w-[70vw] mx-auto gap-10 mt-2"
                 >
-                    <div>
+                    <div
+                     className="flex flex-col gap-1.5"
+                    
+                    >
                         <label htmlFor="endereco">
                             Digite seu endereço
                         </label>
@@ -112,26 +135,33 @@ export default function FormCadastro({enviar} : registerType){
                         id="endereco"
                         name="endereco"
                         value={dados.endereco}
+                        required
                         onChange={pickValues}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                     </div>
 
-                    <div>
+                    <div
+                     className="flex flex-col gap-1.5"
+                    >
                         <label htmlFor="numero_casa">
-                            Digite seu numero de casa
+                           numero da casa
                         </label>
 
                         <input
                         id="numero_casa"
                         name="numero_casa"
                         value={dados.numero_casa}
+                        required
                         onChange={pickValues}
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
                         />
                     </div>
                 </fieldset>
 
                 <button
                     type="submit"
+                    className="w-[80vw] mx-auto mt-6 p-2 bg-[blue] text-[white] rounded-md"
                 >
                     Cadastrar
                 </button>
@@ -148,6 +178,6 @@ export default function FormCadastro({enviar} : registerType){
                     </span>
                 </p>
             </Link>
-        </>
+        </div>
     )
 }

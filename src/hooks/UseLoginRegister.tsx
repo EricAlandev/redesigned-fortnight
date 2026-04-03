@@ -31,10 +31,13 @@ export default function UseLoginRegister(){
         try{
             console.log(dadoCadastro);
             const regi = await registerFunction(dadoCadastro);
+
+            console.log('inside register', regi?.message,  'register');
+            return {message: regi?.message, status: 'register'}
         }
     
-        catch(error){
-            console.log(error);
+        catch(error: any){
+            return {message: error?.message, status: 'error'}
         }
     }
     
