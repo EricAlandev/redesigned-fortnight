@@ -156,11 +156,7 @@ export const createNewData = async(dados: dataService, token: string, id: number
     }
 }
 
-export const changeActualService = async(id: number, dados: ServiceAndData, token: string) => {
-    try{    
-
-        console.log("enterend in the change actual server");
-
+export const changeActualService = async(id: number, dados: ServiceAndData, token: string) => {   
         const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
             method: 'PUT',
             headers: {
@@ -171,12 +167,15 @@ export const changeActualService = async(id: number, dados: ServiceAndData, toke
                 dados
             })
         });
-        
-    }
 
-    catch(error){
-        console.log();
-    }
+        const response = await request.json();
+
+        if(!request.ok){
+            throw new Error(response?.mensagem);
+        }
+
+        return {message: response?.mensagem}
+        
 }
 
 export const deleteService = async(id: number, token: string) => {

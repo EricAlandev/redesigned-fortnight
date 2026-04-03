@@ -116,7 +116,11 @@ export default function PageServicosAdmin(){
                     className="w-[80vw] pt-20.5 mx-auto"
                 >
                     <FormChangeService
-                        enviar={changeValuesService}
+                        enviar={async(e) => {
+                            const change: any = await changeValuesService(e);
+                            setPopUp(change?.status);
+                            setMesage(change?.message);
+                        }}
                         back={() => setNextPage("first page")}
                     />
        

@@ -65,14 +65,15 @@ export function useServicesAdmin(){
                 if(idDelete !== -1){
                     console.log("")
                     const service = await changeActualService(idDelete,dados, token!);
-                    console.log("dados changeValuesService", dados);
-                    setNextPage("first page");
                     pullAllServices();
+
+                    return {message: service?.message , status: 'sucess'}
+
                 }  
             }
     
-            catch(error){
-                
+            catch(error : any){
+                return {message: error?.message , status: 'error'}
             }
         }
     
