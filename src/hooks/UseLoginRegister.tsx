@@ -32,7 +32,6 @@ export default function UseLoginRegister(){
             console.log(dadoCadastro);
             const regi = await registerFunction(dadoCadastro);
 
-            console.log('inside register', regi?.message,  'register');
             return {message: regi?.message, status: 'register'}
         }
     
