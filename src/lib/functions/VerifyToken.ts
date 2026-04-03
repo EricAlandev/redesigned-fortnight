@@ -12,7 +12,7 @@ export const VerifyToken = async(req: Request) => {
 
         const token = Authorization.split(" ")[1];
 
-        const tokenVerify = await jwt.verify(token, process.env.JWT_SECRET as string)
+        const tokenVerify = await jwt.verify(token, process.env.JWT_SECRET as string);
 
         return tokenVerify;
     }

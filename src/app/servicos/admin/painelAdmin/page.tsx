@@ -22,8 +22,6 @@ export default function PageServicosAdmin(){
     const [popUp, setPopUp] = useState<TypePopUp>('none');
     const [message, setMesage] = useState<string>();
 
-    
-
     const {pullAllServices,
         addNewService,
         addNewData,
