@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany
 import type { UserNumber } from "./EntityUserNumber";
 import { AutoUser } from "../auhorizations/EntityAutoUser";
 import { UsuarioServicos } from "./EntityUserServices";
+import { NComentsUser } from "../coments/EntityNComentsUser";
 
 @Entity("usuarios")
 export class User {
@@ -28,5 +29,7 @@ export class User {
 
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.usuarios)
     servicosEscolhidos!: UsuarioServicos[];
-     
+
+    @OneToMany("NComentsUser", (coments : any) => coments.usuarios)
+    userCOments!: NComentsUser[]
 }

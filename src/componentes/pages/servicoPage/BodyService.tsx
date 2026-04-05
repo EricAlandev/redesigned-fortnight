@@ -10,7 +10,7 @@ export default function BodyService({
 
     return(
         <div
-            className="w-[87vw] mx-auto mt-2.5 mb-3 md:flex md:items-center md:max-w-[1200px] md:mx-auto md:mt-5 md:gap-80 "
+            className="w-[87vw] mx-auto mt-2.5 mb-3 md:flex md:flex-col  md:max-w-[1200px] md:mx-auto md:mt-5 "
         >
 
             
@@ -31,7 +31,7 @@ export default function BodyService({
                 className="md:flex md:items-center md:gap-50"
                 >
                     <p
-                    className="mt-1 md:flex md:flex-col md:w-[27vw] md:text-[18.5px]"
+                    className="mt-1 md:flex md:flex-col  md:text-[18.5px]"
                     >
                         {descricao} 
                     </p>
@@ -40,11 +40,11 @@ export default function BodyService({
 
             {/*Methods of paymente */}
             <div
-             className="mt-3 rounded-md md:border-[2px] md:border-[#A0A0A0] md:rounded-md"
+             className="mt-3 p-0.5 rounded-md md:flex md:flex-col md:items-center md:w-[27vw] md:mx-auto md:border-[2px] md:border-[#A0A0A0] md:rounded-md"
             >
                     {/*line just for stetics */}
                     <hr
-                        className="mt-3 mb-3 border-[#C1C1C1C1]"
+                        className="mt-3 mb-3 border-[#C1C1C1C1] md:hidden"
                     />
 
                     <h2

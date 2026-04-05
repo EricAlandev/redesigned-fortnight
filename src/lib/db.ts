@@ -1,5 +1,8 @@
 import { Authorizations } from "@/services/entitys/auhorizations/EntityAuthorization";
 import { AutoUser } from "@/services/entitys/auhorizations/EntityAutoUser";
+import { Coments } from "@/services/entitys/coments/EntityComents";
+import { NComentsUser } from "@/services/entitys/coments/EntityNComentsUser";
+import { AvaliationServices } from "@/services/entitys/PetServices/EntityAvaliation";
 import { DataService } from "@/services/entitys/PetServices/EntityDataService";
 import { NServicosDataHorario } from "@/services/entitys/PetServices/EntityNServicosData";
 import { Services } from "@/services/entitys/PetServices/EntityServices";
@@ -19,7 +22,7 @@ export const AppDataSource = new DataSource({
     },
     synchronize: false,
     logging: true,
-    entities: [Authorizations,UserNumber, DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario]
+    entities: [Authorizations,UserNumber, DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario, NComentsUser, Coments,  AvaliationServices,]
 });
 
 export const getDataSource = async() => {
