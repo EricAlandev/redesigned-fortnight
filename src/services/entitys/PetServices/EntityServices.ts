@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne
 import { UsuarioServicos } from "../User/EntityUserServices";
 import { NServicosDataHorario } from "./EntityNServicosData";
 import { AvaliationServices } from "./EntityAvaliation";
+import { NComentsUser } from "../coments/EntityNComentsUser";
 
 @Entity("servicos")
 export class Services {
@@ -35,4 +36,8 @@ export class Services {
     @OneToOne("AvaliationServices", (av : any) => av.services)
     @JoinColumn({name: "avaliacoes_id"})
     avaliacao!: AvaliationServices;
+
+    //coments of the service;
+    @OneToMany("NComentsUser", (coments : any) => coments.servicos)
+    comentsService!: NComentsUser[];
 }

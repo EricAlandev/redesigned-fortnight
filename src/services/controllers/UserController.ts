@@ -4,6 +4,9 @@ import { User } from "../entitys/User/EntityUser";
 import { EndressUser } from "../entitys/User/EntityEnderecoUser";
 import { UserNumber } from "../entitys/User/EntityUserNumber";
 import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
+import { Services } from "../entitys/PetServices/EntityServices";
+import { Coments } from "../entitys/coments/EntityComents";
+import { NComentsUser } from "../entitys/coments/EntityNComentsUser";
 
 export const ChangeDataOfUser = async (
     id: number,
@@ -148,3 +151,67 @@ export const ChangeDataOfUser = async (
         }
     });
 };
+
+
+export const PutComentController = async(avaliation: string, text: string, idUser: number, idService: number) => {
+    
+    const AppDataSource = await getDataSource();
+
+    return await AppDataSource.transaction(async (transactionalEntityManager) => {
+        
+        //Basic Verifications
+        const user = await transactionalEntityManager.findOne(User, {
+            where: {
+                id: idUser
+            }
+        })
+
+        if(!user){
+            throw new Error("Não foi encontrado o usuário");
+        }
+
+        const service = await transactionalEntityManager.findOne(Services, {
+            where: {
+                id: idService
+            }
+        })
+
+        if(!service){
+            throw new Error("Não foi encontrado o serviço");
+        }
+
+        //Create comment
+        const coment = await transactionalEntityManager.create(Coments, {
+            comentario: text,
+            avaliacao: Number(avaliation)
+        })
+
+        const saveComent = await transactionalEntityManager.save(Coments,
+            coment
+        )
+
+        if(!saveComent){
+            throw new Error("erro ao salvar o comentário");
+        }
+
+        const idComent : any = saveComent?.id;
+
+        //Create relation beetwen coments and user
+        const comentarioUser = await transactionalEntityManager.create(NComentsUser, {
+            usuario_id: idUser,
+            comentario_id: idComent,
+            servicos_id: idService
+
+        })
+
+        const comentarioUserSave = await transactionalEntityManager.save(NComentsUser,
+            comentarioUser
+        )
+
+        if(!comentarioUserSave){
+            throw new Error("erro ao vincular usuário e comentário");
+        }
+
+        return {message: "Comentário adicionado!"}
+    })
+}

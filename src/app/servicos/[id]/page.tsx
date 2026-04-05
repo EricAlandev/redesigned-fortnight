@@ -5,16 +5,21 @@ import BodyService from "@/componentes/pages/servicoPage/BodyService";
 import ButtonServicoPage from "@/componentes/pages/servicoPage/ButtonServicoPage";
 import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
 import PutComent from "@/componentes/pages/servicoPage/PutComent";
+import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import useService from "@/hooks/UseService";
+import UseUser from "@/hooks/UseUser";
 import { useGlobal } from "@/lib/GlobalContext";
+import { TypePopUp } from "@/types/TypePopUp";
 
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function ServicosPage(){
 
+    const [popUp, setPopUp] = useState<TypePopUp>('none');
+    const [message, setMessage] = useState<string>();
     const {user, token} = useGlobal();
 
     const {id} = useParams();
@@ -24,6 +29,10 @@ export default function ServicosPage(){
         userSelectServiceToBuy,
         pullPageService
     } = useService();
+
+    const {
+        userPutComent
+    } = UseUser();
     
 
     useEffect(() => {
@@ -42,7 +51,7 @@ export default function ServicosPage(){
                 {(data && user) && (
                     <>
                         <div
-                          className="max-h-[70vh] overflow-y-auto md:overflow-visible md:h-full"
+                          className="max-h-[75vh] overflow-y-auto md:overflow-visible md:h-full"
                         >
                             <HeaderServico
                             nome_servico={data?.nome_servico}
@@ -72,9 +81,23 @@ export default function ServicosPage(){
                             />
 
                             <PutComent
-                                
+                                enviar={async(e) => {
+                                    if(id && token){
+                                        const coment: any = await userPutComent(e, token, id as string);
+                                        setPopUp(coment?.status)
+                                        setMessage(coment?.message.message)
+                                    }
+                                }}
                             />
                         </div>
+
+                        {popUp !== 'none' && (
+                            <EsqPopUp
+                            setPopUp={setPopUp}
+                            message={message}
+                            type={popUp}
+                        />
+                        )}
                     </>
                 )}
             </div>

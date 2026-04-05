@@ -39,9 +39,13 @@ export default function ImageRenderizator({
     return(
         <>
             {arrayImage.length >= 0 && (
+                //Renderize full stars or empty by the actualArray;
+                //If stars = full stars
+                //else = empty stars;
                 arrayImage.map((a, i) => {
                     let indexString = String(i + 1);
                     let imageValue = "/avaliations/EmptyStar.png"
+
                     if(a === 'stars'){
                         imageValue = "/avaliations/FullStar.png"
                     }
@@ -50,6 +54,7 @@ export default function ImageRenderizator({
                         <img
                             src={imageValue}
                             onClick={() => {
+                                    //if the person click in the same star, gonna remove this star.
                                     if(indexString === avaliation && stars > 0){
                                         chooseStars(String(stars - 1));
                                     }

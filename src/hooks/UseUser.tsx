@@ -1,7 +1,8 @@
 'use client'
 
 import { useGlobal } from "@/lib/GlobalContext"
-import { changeDataUser } from "@/services/services/ServicesUser";
+import { changeDataUser, putComents } from "@/services/services/ServicesUser";
+import { DataAvaliation } from "@/types/TypeAvaliation";
 import { DataUser } from "@/types/TypeUsuarios"
 
 export default function UseUser(){
@@ -26,7 +27,23 @@ export default function UseUser(){
         }
     }
 
+    const userPutComent = async(data: DataAvaliation, token: string, idService : string) => {
+        try{
+            if(data && token){
+                console.log('inside userputcoment before services', idService);
+                const service = await putComents(data, token , idService);      
+                
+                return {message: service, status: 'sucess'};
+            }
+        }
+
+        catch(error : any){
+            return {message: error.message || 'error desconhecido', status: 'error'};
+        }
+    }
+
     return{
-        change
+        change,
+        userPutComent
     }
 }

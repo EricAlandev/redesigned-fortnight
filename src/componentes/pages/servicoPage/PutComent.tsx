@@ -4,7 +4,13 @@ import ImageRenderizator from "@/componentes/skeletons/avalations/ImageStars";
 import { DataAvaliation } from "@/types/TypeAvaliation";
 import { useState } from "react"
 
-export default function PutComent(){
+type PutComents = {
+    enviar :(dados: DataAvaliation) => void
+}
+
+export default function PutComent({
+    enviar
+} :PutComents){
 
     const [data, setData] = useState<DataAvaliation>({
         avaliation: "",
@@ -22,6 +28,11 @@ export default function PutComent(){
         <div
          className="w-[87vw] mx-auto mt-2.5 mb-3 md:flex md:flex-col  md:max-w-[1200px] md:mx-auto md:mt-5 "
         >
+            {/*line just for stetics */}
+            <hr
+                className="mt-3 mb-3 border-[#C1C1C1C1] md:hidden"
+            />
+
             <p
               className=""
             >
@@ -29,7 +40,10 @@ export default function PutComent(){
             </p>
 
             <form
-
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    enviar(data);
+                }}
                 className=""
             >
                 {/*Avaliation value */}
@@ -54,6 +68,13 @@ export default function PutComent(){
                     placeholder="Bote um comentário"
                     className="w-full min-h-[80px] max-h-[80px] mt-2 p-3 bg-[#D1D1D1] rounded-md"
                 />
+
+                <button
+                 type="submit"
+                 className="block mx-auto mt-3 px-5 py-2 bg-[#A0A0A0] rounded-md text-[white]"
+                >
+                    Enviar avaliação
+                </button>
             </form>
         </div>
     )

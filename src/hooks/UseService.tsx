@@ -4,6 +4,7 @@
 import { ServiceAndData, dataService } from "@/types/TypeService"
 import { useState, useEffect } from "react"
 import { pullOneService, UserSelectService } from "@/services/services/ServicesService";
+import { DataAvaliation } from "@/types/TypeAvaliation";
 
 export default function useService(){
     const [data, setData] = useState<ServiceAndData>();

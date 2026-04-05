@@ -74,7 +74,7 @@ export default function ButtonServicoPage({
 
     return (
         <div
-          className="fixed bottom-10 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 "
+          className="fixed bottom-10 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85"
         >
             <form
             id="form-id"
@@ -82,13 +82,13 @@ export default function ButtonServicoPage({
                 e.preventDefault();
                 enviar(data, idDate);
             }}
-            className="flex flex-col  max-w-[250px] gap-4"
+            className="flex flex-col mx-auto  max-w-[250px] gap-4 p-3"
         >
             <select
                 name="dia_horario"
                 value={data.dia_horario}
                 onChange={handleChanger}
-                className="p-2 border rounded"
+                className=" text-center p-2 border rounded"
             >
                 
                 {arrayDates?.length > 0 ? (
@@ -121,7 +121,9 @@ export default function ButtonServicoPage({
 
                         form.requestSubmit();
                     }}
-                    className={`p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}`}
+                    className={` p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}
+                    
+                    `}
                 >
                     Escolher serviço
                 </Link>
