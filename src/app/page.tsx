@@ -25,7 +25,7 @@ export default function Home() {
 
         {/*Render of services */}
         <div
-        className="w-[83vw] mx-auto "
+        className="w-[83vw] mx-auto"
         >
           <RenderServices
             dataService={dados}

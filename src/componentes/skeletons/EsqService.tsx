@@ -26,7 +26,6 @@ export default function EsqService({
 } : EsqServiceAdmin){
 
     const router = useRouter();
-    console.log("data", nome_servico, preco, preco_desconto, isAdmin, url);
 
     return(
         <div
@@ -36,32 +35,33 @@ export default function EsqService({
                 }
             }}
         >
-            <div className="">
+            <div className="cursor-pointer">
                 <img
                     src={url}
+                    className="md:w-[13vw] md:max-w-[300px]"
                 />
 
                 <p
-                    className="text-[22px]"
+                    className="text-[21px] md:text-[21px]"
                 >
                     {nome_servico}
                 </p>
 
                 <div>
                     {preco_desconto ? (
-                        <>
+                        <div className="md:leading-5">
                             <p
-                            className="text-[15px] line-through"
+                            className="text-[15px] line-through md:text-[15px]"
                             >
                                 R${preco}
                             </p>
 
-                            <p className="text-[18px] ">
+                            <p className="text-[18px] md:text-[22px]">
                                 R${preco_desconto}
                             </p>
-                        </>
+                        </div>
                     ): (
-                        <p className="text-[18px] ">
+                        <p className="text-[18px] md:text-[22px]">
                             R${preco}
                         </p>
                     )}

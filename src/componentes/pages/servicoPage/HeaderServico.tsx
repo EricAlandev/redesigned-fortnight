@@ -4,8 +4,7 @@ export default function HeaderServico({
 
     nome_servico,
     preco_desconto,
-    preco,
-    descricao
+    preco
 }: services){
 
     let imageService;
@@ -25,40 +24,37 @@ export default function HeaderServico({
 
     return(
         <>
-            <div className="">
+            <div className=" md:max-w-[1200px] md:mx-auto md:flex md:gap-80">
                 <img
                     src={imageService}
+                    className="md:w-[27vw]"
                 />
 
                 {/*bottom image */}
                 <div
-                 className="w-[87vw] mx-auto mt-2.5 mb-3"
+                 className="flex flex-col gap-2 w-[87vw] mx-auto mt-2.5 mb-3"
                 >
                         <p
-                            className="text-[22px]"
+                            className="font-semibold text-[22px] md:text-[25px] "
                         >
                             {nome_servico}
                         </p>
 
-                        <p>
-                            {descricao}
-                        </p>
-
                         <div>
                             {preco_desconto ? (
-                                <>
+                                <div className="leading-5.5">
                                     <p
-                                    className="text-[15px] line-through"
+                                    className="text-[15px] line-through md:text-[13px]"
                                     >
                                         R${preco}
                                     </p>
 
-                                    <p className="text-[18px] ">
+                                    <p className="text-[18px] md:text-[22px]">
                                         R${preco_desconto}
                                     </p>
-                                </>
+                                </div>
                             ): (
-                                <p className="text-[18px] ">
+                                <p className="text-[18px] md:text-[22px]">
                                     R${preco}
                                 </p>
                             )}

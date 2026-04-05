@@ -36,9 +36,6 @@ export default function ButtonServicoPage({
     const [data, setData] = useState<dataService>({ dia_horario: ""});
     const [idDate, setIdDate] = useState<string>("");
 
-
-    const router = useRouter();
-
     //Array to parse the date.
     const arrayDates = ServicesData?.map((s) => {
         const date = s?.DataService?.dia_horario;
@@ -51,8 +48,6 @@ export default function ButtonServicoPage({
         return {id: s?.DataService.id , date: actualDate}
     })
 
-    console.log("arrayDates", arrayDates);
-    
     const handleChanger = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -78,13 +73,16 @@ export default function ButtonServicoPage({
     const encodedMessage = encodeURIComponent(message);
 
     return (
-        <form
+        <div
+          className="fixed bottom-10 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 "
+        >
+            <form
             id="form-id"
             onSubmit={(e) => {
                 e.preventDefault();
                 enviar(data, idDate);
             }}
-            className="flex flex-col mx-auto max-w-[250px] gap-4"
+            className="flex flex-col  max-w-[250px] gap-4"
         >
             <select
                 name="dia_horario"
@@ -128,5 +126,6 @@ export default function ButtonServicoPage({
                     Escolher serviço
                 </Link>
         </form>
+        </div>
     )
 }

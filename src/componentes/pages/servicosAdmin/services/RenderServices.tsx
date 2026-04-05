@@ -14,7 +14,7 @@ export default function RenderServices({
     console.log("service2", dataService);
 
     return(
-        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 ">
+        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 md:max-w-[1200px] ">
 
                 <div
                  className="flex flex-col gap-4"

@@ -48,13 +48,14 @@ export default function SearchBar({
                     enviar(data?.search);
                     
                 }}
-                className="relative mx-auto w-[83vw]"
+                className="relative mx-auto w-[83vw] md:max-w-[1200px]"
             >
                 <input
                     name="search"
                     value={data.search}
                     onChange={handleChanger}
-                    className="w-[83vw] max-h-[40px] mt-5 p-2 bg-[#A0A0A0] rounded-md"
+                    className="w-[83vw] max-h-[40px] mt-5 p-2 bg-[#A0A0A0] 
+                    rounded-md md:w-full"
                 />
                 
                 {/*Visual button */}

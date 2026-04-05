@@ -15,7 +15,7 @@ export default function Header(){
     console.log(user);
 
     return(
-        <div className="relative w-full h-auto p-2 bg-[black] z-50">
+        <div className="relative w-full h-auto p-2 bg-[black] z-50 ">
             <img
                 src={"/general/Hamburguer.png"}
                 onClick={() => setDropper(!dropper)}
@@ -41,7 +41,7 @@ export default function Header(){
                         >
                             
                             <ul
-                             className="flex flex-col text-[white] text-[18px] text-center border-b-[2px]"
+                             className="flex flex-col text-[white] text-[18px] text-center"
                             >
                                 {/*Name of user */}
                                 {(user && token ) && (
@@ -57,6 +57,17 @@ export default function Header(){
 
                                 {/*Going to the homepage*/}
                                 <>
+                                    {(!user && !token) && (
+                                            <Link
+                                                href={"/login"}
+                                                className="mt-5 pb-2 border-[white] border-b-[2px] text-[white]"
+
+                                                onClick={() => setDropper(false)}
+                                            >
+                                                Entrar
+                                            </Link>
+                                    )}
+
                                     <Link
                                     href={"/"}
                                     className="mt-5 pb-2 border-[white] border-b-[2px] text-[white]"
@@ -67,7 +78,7 @@ export default function Header(){
                                     </Link>
                                 </>
 
-                                {user && token ? (
+                                {user && token && (
                                 <>
                                     {/*If user its admin */}
                                     {user.admin === true && (
@@ -133,22 +144,12 @@ export default function Header(){
                                             logOut()
                                         }}
 
-                                        className="mt-5 pb-2  border-[white] ]"
+                                        className="mt-5 pb-2  border-[white] border-b-[2px]"
                                     >
                                         Sair
                                     </p>
                                 </>
-                                ) : (
-                                <>
-                                    <Link
-                                    href={"/login"}
-                                    className="block mt-5 pb-2"
-                                    onClick={() => setDropper(false)}
-                                    >
-                                        Entrar
-                                    </Link>
-                                </>
-                                )} 
+                                )}
                             </ul>
             
                         </motion.nav>

@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import BodyService from "@/componentes/pages/servicoPage/BodyService";
 import ButtonServicoPage from "@/componentes/pages/servicoPage/ButtonServicoPage";
 import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
 import { useGlobal } from "@/lib/GlobalContext";
@@ -59,28 +60,35 @@ export default function ServicosPage(){
             <Header/>
 
             <div
-             className="pt-20.5"
+            className="md:mt-15"
             >
                 {data && (
                     <>
-                        <HeaderServico
-                        nome_servico={data?.nome_servico}
-                        preco={data?.preco}
-                        preco_desconto={data?.preco_desconto}
-                        descricao={data?.descricao}                        
-                        />
-
-                        <ButtonServicoPage
-                            enviar={userSelectServiceToBuy}
-                            ServicesData={data?.ServicesData}
-
-                            name={user?.nome}
-                            endereco={user?.endress.endereco}
-                            numero_casa={user?.endress.numero_casa}
+                        <div
+                          className="max-h-[70vh] overflow-y-auto md:overflow-visible md:h-full"
+                        >
+                            <HeaderServico
                             nome_servico={data?.nome_servico}
                             preco={data?.preco}
-                            preco_desconto={data?.preco_desconto}
-                        />
+                            preco_desconto={data?.preco_desconto}                  
+                            />
+
+                            <BodyService
+                                descricao={data?.descricao}
+                            />
+
+                            <ButtonServicoPage
+                                enviar={userSelectServiceToBuy}
+                                ServicesData={data?.ServicesData}
+
+                                name={user?.nome}
+                                endereco={user?.endress.endereco}
+                                numero_casa={user?.endress.numero_casa}
+                                nome_servico={data?.nome_servico}
+                                preco={data?.preco}
+                                preco_desconto={data?.preco_desconto}
+                            />
+                        </div>
                     </>
                 )}
             </div>
