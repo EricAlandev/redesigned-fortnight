@@ -22,7 +22,7 @@ export default function BodyService({
                 />
 
                 <h2
-                    className="w-max pb-1 border-b-[1px] text-[18px] md:text-[21px]"
+                    className="w-max pb-1 border-b-[1px] text-[18px] md:text-[22px]"
                 >
                     Descrição
                 </h2>
@@ -31,7 +31,7 @@ export default function BodyService({
                 className="md:flex md:items-center md:gap-50"
                 >
                     <p
-                    className="mt-1 md:flex md:flex-col md:w-[27vw]"
+                    className="mt-1 md:flex md:flex-col md:w-[27vw] md:text-[18.5px]"
                     >
                         {descricao} 
                     </p>
@@ -40,13 +40,13 @@ export default function BodyService({
 
             {/*Methods of paymente */}
             <div
-             className="md:p-2 md:border-[2px] md:border-[#A0A0A0] md:rounded-md"
+             className="mt-3 rounded-md md:border-[2px] md:border-[#A0A0A0] md:rounded-md"
             >
                     {/*line just for stetics */}
                     <hr
-                        className="mt-3 mb-3 border-[#C1C1C1C1] md:hidden"
+                        className="mt-3 mb-3 border-[#C1C1C1C1]"
                     />
-                    
+
                     <h2
                      className="w-max pb-1 border-b-[1px] text-[18px] md:text-[21px]"
                     >
@@ -57,32 +57,34 @@ export default function BodyService({
                     <div
                      className="flex items-center gap-2 mt-2"
                     >
+                        
+                        <img
+                            src={"/OptionsPayment/card.png"}
+                            className="w-[8vw] md:max-w-[50px] md:h-auto"
+                        />
+                        
                         <p
-                         className="min-w-[80px] text-[18px] md:text-[17.5px]"
+                         className="min-w-[80px] text-[16px] md:text-[17.5px]"
                         >
                             Cartão
                         </p>
-
-                        <img
-                            src={"/OptionsPayment/card.png"}
-                            className="w-[9vw] md:max-w-[50px] md:h-auto"
-                        />
                     </div>
 
                 {/*money*/}
                 <div
                     className="flex items-center gap-2 "
                 >
-                    <p
-                        className="min-w-[80px] text-[18px] md:text-[17.5px]"
-                    >
-                            Dinheiro
-                    </p>
 
                     <img
                             src={"/OptionsPayment/Money.png"}
-                            className="w-[9vw] md:max-w-[50px] md:h-auto"
+                            className="w-[8vw] md:max-w-[50px] md:h-auto"
                     />
+
+                    <p
+                        className="min-w-[80px] text-[16px] md:text-[17.5px]"
+                    >
+                            Dinheiro
+                    </p>
                 </div>
             </div>
         </div>
