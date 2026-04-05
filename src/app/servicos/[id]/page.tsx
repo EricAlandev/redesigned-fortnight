@@ -4,6 +4,7 @@ import Header from "@/componentes/general/Header";
 import BodyService from "@/componentes/pages/servicoPage/BodyService";
 import ButtonServicoPage from "@/componentes/pages/servicoPage/ButtonServicoPage";
 import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
+import PutComent from "@/componentes/pages/servicoPage/PutComent";
 import useService from "@/hooks/UseService";
 import { useGlobal } from "@/lib/GlobalContext";
 
@@ -38,7 +39,7 @@ export default function ServicosPage(){
             <div
             className="md:mt-15"
             >
-                {data && (
+                {(data && user) && (
                     <>
                         <div
                           className="max-h-[70vh] overflow-y-auto md:overflow-visible md:h-full"
@@ -68,6 +69,10 @@ export default function ServicosPage(){
                                 nome_servico={data?.nome_servico}
                                 preco={data?.preco}
                                 preco_desconto={data?.preco_desconto}
+                            />
+
+                            <PutComent
+                                
                             />
                         </div>
                     </>
