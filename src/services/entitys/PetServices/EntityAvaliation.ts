@@ -9,9 +9,13 @@ export class AvaliationServices {
     @Column()
     quantidade!: number;
 
-    @Column()
+    @Column("decimal" , {precision: 3, scale: 2})
     aprovacao_percentual!: number;
 
+    @Column()
+    servicos_id!: number;
+
     @OneToOne("NComentsUser", (coment: any) => coment.avaliacao)
+    @JoinColumn({name: "servicos_id"})
     service!: Services
 }

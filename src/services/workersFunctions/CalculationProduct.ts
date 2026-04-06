@@ -28,17 +28,27 @@ export async function CalculationProduct(){
                         const actualComent = serviceActual.comentsService[y];
                         
                         avaliationService += actualComent.comentarios.avaliacao;
+                        
                     }
                 }
 
-                if(avaliationService >= 0){
+                console.log("After 2 for", avaliationService);
+
+                if(avaliationService > 0){
+                    console.log("inside if avaliation > 0");
                     const averageAvaliation = (avaliationService/serviceActual.comentsService.length);
+
+                    console.log("averageAvaliation", averageAvaliation);
+
                     
                     try{
+                    console.log("inside of the try", serviceActual.comentsService.length, averageAvaliation);
+
                         const avaliation = await app.update(AvaliationServices, 
-                            serviceActual?.id, 
+                            {servicos_id: serviceActual?.id},
                             {
                                 quantidade: serviceActual.comentsService.length,
+
                                 aprovacao_percentual: averageAvaliation
                             }
                         )
@@ -46,6 +56,9 @@ export async function CalculationProduct(){
                         if(avaliation.affected === 0){
                             throw new Error("error trying to update the avaliation Service");
                         }
+
+                    console.log("pass the if, that mean the actual service exists");
+
                     }
 
                     catch(error){

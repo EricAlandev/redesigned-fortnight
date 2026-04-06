@@ -2,6 +2,7 @@ import { CalculationProduct } from '@/services/workersFunctions/CalculationProdu
 import cron from 'node-cron';
 
 cron.schedule('*/10 * * * * *', async () => {
-
+      
+        console.log("Inside of worker. Before the initialization of the calculation product");
         await CalculationProduct();
   });

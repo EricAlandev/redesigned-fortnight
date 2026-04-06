@@ -21,9 +21,6 @@ export class Services {
     @Column()
     descricao!: string;
 
-    @Column()
-    avaliacoes_id!: number;
-
     //users who selected services;
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.servicos)
     UsuariosDoService!: UsuarioServicos[];
@@ -32,9 +29,8 @@ export class Services {
     @OneToMany("NServicosDataHorario", (sericDataHorario : any) => sericDataHorario.services)
     ServicesData!: NServicosDataHorario[];
 
-    //avalation of the user
-    @OneToOne("AvaliationServices", (av : any) => av.services)
-    @JoinColumn({name: "avaliacoes_id"})
+    //avalation of the service
+    @OneToOne("AvaliationServices", (av : any) => av.service)
     avaliacao!: AvaliationServices;
 
     //coments of the service;

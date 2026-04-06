@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany, ManyToOne} from "typeorm";
 import type { User } from "../User/EntityUser";
 import type { Coments } from "./EntityComents";
-import { Services } from "../PetServices/EntityServices";
+import type { Services } from "../PetServices/EntityServices";
 
 @Entity("n_comentarios_user")
 export class NComentsUser {

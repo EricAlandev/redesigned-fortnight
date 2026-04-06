@@ -8,6 +8,7 @@ import { NServicosDataHorario } from "../entitys/PetServices/EntityNServicosData
 import { ParseTheTime } from "@/lib/functions/ParseTheTime";
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
 import { ILike, Like, MoreThan } from "typeorm";
+import { AvaliationServices } from "../entitys/PetServices/EntityAvaliation";
 
 type servicePutParameter = ServiceAndData & {
     idParameter: string
@@ -253,7 +254,7 @@ export const createService = async ({
 
     return await AppDataSource.transaction(async (transactionalEntityManager) => {
         
-        // 1. Prepare Service Data
+        //Prepare Service Data
         let dataFinal: any = {
             nome_servico: nome_servico,
             preco: Number(preco),
@@ -265,7 +266,7 @@ export const createService = async ({
             dataFinal.preco_desconto = Number(preco_desconto);
         }
 
-        // 2. Create and Save Service
+        //Create and Save Service
         const serviceEntity = transactionalEntityManager.create(Services, dataFinal);
         const savedService = await transactionalEntityManager.save(Services, serviceEntity);
 
@@ -273,7 +274,22 @@ export const createService = async ({
             throw new Error("Erro na criação do serviço");
         }
 
-        // 3. Create and Save Date/Time
+        const idService = savedService?.id;
+
+        //Create avaliation services
+        const avaliationServices = transactionalEntityManager.create(AvaliationServices, {
+            quantidade: 0,
+            aprovacao_percentual: 0,
+            servicos_id: idService
+        });
+
+        const SaveAvaliationServices = await transactionalEntityManager.save(AvaliationServices, avaliationServices);
+
+        if (!SaveAvaliationServices) {
+            throw new Error("Error na criação da avaliação do usuário");
+        }
+
+        //Create and Save Date/Time
         const dateEntity = transactionalEntityManager.create(DataService, {
             dia_horario: horario
         });
@@ -284,7 +300,7 @@ export const createService = async ({
             throw new Error("Erro na criação do horário");
         }
 
-        // 4. Create and Save Relation (Junction Table)
+        //Create and Save Relation (Junction Table)
         const relationEntity = transactionalEntityManager.create(NServicosDataHorario, {
             data_horario_id: savedDate.id,
             servicos_id: savedService.id,
