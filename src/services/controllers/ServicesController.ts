@@ -95,6 +95,20 @@ export const pullOneService = async(id: number) => {
         arrayServices = dateTime
     }
 
+    let cleanComments : any = []
+    //clean the session of comments
+    for(let i =0; i < services?.comentsService.length; i++){
+        let actualComment = services?.comentsService[i]
+        let objeto = {
+            comentario: actualComment?.comentarios?.comentario,
+            avaliacaoComentario: String(actualComment?.comentarios?.avaliacao),
+            idUser: actualComment?.usuarios?.id,
+            nomeUser: actualComment?.usuarios?.nome
+        }
+
+        cleanComments.push(objeto);
+    }
+
     const finalServices = {
         id: idService,
         nome_servico: services.nome_servico,
@@ -105,7 +119,7 @@ export const pullOneService = async(id: number) => {
         ServicesData:  arrayServices,
         avaliacao: String(services?.avaliacao.aprovacao_percentual),
         quantidadeAvaliacoes: services?.comentsService.length,
-        comentarios: services?.comentsService
+        comentarios: cleanComments
     }
 
     return finalServices;

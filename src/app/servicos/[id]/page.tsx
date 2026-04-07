@@ -5,6 +5,7 @@ import BodyService from "@/componentes/pages/servicoPage/BodyService";
 import ButtonServicoPage from "@/componentes/pages/servicoPage/ButtonServicoPage";
 import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
 import PutComent from "@/componentes/pages/servicoPage/PutComent";
+import RenderComments from "@/componentes/pages/servicoPage/RenderComments";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import useService from "@/hooks/UseService";
 import UseUser from "@/hooks/UseUser";
@@ -90,6 +91,10 @@ export default function ServicosPage(){
                                         setMessage(coment?.message.message)
                                     }
                                 }}
+                            />
+
+                            <RenderComments
+                                comments={data?.comentarios}
                             />
                         </div>
 
