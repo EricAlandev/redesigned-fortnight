@@ -1,10 +1,12 @@
+import { StarsRenderizer } from "@/componentes/skeletons/avalations/ImageStars";
 import { services } from "@/types/TypeService";
 
 export default function HeaderServico({
 
     nome_servico,
     preco_desconto,
-    preco
+    preco,
+    avaliacao
 }: services){
 
     let imageService;
@@ -21,7 +23,7 @@ export default function HeaderServico({
             break
     }
 
-
+    console.log(typeof(avaliacao), "type of avaliation");
     return(
         <>
             <div className=" md:max-w-[1200px] md:mx-auto md:flex md:gap-80">
@@ -39,6 +41,22 @@ export default function HeaderServico({
                         >
                             {nome_servico}
                         </p>
+
+                        {/*Avaliaton */}
+                        <div
+                          className="flex items-center gap-2"
+                        >
+                            <StarsRenderizer
+                                avaliation={avaliacao}
+                           />
+                           
+
+                           <p
+                                className="text-[18.5px]"
+                           >
+                                {avaliacao}
+                           </p>
+                        </div>
 
                         <div>
                             {preco_desconto ? (

@@ -56,7 +56,8 @@ export default function ServicosPage(){
                             <HeaderServico
                             nome_servico={data?.nome_servico}
                             preco={data?.preco}
-                            preco_desconto={data?.preco_desconto}                  
+                            preco_desconto={data?.preco_desconto}            
+                            avaliacao={data?.avaliacao}      
                             />
 
                             <BodyService

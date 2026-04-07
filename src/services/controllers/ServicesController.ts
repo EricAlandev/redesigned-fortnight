@@ -60,11 +60,16 @@ export const pullOneService = async(id: number) => {
             id: id,
         },
         relations: {
-            ServicesData: true
+            ServicesData: true,
+            avaliacao: true,
+            comentsService: {
+                comentarios: true,
+                usuarios: true
+            }
         }
     });
 
-    console.log("one service", services);
+    console.log("services pullServices", services);
 
     if(!services){
         throw new Error("Fail to find the service");
@@ -97,7 +102,10 @@ export const pullOneService = async(id: number) => {
         preco_desconto: services.preco_desconto,
         descricao: services?.descricao,
         url: await PhotoImage(services?.nome_servico),
-        ServicesData:  arrayServices
+        ServicesData:  arrayServices,
+        avaliacao: String(services?.avaliacao.aprovacao_percentual),
+        quantidadeAvaliacoes: services?.comentsService.length,
+        comentarios: services?.comentsService
     }
 
     return finalServices;

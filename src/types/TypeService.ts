@@ -16,6 +16,7 @@ export type services = {
     preco_desconto?: string,
     url?: string
     descricao?: string,
+    avaliacao?: number
 
 }
 
@@ -29,6 +30,7 @@ export type ServiceAndData = dataService & {
     horario?: string,
     ServicesData?: NServicosData[],
     url?: string
+    avaliacao?: number
 }
 
 //type of order of services;

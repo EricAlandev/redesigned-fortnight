@@ -20,12 +20,11 @@ export default function ImageRenderizator({
     //verify how many stars they have, and put the 
     else if(stars >= 0 || stars <=5 ){
         for(let i = 0; i < 5; i++){
-            //2
+
             if(stars === 0){
                 arrayImage.push('empty');
             }
 
-            //stars, stars, empty, empty, empty
             else if(stars > 0 && i < stars){
                 arrayImage.push('stars');
             }
@@ -64,10 +63,78 @@ export default function ImageRenderizator({
                                     }
 
                             }}
-                            className="max-w-[40px]"
+                            className="max-w-[30px]"
                         />
                     )
                 })
+            )}
+        </>
+    )
+}
+
+type Avaliation = {
+    avaliation: string
+}
+export function StarsRenderizer({avaliation}: Avaliation){
+
+    const [firstValue, afterPoint] = avaliation.split(".");
+
+    //array ho gonna decide how many stars have.
+    let arrayStars : string[] = [];
+
+    //Just the first number before the dot(,)
+    let numberStars = Number(firstValue);
+
+    //define if the half star was implemented
+    let halfStarImplemented = false;
+    
+    for(let i = 0; i < 5; i++){
+        //verify first the fixed number and give a full star
+        if(i < numberStars){
+            arrayStars.push('full');
+        }
+
+        //verify the rest and gives a half star
+        else if(Number(afterPoint) >= 0.5 && halfStarImplemented === false){
+            arrayStars.push('half');
+
+            //with the halfStar = true, only gonna trigger one time
+            halfStarImplemented = true;
+        }
+
+        else{
+            arrayStars.push('empty');
+        }
+    }
+
+    return(
+        <>
+            {arrayStars?.length > 0 && (
+                <div
+                  className="flex"
+                >
+                    {arrayStars.map((star) => {
+
+                            let pathStar = '/avaliations/EmptyStar.png'
+
+                            if(star === 'full'){
+                                pathStar = '/avaliations/FullStar.png'
+                            }
+
+                            else if(star === 'half'){
+                                pathStar = '/avaliations/halfStar.png'
+                            }
+
+                            return(
+                                <>
+                                    <img
+                                        src={pathStar}
+                                        className="max-w-[30px]"
+                                    />
+                                </>
+                            )
+                    })}
+                </div>
             )}
         </>
     )
