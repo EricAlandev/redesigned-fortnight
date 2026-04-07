@@ -6,7 +6,8 @@ export default function HeaderServico({
     nome_servico,
     preco_desconto,
     preco,
-    avaliacao
+    avaliacao,
+    quantidadeAvaliacoes
 }: services){
 
     let imageService;
@@ -54,7 +55,7 @@ export default function HeaderServico({
                            <p
                                 className="text-[18.5px]"
                            >
-                                {avaliacao}
+                                ({quantidadeAvaliacoes || 0})
                            </p>
                         </div>
 

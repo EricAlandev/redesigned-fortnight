@@ -63,7 +63,7 @@ export default function ImageRenderizator({
                                     }
 
                             }}
-                            className="max-w-[30px]"
+                            className="max-w-[25px]"
                         />
                     )
                 })
@@ -129,7 +129,7 @@ export function StarsRenderizer({avaliation}: Avaliation){
                                 <>
                                     <img
                                         src={pathStar}
-                                        className="max-w-[30px]"
+                                        className="max-w-[25px]"
                                     />
                                 </>
                             )

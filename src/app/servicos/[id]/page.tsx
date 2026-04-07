@@ -57,7 +57,8 @@ export default function ServicosPage(){
                             nome_servico={data?.nome_servico}
                             preco={data?.preco}
                             preco_desconto={data?.preco_desconto}            
-                            avaliacao={data?.avaliacao}      
+                            avaliacao={data?.avaliacao}
+                            quantidadeAvaliacoes={data?.quantidadeAvaliacoes}     
                             />
 
                             <BodyService
