@@ -74,7 +74,7 @@ export default function ButtonServicoPage({
 
     return (
         <div
-          className="fixed bottom-10 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85"
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85"
         >
             <form
             id="form-id"

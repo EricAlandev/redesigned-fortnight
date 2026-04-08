@@ -12,7 +12,7 @@ export default function EsqComment({
 
     return(
         <div
-            className="w-[70vw] mx-auto p-2 bg-[#A0A0A0A0] rounded-md"
+            className="w-[70vw] mx-auto p-3  rounded-md bg-[#D1D1D1]"
         >
             <div
                 className="max-w-[220px] mx-auto flex flex-col gap-2"
