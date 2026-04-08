@@ -14,6 +14,9 @@ export class Coments {
     @Max(5)
     avaliacao!: number;
 
+    @Column("timestamp")
+    horario!: Date;
+
     @OneToMany("NComentsUser", (coment: any) => coment.comentarios)
     comentariosUser!: NComentsUser[]
 }

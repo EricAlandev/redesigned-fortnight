@@ -21,3 +21,17 @@ export const VerifyToken = async(req: Request) => {
         throw new Error("Sua sessão expirou! \n Logue novamente!");
     }
 }
+
+//function to verify the token of the user from the worker;
+export const VerifyTokenFromWorker = async(token: string) => {
+
+    try{
+        const tokenVerify = await jwt.verify(token, process.env.JWT_SECRET as string);
+
+        return tokenVerify;
+    }
+
+    catch(error){   
+        throw new Error("Sua sessão expirou! \n Logue novamente!");
+    }
+}

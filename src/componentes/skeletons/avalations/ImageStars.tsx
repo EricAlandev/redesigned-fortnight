@@ -73,9 +73,14 @@ export default function ImageRenderizator({
 }
 
 type Avaliation = {
-    avaliation: string
+    avaliation: string,
+    sizeStar?: string
 }
-export function StarsRenderizer({avaliation}: Avaliation){
+export function StarsRenderizer({
+    avaliation, 
+    sizeStar}
+    : Avaliation
+){
 
     const [firstValue, afterPoint] = avaliation.split(".");
 
@@ -129,7 +134,10 @@ export function StarsRenderizer({avaliation}: Avaliation){
                                 <>
                                     <img
                                         src={pathStar}
-                                        className="max-w-[25px]"
+                                        className={
+                                            `
+                                            ${sizeStar ? `${sizeStar}` : "max-w-[25px]"}
+                                            `}
                                     />
                                 </>
                             )

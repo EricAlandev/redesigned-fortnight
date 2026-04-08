@@ -6,7 +6,8 @@ export default function EsqComment({
     idUser,
     avaliacaoComentario,
     comentario,
-    nomeUser
+    nomeUser,
+    dataAvaliation
 } : CommentService){
 
     return(
@@ -30,13 +31,21 @@ export default function EsqComment({
                         {nomeUser}
                     </p>
 
-
                 </div>
 
-                {/*comment */}
-                <StarsRenderizer
-                    avaliation={avaliacaoComentario}
-                />
+                {/*comment  + date*/}
+                <div>
+                    <StarsRenderizer
+                        avaliation={avaliacaoComentario}
+                        sizeStar={"max-w-[20px]"}
+                    />
+
+                    <p
+                        className="mt-2.5 text-[14px]"
+                    >
+                        Avaliado em {dataAvaliation}
+                    </p>
+                </div>
                 
                 <p>
                     {comentario}

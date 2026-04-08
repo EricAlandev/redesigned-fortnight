@@ -5,7 +5,7 @@ import { DataService } from "../entitys/PetServices/EntityDataService";
 import { User } from "../entitys/User/EntityUser";
 import { UsuarioServicos } from "../entitys/User/EntityUserServices";
 import { NServicosDataHorario } from "../entitys/PetServices/EntityNServicosData";
-import { ParseTheTime } from "@/lib/functions/ParseTheTime";
+import { ParseTheTime, ParseTimeNotComplete } from "@/lib/functions/ParseTheTime";
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
 import { ILike, Like, MoreThan } from "typeorm";
 import { AvaliationServices } from "../entitys/PetServices/EntityAvaliation";
@@ -97,11 +97,12 @@ export const pullOneService = async(id: number) => {
 
     let cleanComments : any = []
     //clean the session of comments
-    for(let i =0; i < services?.comentsService.length; i++){
+    for(let i = 0; i < services?.comentsService.length; i++){
         let actualComment = services?.comentsService[i]
         let objeto = {
             comentario: actualComment?.comentarios?.comentario,
             avaliacaoComentario: String(actualComment?.comentarios?.avaliacao),
+            dataAvaliation: ParseTimeNotComplete(actualComment?.comentarios?.horario),
             idUser: actualComment?.usuarios?.id,
             nomeUser: actualComment?.usuarios?.nome
         }

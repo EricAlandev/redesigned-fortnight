@@ -18,8 +18,8 @@ export type services = {
     descricao?: string,
     avaliacao?: number,
     quantidadeAvaliacoes: number,
-    comentarios: CommentService[]
-
+    comentarios: CommentService[],
+    dataAvaliation: string
 }
 
 //normal Service
@@ -29,13 +29,12 @@ export type ServiceAndData = dataService & {
     preco?: string,
     preco_desconto?: string,
     descricao?: string,
-    horario?: string,
     ServicesData?: NServicosData[],
     url?: string
     avaliacao?: number,
     quantidadeAvaliacoes: number,
-    comentarios: CommentService[]
-
+    comentarios: CommentService[],
+    dataAvaliation: string
 }
 
 //type of order of services;
@@ -44,10 +43,10 @@ export type ServicesList = dataService & services & typeUsuario  &{
     idData?: number
 }
 
-
 export type CommentService = {
     idUser: number,
     avaliacaoComentario: string,
     comentario: string,
-    nomeUser: string
+    nomeUser: string,
+    dataAvaliation: string
 }

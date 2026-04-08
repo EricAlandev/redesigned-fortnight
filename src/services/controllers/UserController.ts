@@ -181,9 +181,11 @@ export const PutComentController = async(avaliation: string, text: string, idUse
         }
 
         //Create comment
+        const actualDate = new Date();
         const coment = await transactionalEntityManager.create(Coments, {
             comentario: text,
-            avaliacao: Number(avaliation)
+            avaliacao: Number(avaliation),
+            horario: actualDate
         })
 
         const saveComent = await transactionalEntityManager.save(Coments,
