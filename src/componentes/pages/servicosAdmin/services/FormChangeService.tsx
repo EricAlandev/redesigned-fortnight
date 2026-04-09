@@ -31,7 +31,9 @@ export default function FormChangeService({
     };
 
     return(
-        <>
+        <div
+            className="lg:max-w-[750px] lg:mx-auto"
+        >
             <img
                 src={"/general/back.png"}
                 onClick={back}
@@ -40,14 +42,14 @@ export default function FormChangeService({
 
             <form
                onSubmit={handleSubmit} 
-               className="flex flex-col gap-4 p-5 bg-[black] text-[white]"
+               className="flex flex-col gap-4 p-5 bg-[black] text-[white] rounded-md"
             >
                 <label>Alterar nome</label>
                 <input
                     name="nome_servico"
                     value={dados.nome_servico}
                     onChange={handleChanger}
-                    className="text-black bg-[white]"
+                    className="p-2 text-black bg-[white]"
                 />
 
                 <label>Alterar descrição</label>
@@ -55,7 +57,7 @@ export default function FormChangeService({
                     name="descricao"
                     value={dados.descricao}
                     onChange={handleChanger}
-                    className="max-w-[400px] h-[20vw]   p-2 
+                    className="max-h-[200px] h-[20vw]   p-2 
                     text-black bg-[white] rounded-md
 
                     overflow-y-auto 
@@ -67,7 +69,7 @@ export default function FormChangeService({
                     name="preco"
                     value={dados.preco}
                     onChange={handleChanger}
-                    className="text-black bg-[white]"
+                    className="p-2 text-black bg-[white]"
                 />
 
                 <label>Alterar desconto</label>
@@ -75,13 +77,13 @@ export default function FormChangeService({
                     name="preco_desconto"
                     value={dados.preco_desconto}
                     onChange={handleChanger}
-                    className="text-black bg-[white]"
+                    className="p-2 text-black bg-[white]"
                 />
 
-                <button type="submit" className="mt-4 bg-white text-black p-2">
+                <button type="submit" className="mt-4 bg-[#A0A0A0] text-black p-2">
                     Salvar
                 </button>
             </form>
-        </>
+        </div>
     )
 }

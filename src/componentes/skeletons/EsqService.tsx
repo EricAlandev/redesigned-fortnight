@@ -34,15 +34,16 @@ export default function EsqService({
                     router.push(`/servicos/${id}`)
                 }
             }}
+            className="max-w-[250px]"
         >
-            <div className="cursor-pointer">
+            <div className="lg:max-w-[250px] cursor-pointer">
                 <img
                     src={url}
-                    className="md:w-[13vw] md:max-w-[300px]"
+                    className="lg:max-w-[250px]"
                 />
 
                 <p
-                    className="text-[21px] md:text-[21px]"
+                    className=" font-mdium text-[21px] md:text-[20px]"
                 >
                     {nome_servico}
                 </p>
@@ -51,17 +52,17 @@ export default function EsqService({
                     {preco_desconto ? (
                         <div className="md:leading-5">
                             <p
-                            className="text-[15px] line-through md:text-[15px]"
+                            className="text-[15px] line-through lg:text-[14px]"
                             >
                                 R${preco}
                             </p>
 
-                            <p className="text-[18px] md:text-[22px]">
+                            <p className="text-[18px] lg:text-[23px]">
                                 R${preco_desconto}
                             </p>
                         </div>
                     ): (
-                        <p className="text-[18px] md:text-[22px]">
+                        <p className="text-[18px] lg:text-[23px]">
                             R${preco}
                         </p>
                     )}

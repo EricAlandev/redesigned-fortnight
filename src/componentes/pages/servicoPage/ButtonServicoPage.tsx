@@ -21,7 +21,10 @@ type buttonOptions = {
 
     nome_servico : string,
     preco: string,
-    preco_desconto?: string
+    preco_desconto?: string,
+
+    //Allow to put css(disponible in the desktop version);
+    changeProps?: string
 }
 
 export default function ButtonServicoPage({
@@ -34,7 +37,9 @@ export default function ButtonServicoPage({
     numero_casa,
     nome_servico,
     preco,
-    preco_desconto
+    preco_desconto,
+
+    changeProps
 }: buttonOptions) {
 
     const [data, setData] = useState<dataService>({ dia_horario: ""});
@@ -80,74 +85,78 @@ export default function ButtonServicoPage({
 
     return (
         <div
-          className="fixed bottom-5 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85"
+         className="relative"
         >
-            <form
-            id="form-id"
-            onSubmit={(e) => {
-                e.preventDefault();
-                enviar(data, idDate);
-            }}
-            className="flex flex-col mx-auto  max-w-[250px] gap-4 p-3"
-        >
-            <select
-                name="dia_horario"
-                value={data.dia_horario}
-                onChange={handleChanger}
-                className=" text-center p-2 border rounded"
+                <div
+            className={`fixed bottom-5 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85 lg:w-max ${changeProps}`}
             >
-                
-                {arrayDates?.length > 0 ? (
-                    <>
-                        <option value="">Selecione um horário</option>
-                        {arrayDates?.map((d) => (
-                        <option
-                        key={d?.id}
-                        value={d?.date}
-                        >
-                            {d?.date}
-                        </option>
-                    ))}
-                    </>
-                ) : (
-                    <option
-                        value={""}
-                        >
-                            Sem horário disponível.
-                    </option>
-                )}
-            </select>
-
-                 
-            {(user && token) ? (
-                <Link
-                target="_blank"
-                href={`https://wa.me/5585986864233?text=${encodedMessage}`}
-                onClick={() => {
-                    if(user && token){
-                        const form = document.getElementById('form-id') as HTMLFormElement;
-
-                        form.requestSubmit();
-                    }
+                <form
+                id="form-id"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    enviar(data, idDate);
                 }}
-                className={` p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}
-                
-                `}
+                className="flex flex-col mx-auto  max-w-[250px] gap-4 p-3"
             >
-                Escolher serviço
-            </Link>
-            ) : (
-                <button
-                    className={` p-2 text-center text-white rounded-md bg-gray-400 cursor-not-allowed
-                    `}
-                    onClick={() => {
-                        actionPopUp()
-                    }}
+                <select
+                    name="dia_horario"
+                    value={data.dia_horario}
+                    onChange={handleChanger}
+                    className=" text-center p-2 border rounded"
                 >
-                    Escolher um serviço
-                </button>
-            )}
-        </form>
+                    
+                    {arrayDates?.length > 0 ? (
+                        <>
+                            <option value="">Selecione um horário</option>
+                            {arrayDates?.map((d) => (
+                            <option
+                            key={d?.id}
+                            value={d?.date}
+                            >
+                                {d?.date}
+                            </option>
+                        ))}
+                        </>
+                    ) : (
+                        <option
+                            value={""}
+                            >
+                                Sem horário disponível.
+                        </option>
+                    )}
+                </select>
+
+                    
+                {(user && token) ? (
+                    <Link
+                    target="_blank"
+                    href={`https://wa.me/5585986864233?text=${encodedMessage}`}
+                    onClick={() => {
+                        if(user && token){
+                            const form = document.getElementById('form-id') as HTMLFormElement;
+
+                            form.requestSubmit();
+                        }
+                    }}
+                    className={` p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}
+                    
+                    `}
+                >
+                    Escolher serviço
+                </Link>
+                ) : (
+                    <button
+                        className={` p-2 text-center text-white rounded-md bg-gray-400 cursor-not-allowed
+                        `}
+                        onClick={() => {
+                            actionPopUp()
+                        }}
+                    >
+                        Escolher um serviço
+                    </button>
+                )}
+            </form>
+            </div>
         </div>
     )
 }

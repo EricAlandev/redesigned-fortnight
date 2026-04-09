@@ -19,7 +19,7 @@ export default function FormLogin({enviar} : loginType){
 
     return(
         <div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] mx-auto"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] mx-auto lg:max-w-[600px]"
         >
             <h1
              className="text-[18px] text-center"

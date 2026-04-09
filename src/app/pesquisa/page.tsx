@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header"
+import HeaderDesktop from "@/componentes/general/HeaderDesktop"
 import SearchBar from "@/componentes/pages/homePage/SearchBar"
 import RenderSearchServices from "@/componentes/pages/SearchPage/RenderSearchServices"
 import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage"
@@ -47,6 +48,7 @@ export default function PesquisaPage(){
     return(
         <>
             <Header/>
+            <HeaderDesktop/>
 
             <SearchBar
                 enviar={(value) => {

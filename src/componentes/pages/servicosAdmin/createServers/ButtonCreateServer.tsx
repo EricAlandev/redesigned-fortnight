@@ -6,7 +6,7 @@ type buttonCreateServer = {
 export default function ButtonCreateServer( {click} : buttonCreateServer){
     return(
         <>
-            <div className="flex gap-4 justify-center"
+            <div className="flex gap-4 justify-center cursor-pointer"
                 onClick={() => {
                     click()
                 }}

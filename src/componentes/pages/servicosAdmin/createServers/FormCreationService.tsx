@@ -37,7 +37,9 @@ export default function FormCreationService(
     };
 
     return (
-        <>
+        <div
+         className="lg:max-w-[750px] lg:mx-auto"
+        >
             <img
                 src={"/general/back.png"}
                 onClick={back}
@@ -46,7 +48,7 @@ export default function FormCreationService(
 
             <form 
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-1 p-5 bg-[black] text-[white]"
+                className="flex flex-col gap-1 p-5 bg-[black] text-[white] rounded-md"
             >
                 {/* Nome do Serviço */}
                 <fieldset className="flex flex-col gap-2 mb-4">
@@ -65,7 +67,7 @@ export default function FormCreationService(
                         name="descricao"
                         value={dados.descricao}
                         onChange={handleChanger}
-                        className="max-w-[400px] h-[20vw]   p-2 
+                        className=" max-h-[200px] h-[20vw]   p-2 
                         text-black bg-[white] rounded-md
 
                         overflow-y-auto 
@@ -110,6 +112,6 @@ export default function FormCreationService(
                     Enviar
                 </button>
             </form>
-        </>
+        </div>
     )
 }

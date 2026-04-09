@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import FormCadastro from "@/componentes/pages/cadastro/FormCadastro";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import UseLoginRegister from "@/hooks/UseLoginRegister";
@@ -17,9 +18,8 @@ export default function CadastroPage(){
 
     return(
         <div>
-            <Header
-
-            />
+            <Header/>
+            <HeaderDesktop/>
             
             <div className="pt-20.5">
                 <FormCadastro

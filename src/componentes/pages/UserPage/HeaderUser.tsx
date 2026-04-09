@@ -31,11 +31,11 @@ export default function HeaderUser({
     return(
         <>
             <div
-             className="flex items-center gap-4 mt-5"
+             className="flex items-center gap-4 mt-5 lg:flex-col "
             >
                 {/*Tittle + Photo*/}
                 <div
-                 className="flex flex-col items-center"
+                 className="flex flex-col items-center mt-3 mb-2"
                 >   
                     <img
                         src={"/general/user.png"}
@@ -50,7 +50,7 @@ export default function HeaderUser({
 
                 {/*Data of user */}
                 <div
-                 className="flex flex-col gap-3"
+                 className="flex flex-col gap-3 min-w-[400px]"
                 >
                          {/*Name */}
                         <p
@@ -99,7 +99,7 @@ export default function HeaderUser({
             {/*Form, to change the data */}
             <Link
                 href={"/user/dataChange"}
-                className="block w-max mx-auto mt-5 p-3 bg-[#A0A0A0] rounded-md"
+                className="block w-max mx-auto mt-5 p-3 text-[white] bg-[#03859D] rounded-md"
                 >
                     Alterar dados
             </Link>

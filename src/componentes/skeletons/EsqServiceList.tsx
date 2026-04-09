@@ -28,7 +28,7 @@ export default function EsqServiceList({
     const numero = 55 + ((number?.dd + 9) + number?.numero);
 
     return(
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 lg:max-w-[250px]">
             {/*image product */}
             <img
                 src={url}

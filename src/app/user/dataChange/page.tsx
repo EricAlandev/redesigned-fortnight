@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import FormDataChange from "@/componentes/pages/UserPage/FormDataChange";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import UseUser from "@/hooks/UseUser";
@@ -19,9 +20,10 @@ export default function DataChange(){
     return(
         <>
             <Header/>
+            <HeaderDesktop/>
             
             <div
-                className="max-w-[80vw] mx-auto"
+                className="max-w-[80vw] mx-auto lg:max-w-[800px]"
             >
                 <FormDataChange
                     enviar={async (data) => {

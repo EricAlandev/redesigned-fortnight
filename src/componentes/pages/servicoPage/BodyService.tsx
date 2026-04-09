@@ -40,7 +40,7 @@ export default function BodyService({
 
             {/*Methods of paymente */}
             <div
-             className="mt-3 p-0.5 rounded-md md:flex md:flex-col md:items-center md:w-[27vw] md:mx-auto md:border-[2px] md:border-[#A0A0A0] md:rounded-md"
+             className="mt-3 p-0.5 rounded-md "
             >
                     {/*line just for stetics */}
                     <hr

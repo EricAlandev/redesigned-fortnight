@@ -16,12 +16,13 @@ export default function Header(){
     const router = useRouter();
 
     return(
-        <div className="relative w-full h-auto p-2 bg-[black] z-50 ">
-            <img
-                src={"/general/Hamburguer.png"}
-                onClick={() => setDropper(!dropper)}
-                className="w-full h-full min-w-[25px] min-h-[25px] max-w-[45px] max-h-[45px] z-0"
-            />
+        <div className="relative w-full h-auto p-2 bg-[black] z-50 min-h-[60px] lg:hidden">
+            
+                <img
+                    src={"/general/Hamburguer.png"}
+                    onClick={() => setDropper(!dropper)}
+                    className="w-full h-full min-w-[25px] min-h-[25px] max-w-[45px] max-h-[45px] z-0"
+                />
 
             <AnimatePresence>
                 {dropper === true && (
@@ -34,7 +35,7 @@ export default function Header(){
 
                         {/*Header */}
                         <motion.nav 
-                            className="absolute top-0 left-0 w-[50vw] h-screen bg-[#A0A0A0] z-10"
+                            className="absolute top-0 left-0 w-[50vw] h-screen bg-[#A0A0A0] z-10 "
                             initial={{x: -120}}
                             animate={{x: 0}}
                             exit={{x: -25}}

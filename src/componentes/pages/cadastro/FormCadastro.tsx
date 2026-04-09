@@ -23,7 +23,7 @@ export default function FormCadastro({enviar} : registerType){
 
     return(
         <div
-         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  lg:max-w-[1100px] bg-[#F1F1F1]"
         >
             <h2 className="mt-5 mb-5 text-center">CADASTRO DE USUÁRIO</h2>
             <form
@@ -31,13 +31,13 @@ export default function FormCadastro({enviar} : registerType){
                 e.preventDefault();
                 enviar(dados);
             }}
-             className="flex flex-col w-[90vw] mx-auto p-3 bg-[#F1F1F1] text-[black] rounded-md"
+             className="flex flex-col w-[90vw] mx-auto p-3  text-[black] rounded-md lg:max-w-[1000px] lg:p-4 "
             >
                 {/*Basic data 
                 -- name, senha
                  */}
                 <fieldset
-                 className="flex w-[70vw] mx-auto items-center gap-10"
+                 className="flex w-[70vw] mx-auto items-center gap-10  lg:max-w-[800px]"
                 >
                    <div
                      className="flex flex-col gap-1.5"
@@ -52,7 +52,7 @@ export default function FormCadastro({enviar} : registerType){
                         value={dados.nome}
                         required
                         onChange={pickValues}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md max-w-[400px]"
                         />
                    </div>
 
@@ -69,7 +69,7 @@ export default function FormCadastro({enviar} : registerType){
                         value={dados.senha}
                         required
                         onChange={pickValues}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md max-w-[400px]"
                         />
                     </div>
                 </fieldset>
@@ -78,7 +78,7 @@ export default function FormCadastro({enviar} : registerType){
                 -- dd, number
                  */}
                 <fieldset
-                 className="flex w-[70vw] mx-auto items-center gap-10 mt-2"
+                 className="flex w-[70vw] mx-auto items-center gap-10 mt-2 lg:max-w-[800px]"
                 >
                     <div
                      className="flex flex-col gap-1.5"
@@ -93,7 +93,7 @@ export default function FormCadastro({enviar} : registerType){
                         value={dados.dd}
                         required
                         onChange={pickValues}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md lg:max-w-[400px]"
                         />
                     </div>
 
@@ -112,7 +112,7 @@ export default function FormCadastro({enviar} : registerType){
                         onChange={pickValues}
                         minLength={9}
                         maxLength={9}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md lg:max-w-[400px]"
                         />
                     </div>
                 </fieldset>
@@ -121,7 +121,7 @@ export default function FormCadastro({enviar} : registerType){
                 --number houve, house localization
                  */}
                 <fieldset
-                 className="flex items-center w-[70vw] mx-auto gap-10 mt-2"
+                 className="flex items-center w-[70vw] mx-auto gap-10 mt-2 lg:max-w-[800px]"
                 >
                     <div
                      className="flex flex-col gap-1.5"
@@ -137,7 +137,7 @@ export default function FormCadastro({enviar} : registerType){
                         value={dados.endereco}
                         required
                         onChange={pickValues}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md lg:max-w-[400]"
                         />
                     </div>
 
@@ -154,14 +154,14 @@ export default function FormCadastro({enviar} : registerType){
                         value={dados.numero_casa}
                         required
                         onChange={pickValues}
-                        className="w-[35vw] bg-[#A0A0A0] rounded-md"
+                        className="w-[35vw] bg-[#A0A0A0] rounded-md lg:max-w-[400]"
                         />
                     </div>
                 </fieldset>
 
                 <button
                     type="submit"
-                    className="w-[80vw] mx-auto mt-6 p-2 bg-[blue] text-[white] rounded-md"
+                    className="w-[80vw] mx-auto mt-6 p-2 bg-[blue] text-[white] rounded-md lg:max-w-[300px]"
                 >
                     Cadastrar
                 </button>
@@ -169,7 +169,7 @@ export default function FormCadastro({enviar} : registerType){
 
             <Link
                 href={"/login"}
-                className="flex justify-center mt-5"
+                className="flex justify-center mt-5 mb-5"
             >
                 <p className="flex gap-2 ">
                     Tem conta? 

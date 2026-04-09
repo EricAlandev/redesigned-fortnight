@@ -48,7 +48,7 @@ export default function SearchBar({
                     enviar(data?.search);
                     
                 }}
-                className="relative mx-auto w-[83vw] md:max-w-[1200px]"
+                className="relative mx-auto w-[83vw] md:max-w-[1200px] lg:max-w-[1100px] "
             >
                 <input
                     name="search"

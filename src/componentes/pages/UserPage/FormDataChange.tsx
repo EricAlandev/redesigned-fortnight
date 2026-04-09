@@ -38,7 +38,7 @@ export default function FormDataChange({
                 />
             </Link>
 
-            <h1 className="mt-5 text-center text-2xl font-bold">
+            <h1 className="mt-10 text-center text-2xl font-bold">
                 Alteração de dados
             </h1>
 
@@ -121,7 +121,7 @@ export default function FormDataChange({
 
                 <button
                     type="submit"
-                    className="block min-w-[150px] mx-auto p-2 bg-[#A0A0A0] hover:bg-gray-400 text-white font-bold rounded-md transition-colors"
+                    className="block min-w-[150px] mx-auto p-2 bg-[#03859D] text-white font-bold rounded-md transition-colors cursor-pointer"
                 >
                     Alterar
                 </button>

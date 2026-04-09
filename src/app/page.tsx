@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import SearchBar from "@/componentes/pages/homePage/SearchBar";
 import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage";
 import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderServices";
@@ -32,6 +33,7 @@ export default function Home() {
   return (
     <div className="">
       <Header/>
+      <HeaderDesktop/>
 
         {/*SearchBar */}
         <SearchBar
@@ -42,7 +44,7 @@ export default function Home() {
 
         {/*Render of services */}
         <div
-        className="w-[83vw] mx-auto"
+        className="w-[83vw] mx-auto lg:max-w-[1100px]"
         >
           <RenderServices
             dataService={pageServices}

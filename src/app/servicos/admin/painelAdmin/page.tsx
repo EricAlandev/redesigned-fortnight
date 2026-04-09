@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import ButtonCreateServer from "@/componentes/pages/servicosAdmin/createServers/ButtonCreateServer";
 import NewData from "@/componentes/pages/servicosAdmin/createServers/CreateNewData";
 import FormCreationService from "@/componentes/pages/servicosAdmin/createServers/FormCreationService";
@@ -58,13 +59,12 @@ export default function PageServicosAdmin(){
 
     return(
         <>
-            <Header
-
-            />
+            <Header/>
+            <HeaderDesktop/>
 
             {nextPage === "first page" && (
                 <div
-                className="w-[80vw] pt-8.5 mx-auto"
+                className="w-[80vw] pt-8.5 mx-auto "
                 >
                    <ButtonCreateServer
                        click={() => {
@@ -95,7 +95,7 @@ export default function PageServicosAdmin(){
 
             {nextPage === "cadastro" && (
                 <div
-                    className="w-[80vw] pt-20.5 mx-auto"
+                    className="w-[80vw] pt-5.5 mx-auto"
                 >
                     <FormCreationService
                         enviar={async (f) => {
@@ -111,7 +111,7 @@ export default function PageServicosAdmin(){
 
             {nextPage === "alterarPage" && (
                 <div
-                    className="w-[80vw] pt-20.5 mx-auto"
+                    className="w-[80vw] pt-5.5 mx-auto"
                 >
                     <FormChangeService
                         enviar={async(e) => {
@@ -127,7 +127,7 @@ export default function PageServicosAdmin(){
 
             {nextPage === "addData" && (
                 <div
-                    className="w-[80vw] pt-20.5 mx-auto"
+                    className="w-[80vw] pt-5.5 mx-auto"
                 >
                     <NewData
                         enviar={async(data) => {

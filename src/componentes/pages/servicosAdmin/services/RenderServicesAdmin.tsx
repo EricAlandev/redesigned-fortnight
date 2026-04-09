@@ -23,7 +23,7 @@ export default function RenderServicesAdmin({
     console.log("service2", dataService);
 
     return(
-        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 ">
+        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]">
 
 
                 <div
@@ -39,7 +39,7 @@ export default function RenderServicesAdmin({
                                 {dataService?.map((s) => (
                                 <div
                                 key={s?.id}
-                                className="min-w-[50px]"
+                                className="max-w-[250px]"
                                 
                                 >
                                     <EsqService

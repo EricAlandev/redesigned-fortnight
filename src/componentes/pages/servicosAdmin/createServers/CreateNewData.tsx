@@ -30,7 +30,9 @@ export default function NewData({
     };
 
     return(
-        <>
+        <div
+            className="max-w-[1100px] mx-auto"
+        >
             <img
                 src={"/general/back.png"}
                 onClick={back}
@@ -64,6 +66,6 @@ export default function NewData({
                 </button>
             </form> 
             
-        </>
+        </div>
     )
 }

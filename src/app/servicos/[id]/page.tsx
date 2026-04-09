@@ -1,6 +1,7 @@
 'use client'
 
 import Header from "@/componentes/general/Header";
+import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import BodyService from "@/componentes/pages/servicoPage/BodyService";
 import ButtonServicoPage from "@/componentes/pages/servicoPage/ButtonServicoPage";
 import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
@@ -45,6 +46,7 @@ export default function ServicosPage(){
     return(
         <>
             <Header/>
+            <HeaderDesktop/>
 
             <div
             className="md:mt-15"
@@ -52,7 +54,7 @@ export default function ServicosPage(){
                 {data&& (
                     <>
                         <div
-                          className="max-h-[75vh] overflow-y-auto md:overflow-visible md:h-full"
+                          className="max-h-[75vh] overflow-y-auto    lg:overflow-visible lg:h-full lg:max-w-[1100px] lg:mx-auto"
                         >
                             <HeaderServico
                             nome_servico={data?.nome_servico}
@@ -62,31 +64,34 @@ export default function ServicosPage(){
                             quantidadeAvaliacoes={data?.quantidadeAvaliacoes}     
                             />
 
+                            
+                            <ButtonServicoPage
+                                    enviar={async(data, idDate) => {
+                                    if(id){
+                                        const idString = id as string
+                                        userSelectServiceToBuy(data, idDate, idString, token)
+                                    }
+                                    }}
+                                    ServicesData={data?.ServicesData}
+
+                                    name={user?.nome}
+                                    endereco={user?.endress.endereco}
+                                    numero_casa={user?.endress.numero_casa}
+                                    nome_servico={data?.nome_servico}
+                                    preco={data?.preco}
+                                    preco_desconto={data?.preco_desconto}
+
+                                    //activate the popUp if the dosn't want its logged
+                                    actionPopUp={() => {
+                                        setPopUp('error')
+                                        setMessage('É ncessário estar logado para acessar o produto')
+                                    }}
+
+                                    changeProps="lg:absolute  lg:top-[-110px]  lg:right-[-50px]"
+                                />
+
                             <BodyService
                                 descricao={data?.descricao}
-                            />
-
-                            <ButtonServicoPage
-                                enviar={async(data, idDate) => {
-                                   if(id){
-                                    const idString = id as string
-                                    userSelectServiceToBuy(data, idDate, idString, token)
-                                   }
-                                }}
-                                ServicesData={data?.ServicesData}
-
-                                name={user?.nome}
-                                endereco={user?.endress.endereco}
-                                numero_casa={user?.endress.numero_casa}
-                                nome_servico={data?.nome_servico}
-                                preco={data?.preco}
-                                preco_desconto={data?.preco_desconto}
-
-                                //activate the popUp if the dosn't want its logged
-                                actionPopUp={() => {
-                                    setPopUp('error')
-                                    setMessage('É ncessário estar logado para acessar o produto')
-                                }}
                             />
 
                             {data?.userCanComment !== false && (
