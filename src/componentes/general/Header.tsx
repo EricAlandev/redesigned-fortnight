@@ -3,6 +3,7 @@
 import { useGlobal } from "@/lib/GlobalContext";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 
 export default function Header(){
@@ -12,7 +13,7 @@ export default function Header(){
     const [dropper, setDropper] = useState(false);
     const [admin, setAdmin] = useState(false);
 
-    console.log(user);
+    const router = useRouter();
 
     return(
         <div className="relative w-full h-auto p-2 bg-[black] z-50 ">
@@ -141,7 +142,8 @@ export default function Header(){
                                     
                                     <p
                                         onClick={() => {
-                                            logOut()
+                                            logOut();
+                                            router.push("/")
                                         }}
 
                                         className="mt-5 pb-2  border-[white] border-b-[2px]"
