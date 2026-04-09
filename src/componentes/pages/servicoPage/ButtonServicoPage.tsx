@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react"
 
 import { ParseTheTime } from "@/lib/functions/ParseTheTime";
+import { useGlobal } from "@/lib/GlobalContext";
 
 type buttonOptions = {
     enviar: (data: dataService, idDate: string) => void,
+    actionPopUp: () => void,
     ServicesData: NServicosData[],
 
 
@@ -25,6 +27,8 @@ type buttonOptions = {
 export default function ButtonServicoPage({
     ServicesData,
     enviar,
+    actionPopUp,
+
     name,
     endereco,
     numero_casa,
@@ -35,6 +39,8 @@ export default function ButtonServicoPage({
 
     const [data, setData] = useState<dataService>({ dia_horario: ""});
     const [idDate, setIdDate] = useState<string>("");
+
+    const {user, token} = useGlobal();
 
     //Array to parse the date.
     const arrayDates = ServicesData?.map((s) => {
@@ -113,20 +119,34 @@ export default function ButtonServicoPage({
             </select>
 
                  
+            {(user && token) ? (
                 <Link
-                    target="_blank"
-                    href={`https://wa.me/5585986864233?text=${encodedMessage}`}
-                    onClick={() => {
+                target="_blank"
+                href={`https://wa.me/5585986864233?text=${encodedMessage}`}
+                onClick={() => {
+                    if(user && token){
                         const form = document.getElementById('form-id') as HTMLFormElement;
 
                         form.requestSubmit();
-                    }}
-                    className={` p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}
-                    
+                    }
+                }}
+                className={` p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}
+                
+                `}
+            >
+                Escolher serviço
+            </Link>
+            ) : (
+                <button
+                    className={` p-2 text-center text-white rounded-md bg-gray-400 cursor-not-allowed
                     `}
+                    onClick={() => {
+                        actionPopUp()
+                    }}
                 >
-                    Escolher serviço
-                </Link>
+                    Escolher um serviço
+                </button>
+            )}
         </form>
         </div>
     )

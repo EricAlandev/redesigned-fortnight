@@ -36,7 +36,7 @@ export default function PutComent({
             <p
               className=""
             >
-                Avalie um produto
+                Avalie seu último produto
             </p>
 
             <form

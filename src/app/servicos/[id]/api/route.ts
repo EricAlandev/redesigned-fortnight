@@ -1,5 +1,5 @@
-import { VerifyToken } from "@/lib/functions/VerifyToken";
-import { AddNewDataController, changeService, createService, deleteService, pullOneService, pullServices } from "@/services/controllers/ServicesController";
+import { VerifyToken, verifyTokenWithOutBreking } from "@/lib/functions/VerifyToken";
+import { AddNewDataController, changeService,deleteService, pullOneService } from "@/services/controllers/ServicesController";
 
 type params = {
     params: {
@@ -10,12 +10,27 @@ type params = {
 export async function GET(req:Request, {params} : params){
 
     try{
+        //if dosn't have token, gonna return 0;
+        const user = await verifyTokenWithOutBreking(req);
+
+        let idUser = -1;
+
+        //verify if the token was verify;
+        if(user !== 0){
+            idUser = (user as any)?.id
+        }
+
         const parameters = await params;
         const idParameter = parameters?.id;
 
         const idConvertido = Number(idParameter);
 
-        const services = await pullOneService(idConvertido);
+        let finalObject: any = {
+            idConvertido: idConvertido,
+            idUser: idUser
+        }
+
+        const services = await pullOneService(finalObject);
 
         return new Response(JSON.stringify(services), {
             status: 201,

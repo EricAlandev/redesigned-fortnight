@@ -43,13 +43,18 @@ export const pullServices = async() => {
     }
 }
 
-export const pullOneService = async(id: string) => {
+export const pullOneService = async(id: string , token?: string) => {
     try{    
+
+        let headers : Record<string, string> = {'Content-type' : 'application/json'}
+
+        if(token !== undefined){
+            headers = {...headers, 'Authorization' : `Bearer ${token}`};
+        }
+
         const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
             method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            },
+            headers: headers
         })
 
         const response = await request.json();

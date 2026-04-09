@@ -26,12 +26,13 @@ export default function CommentsRender({comments} : RenderComments){
                 className="mt-3 mb-3 border-[#C1C1C1C1] md:hidden"
             />
 
-            {/*PUT LATER SWIPER SLIDE, it probrably gonna be better 
-            */}
+                {/*Render comments */}
                 <div
-                    className="flex flex-col gap-2 min-h-[470px] max-h-[470px]"
+                    className={`flex flex-col gap-2 
+                        ${comments.length > 0 ? "max-h-[470px]" : ""}
+                        `}
                 >
-                        {comments?.length > 0 && (
+                        {comments?.length > 0 ? (
                             comments.map((c, i) => (
                                 <>
                                         <EsqComment
@@ -43,6 +44,12 @@ export default function CommentsRender({comments} : RenderComments){
                                         />
                                 </>
                             ))
+                        ) : (
+                            <p
+                                className="mt-1.5 font-medium text-[18px] text-center"
+                            >
+                                Serviço sem nenhuma avaliação 
+                            </p>
                         )}
                 </div>
         </>

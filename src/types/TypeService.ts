@@ -19,7 +19,8 @@ export type services = {
     avaliacao?: number,
     quantidadeAvaliacoes: number,
     comentarios: CommentService[],
-    dataAvaliation: string
+    dataAvaliation: string,
+    userCanComment: boolean
 }
 
 //normal Service
@@ -34,7 +35,8 @@ export type ServiceAndData = dataService & {
     avaliacao?: number,
     quantidadeAvaliacoes: number,
     comentarios: CommentService[],
-    dataAvaliation: string
+    dataAvaliation: string,
+    userCanComment: boolean
 }
 
 //type of order of services;

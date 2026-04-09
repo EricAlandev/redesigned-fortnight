@@ -17,6 +17,9 @@ export class UsuarioServicos {
     @Column()
     servicos_data_horario_id!: number;
 
+    @Column()
+    comentado!: boolean;
+
     @ManyToOne("User", (user: any) => user.servicosEscolhidos)
     @JoinColumn({name: "usuario_id"})
     usuarios!: User

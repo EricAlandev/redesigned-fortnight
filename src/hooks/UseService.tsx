@@ -10,11 +10,11 @@ export default function useService(){
     const [data, setData] = useState<ServiceAndData>();
 
 
-    const pullPageService = async(id: string) => {
+    const pullPageService = async(id: string, token?: string) => {
             try{
                 if(id){
                     const idConvertido = Array.isArray(id) ? id[0] : id;
-                    const service = await pullOneService(idConvertido);
+                    const service = await pullOneService(idConvertido, token || undefined);
                     console.log("service", service);
                     setData(service);
                     

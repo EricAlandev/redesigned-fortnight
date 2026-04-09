@@ -22,6 +22,7 @@ export default function NumberPage({
                     <div
                         className="flex justify-center gap-2 mt-2.5"
                     >
+                        {/*Button to go to the last page */}
                         <button
                             onClick={() => {
                                     if(actualPage - 1 <= 0){
@@ -56,7 +57,8 @@ export default function NumberPage({
                             </>
                         ))}
 
-                        <button
+                        {/*Button to go to the next page */}
+                        <button 
                             onClick={() => {
                                     if(actualPage + 1 > quantityOfPages){
                                         setActualPage(actualPage);

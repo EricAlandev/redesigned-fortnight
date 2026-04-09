@@ -38,7 +38,7 @@ export default function ServicosPage(){
 
     useEffect(() => {
         if(id){
-            pullPageService(id as string);
+            pullPageService(id as string, token || undefined);
         }
     }, [id])
     
@@ -49,7 +49,7 @@ export default function ServicosPage(){
             <div
             className="md:mt-15"
             >
-                {(data && user) && (
+                {data&& (
                     <>
                         <div
                           className="max-h-[75vh] overflow-y-auto md:overflow-visible md:h-full"
@@ -81,9 +81,16 @@ export default function ServicosPage(){
                                 nome_servico={data?.nome_servico}
                                 preco={data?.preco}
                                 preco_desconto={data?.preco_desconto}
+
+                                //activate the popUp if the dosn't want its logged
+                                actionPopUp={() => {
+                                    setPopUp('error')
+                                    setMessage('É ncessário estar logado para acessar o produto')
+                                }}
                             />
 
-                            <PutComent
+                            {data?.userCanComment !== false && (
+                                <PutComent
                                 enviar={async(e) => {
                                     if(id && token){
                                         const coment: any = await userPutComent(e, token, id as string);
@@ -93,6 +100,7 @@ export default function ServicosPage(){
                                 }}
                             />
 
+                            )}
                             <RenderComments
                                 comments={data?.comentarios}
                             />

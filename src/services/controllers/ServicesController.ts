@@ -7,11 +7,16 @@ import { UsuarioServicos } from "../entitys/User/EntityUserServices";
 import { NServicosDataHorario } from "../entitys/PetServices/EntityNServicosData";
 import { ParseTheTime, ParseTimeNotComplete } from "@/lib/functions/ParseTheTime";
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
-import { ILike, Like, MoreThan } from "typeorm";
+import { ILike, LessThan, Like, MoreThan } from "typeorm";
 import { AvaliationServices } from "../entitys/PetServices/EntityAvaliation";
 
 type servicePutParameter = ServiceAndData & {
     idParameter: string
+}
+
+type pullOneService = {
+    idConvertido: number,
+    idUser?: number
 }
 
 //GET
@@ -51,13 +56,14 @@ export const pullServices = async() => {
 }
 
 //GET [ID]
-export const pullOneService = async(id: number) => {
+export const pullOneService = async({idConvertido, idUser}: pullOneService) => {
 
+    console.log("idUser", idUser);
     const AppDataSource = await getDataSource();
 
     const services = await AppDataSource.getRepository(Services).findOne({
         where: {
-            id: id,
+            id: idConvertido,
         },
         relations: {
             ServicesData: true,
@@ -88,6 +94,58 @@ export const pullOneService = async(id: number) => {
     });
 
     console.log("dateTime values", dateTime);
+
+    //gonna verify if the user is allowed to send a commenter
+    let userCanComment = false;
+    
+    if(idUser !== undefined && idUser > 0){
+        try{
+            const user = await AppDataSource.getRepository(User).findOne({
+                where: {
+                    id: idUser
+                }
+            })
+
+            if(user){
+                    const now = new Date();
+                    
+                    //pull the most recent service of the client in this service;
+                    const serviceClient = await AppDataSource.getRepository(UsuarioServicos).findOne({
+                        where: {
+                            usuario_id: idUser,
+                            servicos_id: idConvertido ,
+                            NServicosData: {
+                                DataService: {
+                                    dia_horario: LessThan(now)
+                                }
+                            },
+                            comentado: null
+                        },
+                        relations: {
+                            NServicosData: {
+                                DataService: true
+                            }
+                        },
+                        order: {
+                            NServicosData: {
+                                DataService: {
+                                    dia_horario: "DESC"
+                                }
+                            }
+                        }
+                    })
+
+                    if(serviceClient){
+                        userCanComment = true;
+                    }
+            }
+
+        }
+
+        catch(error){
+            console.log("user dosn't exist");
+        }
+    }
 
     //define the array or not of the ServicesData
     let arrayServices: any = [];
@@ -120,7 +178,8 @@ export const pullOneService = async(id: number) => {
         ServicesData:  arrayServices,
         avaliacao: String(services?.avaliacao.aprovacao_percentual),
         quantidadeAvaliacoes: services?.comentsService.length,
-        comentarios: cleanComments
+        comentarios: cleanComments,
+        userCanComment: userCanComment
     }
 
     return finalServices;

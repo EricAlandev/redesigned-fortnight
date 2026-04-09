@@ -7,6 +7,7 @@ import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
 import { Services } from "../entitys/PetServices/EntityServices";
 import { Coments } from "../entitys/coments/EntityComents";
 import { NComentsUser } from "../entitys/coments/EntityNComentsUser";
+import { UsuarioServicos } from "../entitys/User/EntityUserServices";
 
 export const ChangeDataOfUser = async (
     id: number,
@@ -212,6 +213,32 @@ export const PutComentController = async(avaliation: string, text: string, idUse
 
         if(!comentarioUserSave){
             throw new Error("erro ao vincular usuário e comentário");
+        }
+
+        //set the service to comentado
+
+        const serviceChoosedByUser = await transactionalEntityManager.findOne(UsuarioServicos, {
+            where: {
+                servicos_id: idService,
+                usuario_id: idUser
+            }
+        })
+
+        if(!serviceChoosedByUser){
+            throw new Error("not found the service");
+        }
+
+        const idUserService = serviceChoosedByUser?.id;
+
+        const updateServiceUser = await transactionalEntityManager.update(UsuarioServicos, 
+            {id: idUserService},
+            {
+                comentado: true
+            }
+        )
+
+        if(updateServiceUser.affected === 0){
+            throw new Error("error to comment the user");
         }
 
         return {message: "Comentário adicionado!"}
