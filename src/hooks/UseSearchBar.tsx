@@ -10,15 +10,24 @@ type resultFetchSearch = {
 
 export function useSearchBar(){
 
-      const [resultServices, setResultServices] = useState<services[]>([]);
+      const [resultServices, setResultServices] = useState<services[] | []>([]);
       const [quantityResult, setQuantityResult] = useState<number>();
 
       const FetchSearch = async (searchValue: string) => {
         try{
-          const services: resultFetchSearch = await searchService(searchValue);
+          const services: resultFetchSearch | null = await searchService(searchValue);
 
-          setResultServices(services.services);
-          setQuantityResult(services.quantityResult);
+          if(services?.quantityResult && services.services){
+            setResultServices(services.services);
+            setQuantityResult(services.quantityResult);
+          }
+
+          else{
+            setResultServices([]);
+            setQuantityResult(0);
+          }
+
+
         }
     
         catch(error){

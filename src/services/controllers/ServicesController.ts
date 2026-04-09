@@ -289,18 +289,24 @@ export const searchServiceController = async(searchValue: string) => {
 
     const AppDataSource = await getDataSource();
 
-    const cleanSearch = decodeURIComponent(searchValue).trim();
-    console.log("value of SearchValue inside of searchController", searchValue)
+    const decodedSearch = decodeURIComponent(searchValue).trim();
+
+    //clean the search of possibles invalids values
+    const cleanSearch = decodedSearch.replace(/[^a-zA-Z0-9 ]/g, '');
+
+    //verify if is empty the search;
+    if(cleanSearch === ""){
+        return []     
+    }
+
     const search = await AppDataSource.getRepository(Services).find({
         where: {
             nome_servico: Like(`%${cleanSearch}%`)
         }
     })
 
-    console.log("values of search", search, searchValue);
     if(search.length === 0){
-        return []
-            
+        return []     
     }
 
     let finalArray: services[] = [];

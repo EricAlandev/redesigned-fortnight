@@ -29,7 +29,7 @@ export default function RenderSearchServices({
                                 <span
                                  className={"pl-1"}
                                 >
-                                    ({quantity})
+                                    ({quantity || 0})
                                 </span>
                             </p>
 

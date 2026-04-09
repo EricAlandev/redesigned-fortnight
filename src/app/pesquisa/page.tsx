@@ -22,13 +22,20 @@ export default function PesquisaPage(){
     const resultsPerPage = 2
     const arrayPages: number[] = []
 
-    const quantityPages = Math.ceil(resultServices.length/resultsPerPage);
-    for(let i = 0; i < quantityPages; i++){
-        arrayPages.push(i + 1);
-    }
+    let quantityPages;
+    let startIndex;
+    let pageServices;
 
-    const startIndex = (idPage - 1) * resultsPerPage;
-    const pageServices = resultServices.slice(startIndex, startIndex + resultsPerPage);
+    if(resultServices?.length > 0){
+        quantityPages = Math.ceil(resultServices.length/resultsPerPage);
+        
+        for(let i = 0; i < quantityPages; i++){
+            arrayPages.push(i + 1);
+        }
+
+        startIndex = (idPage - 1) * resultsPerPage;
+        pageServices = resultServices.slice(startIndex, startIndex + resultsPerPage);
+    }
     
 
     useEffect(() => {
