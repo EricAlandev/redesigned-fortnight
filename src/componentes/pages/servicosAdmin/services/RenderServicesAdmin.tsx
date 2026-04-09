@@ -23,16 +23,16 @@ export default function RenderServicesAdmin({
     console.log("service2", dataService);
 
     return(
-        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]">
+        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]  lg:max-h-[800px]">
 
 
                 <div
-                 className="flex flex-col gap-4"
+                 className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:grid-rows-3"
                 >
                     
                         {dataService?.length > 0 ? (
                             <>
-                                <p className="mt-2 mb-5 text-center ">
+                                <p className="mt-2 mb-5 text-center lg:hidden">
                                     Seus serviços
                                 </p>
 
