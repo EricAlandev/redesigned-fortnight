@@ -40,7 +40,7 @@ export default function RenderServices(
 
     return(
         <div
-         className="transform-none"
+         className=" h-[75vh] mx-auto transform-none mt-5 lg:max-h-[800px]"
         >
             <h1
              className="mb-5 text-center text-[18px]"
@@ -84,28 +84,13 @@ export default function RenderServices(
             </form>
                 
                 {/*slides in vertical */}
-                <Swiper
-                direction={'vertical'}
-                className="h-[66.5vh] max-h-[550px]  mt-5"
-                slidesPerView={2}
-                spaceBetween={15}
-                breakpoints={{
-                    320: {
-                        slidesPerView: 1.5
-                    },
-                    640: {
-                        slidesPerView: 2
-                    }
-                }}
+                <div
+                    className="h-[66.5vh] max-h-[550px] overflow-y-auto flex flex-col gap-5  mt-5 lg:overflow-y-visible lg:grid lg:grid-cols-3 lg:grid-rows-3"
                 >
                     {services?.length > 0 ? (
                         <>
                             {
                                 services?.map((s) => (
-                                    <SwiperSlide
-                                        key={s.id}
-                                        >
-        
                                         <EsqServiceList
                                             url={s?.url}
                                             nome_servico={s?.nome_servico}
@@ -116,7 +101,6 @@ export default function RenderServices(
                                             dia_horario={s?.dia_horario}
                                             number={s?.number}
                                         />
-                                    </SwiperSlide>
                                     ))
                             }
                         </>
@@ -129,7 +113,7 @@ export default function RenderServices(
                                 </p>
                         </>
                     )}
-                </Swiper>
+                </div>
         </div>
     )
 }

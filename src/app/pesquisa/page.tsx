@@ -5,6 +5,7 @@ import HeaderDesktop from "@/componentes/general/HeaderDesktop"
 import SearchBar from "@/componentes/pages/homePage/SearchBar"
 import RenderSearchServices from "@/componentes/pages/SearchPage/RenderSearchServices"
 import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage"
+import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber"
 import { useHomePage } from "@/hooks/UseHomePage"
 import { useSearchBar } from "@/hooks/UseSearchBar"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -19,25 +20,13 @@ export default function PesquisaPage(){
 
     const {FetchSearch, quantityResult, resultServices} = useSearchBar();
 
-    //logical of the quantity of pages per result;
-    const resultsPerPage = 2
-    const arrayPages: number[] = []
-
-    let quantityPages;
-    let startIndex;
-    let pageServices;
-
-    if(resultServices?.length > 0){
-        quantityPages = Math.ceil(resultServices.length/resultsPerPage);
-        
-        for(let i = 0; i < quantityPages; i++){
-            arrayPages.push(i + 1);
-        }
-
-        startIndex = (idPage - 1) * resultsPerPage;
-        pageServices = resultServices.slice(startIndex, startIndex + resultsPerPage);
-    }
-    
+      const {
+            actualPage, 
+            quantityOfPages, 
+            setActualPage, 
+            arrayWithNumberPages, 
+            actualServices
+      } = useLogicalNumber(resultServices)
 
     useEffect(() => {
         if(pesquisa && pesquisa !== null){
@@ -57,21 +46,21 @@ export default function PesquisaPage(){
 
             {/*Render of results */}
             <div
-                className="w-[83vw] mx-auto"
+                className="w-[83vw] mx-auto lg:max-w-[1100px]"
             >
                 <RenderSearchServices
                     quantity={quantityResult}
                     pesquisa={pesquisa}
-                    dataService={pageServices}
+                    dataService={actualServices}
                 />
             </div>
 
             {/*Render of the quantity of pages */}
             <NumberPage
-                arrayWithNumberPagers={arrayPages}
-                setActualPage={setIdPage}
-                actualPage={idPage}
-                quantityOfPages={quantityPages}
+                arrayWithNumberPagers={arrayWithNumberPages}
+                setActualPage={setActualPage}
+                actualPage={actualPage}
+                quantityOfPages={quantityOfPages}
             />
 
         </>

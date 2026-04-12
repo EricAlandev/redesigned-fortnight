@@ -66,7 +66,7 @@ export default function PutComent({
                     value={data?.text}
                     onChange={handleChanger}
                     placeholder="Bote um comentário"
-                    className="w-full min-h-[80px] max-h-[80px] mt-2 p-3 bg-[#D1D1D1] rounded-md"
+                    className="w-full min-h-[80px] max-h-[80px] mt-2 p-3 bg-[#D1D1D1] rounded-md lg:max-w-[400px]"
                 />
 
                 <button

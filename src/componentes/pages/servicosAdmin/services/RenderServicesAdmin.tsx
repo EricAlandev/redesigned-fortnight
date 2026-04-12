@@ -20,11 +20,8 @@ export default function RenderServicesAdmin({
     isAdmin
 } : renderServices){
 
-    console.log("service2", dataService);
-
     return(
-        <div className=" max-h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]  lg:max-h-[800px]">
-
+        <div className="h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]  lg:max-h-[800px]">
 
                 <div
                  className="flex flex-col gap-4 lg:grid lg:grid-cols-3 lg:grid-rows-3"
@@ -39,7 +36,7 @@ export default function RenderServicesAdmin({
                                 {dataService?.map((s) => (
                                 <div
                                 key={s?.id}
-                                className="max-w-[250px]"
+                                className="max-w-[350px] mx-auto"
                                 
                                 >
                                     <EsqService

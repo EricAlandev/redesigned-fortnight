@@ -16,12 +16,20 @@ export default function Header(){
     const router = useRouter();
 
     return(
-        <div className="relative w-full h-auto p-2 bg-[black] z-50 min-h-[60px] lg:hidden">
-            
+        <div className="relative w-full p-2 bg-[#03859D] z-50 min-h-[70px] lg:hidden">
+
+                {/*Hamburguer menu */}
                 <img
                     src={"/general/Hamburguer.png"}
                     onClick={() => setDropper(!dropper)}
-                    className="w-full h-full min-w-[25px] min-h-[25px] max-w-[45px] max-h-[45px] z-0"
+                    className="fixed top-4 w-full h-full  min-w-[25px] min-h-[25px] max-w-[35px] max-h-[35px] z-0 "
+                />
+
+                {/*logo of CrPet*/}
+                <img
+                    src={"/services/Logo.png"}
+                    onClick={() => setDropper(!dropper)}
+                    className="absolute top-[-4px] left-1/2 -translate-x-1/2 max-h-[80px]"
                 />
 
             <AnimatePresence>

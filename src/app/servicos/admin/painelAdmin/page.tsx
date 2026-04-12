@@ -2,12 +2,14 @@
 
 import Header from "@/componentes/general/Header";
 import HeaderDesktop from "@/componentes/general/HeaderDesktop";
+import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage";
 import ButtonCreateServer from "@/componentes/pages/servicosAdmin/createServers/ButtonCreateServer";
 import NewData from "@/componentes/pages/servicosAdmin/createServers/CreateNewData";
 import FormCreationService from "@/componentes/pages/servicosAdmin/createServers/FormCreationService";
 import FormChangeService from "@/componentes/pages/servicosAdmin/services/FormChangeService";
 import RenderServicesAdmin from "@/componentes/pages/servicosAdmin/services/RenderServicesAdmin";
 import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderServicesAdmin";
+import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import EsqPopUpDelete from "@/componentes/skeletons/popup/EsqPopUpDelete";
 import {useServicesAdmin} from "@/hooks/UseServiceAdmin";
@@ -31,14 +33,21 @@ export default function PageServicosAdmin(){
         idDelete,
         setIdDelete,
         dataService,
-        setDataService,
         setNextPage,
         nextPage} = useServicesAdmin();
+
+    const {
+        actualPage, 
+        quantityOfPages, 
+        setActualPage, 
+        arrayWithNumberPages, 
+        actualServices
+    } = useLogicalNumber(dataService)
 
     const {user, token} = useGlobal();
 
     const router = useRouter();
-    
+
     //basics verifycations;
     useEffect(() => {
             if(!user){
@@ -87,8 +96,15 @@ export default function PageServicosAdmin(){
                             setNextPage("addData")
                             setIdDelete(id);
                         }}
-                        dataService={dataService}
+                        dataService={actualServices}
                         isAdmin={user?.admin}
+                    />
+
+                    <NumberPage
+                        actualPage={actualPage}
+                        quantityOfPages={quantityOfPages}
+                        setActualPage={setActualPage}
+                        arrayWithNumberPagers={arrayWithNumberPages}
                     />
                </div>
             )}

@@ -23,22 +23,26 @@ export default function RenderServices({
                                 Nossos serviços
                             </p>
 
-                            {dataService?.map((s) => (
-                                <div
-                                key={s?.id}
-                                className="min-w-[50px]"
-                                
-                                >
-                                    <EsqService
-                                        id={s?.id}
-                                        nome_servico={s?.nome_servico}
-                                        preco={s?.preco}
-                                        preco_desconto={s?.preco_desconto}
-                                        url={s?.url}
-                                        isAdmin={false}
-                                    />
-                                </div>
-                            ))}
+                            <div
+                                className="lg:grid lg:grid-cols-3 lg:grid-rows-3"
+                            >
+                                {dataService?.map((s) => (
+                                    <div
+                                    key={s?.id}
+                                    className="min-w-[50px]"
+                                    
+                                    >
+                                        <EsqService
+                                            id={s?.id}
+                                            nome_servico={s?.nome_servico}
+                                            preco={s?.preco}
+                                            preco_desconto={s?.preco_desconto}
+                                            url={s?.url}
+                                            isAdmin={false}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                             </>
 
                         ) : (

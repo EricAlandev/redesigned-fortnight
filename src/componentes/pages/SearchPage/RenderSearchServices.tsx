@@ -17,7 +17,7 @@ export default function RenderSearchServices({
 } : renderServices){
 
     return(
-        <div className=" h-[70.5vh] mx-auto overflow-y-auto mt-5 ">
+        <div className=" h-[75.5vh] mx-auto overflow-y-auto mt-5 ">
 
                 <div
                  className="flex flex-col gap-4"

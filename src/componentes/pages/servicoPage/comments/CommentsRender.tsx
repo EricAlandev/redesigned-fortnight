@@ -16,7 +16,7 @@ export default function CommentsRender({comments} : RenderComments){
 
 
             <h2
-                className="text-center text-[18px]"
+                className="text-center text-[18px] mb-2"
             >
                 Comentários mais recentes
             </h2>

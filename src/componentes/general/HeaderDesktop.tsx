@@ -41,7 +41,7 @@ export default function HeaderDesktop(){
                                         <>
                                             <Link
                                             href={"/user"}
-                                            className=" pb-1 border-[white] border-b-[2px]"
+                                            className=" pb-1 border-[white] border-b-[2px] cursor-pointer"
                                             >
                                                 {user?.nome}
                                             </Link>
@@ -53,7 +53,7 @@ export default function HeaderDesktop(){
                                         {(!user && !token) && (
                                                 <Link
                                                     href={"/login"}
-                                                    className=" border-[white] border-b-[2px] text-[white]"
+                                                    className=" border-[white] border-b-[2px] text-[white] cursor-pointer"
                                                 >
                                                     Entrar
                                                 </Link>
@@ -61,7 +61,7 @@ export default function HeaderDesktop(){
 
                                         <Link
                                         href={"/"}
-                                        className=" border-[white] border-b-[2px] text-[white]"
+                                        className=" border-[white] border-b-[2px] text-[white] cursor-pointer"
                                         >
                                             <li>
                                                 Início
@@ -76,7 +76,7 @@ export default function HeaderDesktop(){
                                             <li
                                             className={`
                                                 border-[white] border-b-[2px]
-                                             text-[white]
+                                             text-[white] cursor-pointer
                                             `}
                                             >
                                                 <li
@@ -98,7 +98,7 @@ export default function HeaderDesktop(){
                                                     <img
                                                         src={"/general/triangle.png"}
                                                         className="absolute top-[5px]
-                                                        max-w-[35px]
+                                                        max-w-[35px] 
                                                         "
                                                     />
                                                     
@@ -115,7 +115,7 @@ export default function HeaderDesktop(){
                                                             href={"/servicos/admin/painelAdmin"}
                                                             className="block hover:text-[19px] 
                                                             hover:border-b-[2px]
-                                                            duration-150"
+                                                            duration-150 cursor-pointer"
                                                         >
                                                             Painel Admin
                                                         </Link>
@@ -124,7 +124,7 @@ export default function HeaderDesktop(){
                                                         href={"/servicos/admin/servicesList"}
                                                         className="block hover:text-[19px] 
                                                         hover:border-b-[2px]
-                                                        duration-150"
+                                                        duration-150 cursor-pointer"
                                                         >
                                                                 Lista Servicos
                                                         </Link>
@@ -141,7 +141,7 @@ export default function HeaderDesktop(){
                                                 router.push("/")
                                             }}
 
-                                            className=" border-b-[2px]"
+                                            className=" border-b-[2px] cursor-pointer"
                                         >
                                             Sair
                                         </p>

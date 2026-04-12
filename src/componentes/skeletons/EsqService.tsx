@@ -34,9 +34,9 @@ export default function EsqService({
                     router.push(`/servicos/${id}`)
                 }
             }}
-            className="max-w-[250px]"
+            className=" max-w-[350px] lg:max-w-[250px]"
         >
-            <div className="lg:max-w-[250px] cursor-pointer">
+            <div className=" lg:max-w-[250px] cursor-pointer">
                 <img
                     src={url}
                     className="lg:max-w-[250px]"
