@@ -20,7 +20,7 @@ export default function NumberPage({
             {/*Numbers of page comments */}
             {arrayWithNumberPagers.length > 0 && (
                     <div
-                        className="flex justify-center gap-2 mt-2.5"
+                        className="flex justify-center gap-2 mt-2.5 pb-2.5"
                     >
                         {/*Button to go to the last page */}
                         <button

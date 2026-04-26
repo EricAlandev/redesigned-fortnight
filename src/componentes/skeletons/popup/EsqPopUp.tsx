@@ -25,7 +25,7 @@ export default function EsqPopUp({
 
             {/*popUp */}
             <div
-             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] h-[30vh] mx-auto z-10 bg-[white] rounded-md"
+             className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] h-[30vh] mx-auto z-10 bg-[white] rounded-md lg:w-[30vw] "
             >
                 {/*Pop Up type */}
                 <div
@@ -47,7 +47,7 @@ export default function EsqPopUp({
                         onClick={() => {
                             setPopUp('none')
                         }}
-                        className="mr-2"
+                        className="mr-2 cursor-pointer"
                     />
                 </div>
 

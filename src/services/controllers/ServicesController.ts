@@ -135,7 +135,7 @@ export const pullOneService = async({idConvertido, idUser}: pullOneService) => {
                         }
                     })
 
-                    if(serviceClient){
+                    if(serviceClient?.comentado === null ||  serviceClient.comentado !== true){
                         userCanComment = true;
                     }
             }
@@ -349,6 +349,11 @@ export const createService = async ({
             escolhido: false,
             descricao: descricao
         };
+        
+        //basics verifications;
+        if(preco_desconto !== null && preco_desconto > preco){
+            throw new Error("Preço desconto maior que preço normal");
+        }
 
         if (preco_desconto !== null && preco_desconto !== "") {
             dataFinal.preco_desconto = Number(preco_desconto);

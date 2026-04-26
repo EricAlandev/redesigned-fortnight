@@ -26,11 +26,14 @@ export default function Header(){
                 />
 
                 {/*logo of CrPet*/}
-                <img
-                    src={"/services/Logo.png"}
-                    onClick={() => setDropper(!dropper)}
-                    className="absolute top-[-4px] left-1/2 -translate-x-1/2 max-h-[80px]"
-                />
+                <Link
+                    href={"/"}
+                >
+                    <img
+                        src={"/services/Logo.png"}
+                        className="absolute top-[-4px] left-1/2 -translate-x-1/2 max-h-[80px]"
+                    />
+                </Link>
 
             <AnimatePresence>
                 {dropper === true && (
@@ -43,7 +46,7 @@ export default function Header(){
 
                         {/*Header */}
                         <motion.nav 
-                            className="absolute top-0 left-0 w-[50vw] h-screen bg-[#A0A0A0] z-10 "
+                            className="absolute top-0 left-0 w-[50vw] h-screen bg-[#03859D] z-10 "
                             initial={{x: -120}}
                             animate={{x: 0}}
                             exit={{x: -25}}

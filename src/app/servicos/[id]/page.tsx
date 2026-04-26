@@ -41,6 +41,7 @@ export default function ServicosPage(){
         if(id){
             pullPageService(id as string, token || undefined);
         }
+
     }, [id])
     
     return(
@@ -106,9 +107,9 @@ export default function ServicosPage(){
                             />
 
                             )}
-                            <RenderComments
-                                comments={data?.comentarios}
-                            />
+                                <RenderComments
+                                    comments={data?.comentarios}
+                                />
                         </div>
 
                         {popUp !== 'none' && (

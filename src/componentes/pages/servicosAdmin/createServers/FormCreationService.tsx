@@ -57,6 +57,7 @@ export default function FormCreationService(
                         name="nome_servico"
                         value={dados.nome_servico}
                         onChange={handleChanger}
+                        required
                         className="p-2 text-black bg-[white]"
                     />
                 </fieldset>
@@ -67,6 +68,7 @@ export default function FormCreationService(
                         name="descricao"
                         value={dados.descricao}
                         onChange={handleChanger}
+                        required
                         className=" max-h-[200px] h-[20vw]   p-2 
                         text-black bg-[white] rounded-md
 
@@ -81,6 +83,7 @@ export default function FormCreationService(
                         name="preco"
                         value={dados.preco}
                         onChange={handleChanger}
+                        required
                         className="w-full p-2 text-black bg-[white]"
                     />
 
@@ -101,6 +104,7 @@ export default function FormCreationService(
                         name="horario"
                         value={dados.horario}
                         onChange={handleChanger}
+                        required
                         className="w-full p-2 text-black bg-[white]"
                     />
                 </fieldset>

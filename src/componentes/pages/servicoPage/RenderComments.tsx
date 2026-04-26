@@ -29,7 +29,6 @@ export default function RenderComments(
         const startIndex = (actualPage - 1) * commentsPerPage;
         const actualComments = comments.slice(startIndex, startIndex + commentsPerPage);
     
-
     return(
         <div
             className="max-w-[87vw] mx-auto"

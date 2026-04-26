@@ -31,7 +31,7 @@ export default function BodyService({
                 className="md:flex md:items-center md:gap-50"
                 >
                     <p
-                    className="max-w-[350px]  mt-1 wrap-break-word md:flex md:flex-col  md:text-[18.5px]"
+                    className="max-w-[350px]  mt-1 wrap-break-word md:flex md:flex-col  md:text-[18.5px] lg:max-w-[800px]"
                     >
                         {descricao} 
                     </p>

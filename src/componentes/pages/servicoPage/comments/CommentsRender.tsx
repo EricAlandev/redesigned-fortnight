@@ -30,7 +30,7 @@ export default function CommentsRender({comments} : RenderComments){
                 <div
                     className={`flex flex-col gap-2 
                         ${comments.length > 0 ? "max-h-[470px]" : ""}
-                        `}
+                         lg:flex-row `}
                 >
                         {comments?.length > 0 ? (
                             comments.map((c, i) => (

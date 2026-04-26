@@ -16,10 +16,11 @@ export default function EsqPopUpDelete({
             onClick={() => fecharPopup()}
             ></div >
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[35vh] bg-[white]">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[35vh] bg-[white] lg:w-[30vw] rounded-md">
                 <img
                     src={"/general/close.png"}
-                    className="absolute top-3 right-3 p-1 border-[2px] rounded-[50%]"
+                    onClick={fecharPopup}
+                    className="absolute top-3 right-3 p-1 border-[2px] rounded-[50%] cursor-pointer"
                 />
                 
                 {/*popUp message */}
@@ -32,14 +33,14 @@ export default function EsqPopUpDelete({
                     {/*Yes or No for the deletion */}
                     <div className="flex justify-center gap-2 mt-3">
                         <button
-                        className="min-w-[110px] p-2 text-[18px] bg-[#A0A0A0]  rounded-md"
+                        className="min-w-[110px] p-2 text-[18px] bg-[#A0A0A0]  rounded-md cursor-pointer"
                         onClick={() => fecharPopup()}
                         >
                             Não
                         </button>
 
                         <button
-                        className="min-w-[110px] p-2 text-[18px] text-[#F0F0F0]  rounded-md bg-[green]"
+                        className="min-w-[110px] p-2 text-[18px] text-[#F0F0F0]  rounded-md bg-[green] cursor-pointer"
                         onClick={() => deletar()}
                         >
                             Sim
