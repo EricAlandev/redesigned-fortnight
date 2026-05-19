@@ -108,7 +108,7 @@ export default function ServicosPage(){
 
                             )}
                                 <RenderComments
-                                    comments={data?.comentarios}
+                                    comments={data?.comentarios || []}
                                 />
                         </div>
 
