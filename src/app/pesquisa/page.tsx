@@ -50,7 +50,7 @@ export default function PesquisaPage(){
             >
                 <RenderSearchServices
                     quantity={quantityResult}
-                    pesquisa={pesquisa}
+                    pesquisa={pesquisa ?? ""}
                     dataService={actualServices}
                 />
             </div>
