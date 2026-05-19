@@ -1,52 +1,44 @@
 import { VerifyToken } from "@/lib/functions/VerifyToken";
-import { AddNewDataController, changeService, createService, deleteService, pullOneService, pullServices, userSelectService } from "@/services/controllers/ServicesController";
+import { userSelectService } from "@/services/controllers/ServicesController";
 
-type params = {
-    params: {
-        id: string
-    }
-}
+type RouteContext = {
+    params: Promise<{
+        id: string;
+    }>;
+};
 
-export async function POST(req:Request, {params} : params){
-
-    try{
+export async function POST(req: Request, context: RouteContext) {
+    try {
         const user = await VerifyToken(req);
         const idUser = (user as any)?.id;
 
-        const parameters = await params;
-        const idParameter = parameters?.id;
+        const { id } = await context.params;
 
-        //idOfServer
-        const idConvertido = Number(idParameter);
+        const idConvertido = Number(id);
 
         const body = await req.json();
+        const { dia_horario, idDate } = body;
 
-        const {dia_horario, idDate} = body;
+        console.log("values before the controller service", dia_horario, idDate);
 
-
-        console.log("values before the controller service",dia_horario, idDate)
-
-        if(!dia_horario && !idConvertido){
-            throw new Error("you need to put all of the values");
+        if (!dia_horario || isNaN(idConvertido)) {
+            throw new Error("You need to provide all valid values");
         }
 
-        const services = await userSelectService(idUser,  idConvertido, dia_horario, idDate);
+        const services = await userSelectService(idUser, idConvertido, dia_horario, idDate);
 
         return new Response(JSON.stringify(services), {
             status: 201,
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             }
-        })
-    }
-
-    catch(error){
-        return new Response(JSON.stringify(error), {
+        });
+    } catch (error: any) {
+        return new Response(JSON.stringify({ error: error.message || "Internal Error" }), {
             status: 400,
             headers: {
-                "Content-type" : "application/json"
+                "Content-type": "application/json"
             }
-        })
+        });
     }
 }
-
