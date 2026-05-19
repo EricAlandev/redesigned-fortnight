@@ -1,7 +1,7 @@
 
 
 type bodyService = {
-    descricao: string
+    descricao?: string
 }
 
 export default function BodyService({

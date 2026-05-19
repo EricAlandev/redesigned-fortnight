@@ -1,13 +1,13 @@
 'use client'
 
 import EsqService from "@/componentes/skeletons/EsqService";
-import { ServiceAndData } from "@/types/TypeService";
+import { ServiceAndData, services } from "@/types/TypeService";
 import Link from "next/link";
 
 type renderServices = {
     quantity?: number,
     pesquisa?: string,
-    dataService?: ServiceAndData[]
+    dataService?: services[]
 }
 
 export default function RenderSearchServices({

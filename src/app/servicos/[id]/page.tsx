@@ -58,8 +58,8 @@ export default function ServicosPage(){
                           className="max-h-[75vh] overflow-y-auto    lg:overflow-visible lg:h-full lg:max-w-[1100px] lg:mx-auto"
                         >
                             <HeaderServico
-                            nome_servico={data?.nome_servico}
-                            preco={data?.preco}
+                            nome_servico={data?.nome_servico || "Serviço"} 
+                            preco={data?.preco || "0,00"}
                             preco_desconto={data?.preco_desconto}            
                             avaliacao={data?.avaliacao}
                             quantidadeAvaliacoes={data?.quantidadeAvaliacoes}     
@@ -68,7 +68,7 @@ export default function ServicosPage(){
                             
                             <ButtonServicoPage
                                     enviar={async(data, idDate) => {
-                                    if(id){
+                                    if(id && token){
                                         const idString = id as string
                                         userSelectServiceToBuy(data, idDate, idString, token)
                                     }
@@ -76,8 +76,8 @@ export default function ServicosPage(){
                                     ServicesData={data?.ServicesData}
 
                                     name={user?.nome}
-                                    endereco={user?.endress.endereco}
-                                    numero_casa={user?.endress.numero_casa}
+                                    endereco={user?.endress?.endereco}
+                                    numero_casa={user?.endress?.numero_casa}
                                     nome_servico={data?.nome_servico}
                                     preco={data?.preco}
                                     preco_desconto={data?.preco_desconto}

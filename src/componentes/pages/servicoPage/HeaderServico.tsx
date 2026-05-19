@@ -48,7 +48,7 @@ export default function HeaderServico({
                           className="flex items-center gap-2"
                         >
                             <StarsRenderizer
-                                avaliation={avaliacao}
+                                avaliation={avaliacao || 0}
                            />
                            
 

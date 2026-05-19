@@ -10,7 +10,7 @@ type EsqServiceAdmin = ServiceAndData & {
     deletar?: () => void,
     editar?: (id: number) => void,
     adicionar?: (id: number) => void,
-    isAdmin: boolean
+    isAdmin?: boolean
 }
 
 export default function EsqService({

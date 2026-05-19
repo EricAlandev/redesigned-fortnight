@@ -11,16 +11,16 @@ export type NServicosData = {
 
 export type services = {
     id?: number,
-    nome_servico: string,
-    preco: string,
+    nome_servico?: string,
+    preco?: string,
     preco_desconto?: string,
     url?: string
     descricao?: string,
     avaliacao?: number,
-    quantidadeAvaliacoes: number,
-    comentarios: CommentService[],
-    dataAvaliation: string,
-    userCanComment: boolean
+    quantidadeAvaliacoes?: number,
+    comentarios?: CommentService[],
+    dataAvaliation?: string,
+    userCanComment?: boolean
 }
 
 //normal Service
@@ -33,10 +33,10 @@ export type ServiceAndData = dataService & {
     ServicesData?: NServicosData[],
     url?: string
     avaliacao?: number,
-    quantidadeAvaliacoes: number,
-    comentarios: CommentService[],
-    dataAvaliation: string,
-    userCanComment: boolean
+    quantidadeAvaliacoes?: number,
+    comentarios?: CommentService[],
+    dataAvaliation?: string,
+    userCanComment?: boolean
 }
 
 //type of order of services;
