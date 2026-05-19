@@ -1,3 +1,5 @@
+'use client'
+
 import { ServiceAndData } from "@/types/TypeService";
 import { useEffect, useState } from "react";
 import { pullServices } from "@/services/services/ServicesService";
