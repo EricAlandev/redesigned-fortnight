@@ -1,4 +1,4 @@
-
+'use client'
 import { dadoLogin } from "@/types/TypeLoginCadastro";
 import { loginFunction } from "@/services/services/loginRegisterService";
 

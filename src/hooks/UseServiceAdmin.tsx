@@ -1,3 +1,5 @@
+'use client'
+
 import { useGlobal } from "@/lib/GlobalContext";
 import { changeActualService, createNewData, createService, deleteService, pullServices } from "@/services/services/ServicesService";
 import { dataService, ServiceAndData, services } from "@/types/TypeService";

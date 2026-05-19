@@ -1,3 +1,6 @@
+
+'use client'
+
 import { useRouter } from "next/navigation";
 import { searchService } from "@/services/services/ServicesService";
 import { ServiceAndData, services } from "@/types/TypeService";

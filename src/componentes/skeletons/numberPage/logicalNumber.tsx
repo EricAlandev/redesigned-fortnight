@@ -1,3 +1,4 @@
+'use client'
 
 import { ServiceAndData, services } from "@/types/TypeService";
 import { useEffect, useState } from "react";
