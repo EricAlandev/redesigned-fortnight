@@ -9,7 +9,7 @@ type renderServices = {
     deleteService: (id: number) => void,
     adicionarHorario: (id: number) => void,
 
-    isAdmin: boolean
+    isAdmin?: boolean
 }
 
 export default function RenderServicesAdmin({
@@ -19,6 +19,8 @@ export default function RenderServicesAdmin({
     adicionarHorario,
     isAdmin
 } : renderServices){
+
+    if(!dataService) return;
 
     return(
         <div className="h-[75vh] mx-auto overflow-y-auto mt-5 lg:max-w-[1100px]  lg:max-h-[800px]">
