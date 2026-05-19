@@ -89,7 +89,7 @@ export async function PUT(req: Request, context: RouteContext) {
             throw new Error('Identificador ou nome do serviço ausente');
         }
 
-        const services = await changeService(bodyFinal);
+        const services = await changeService(bodyFinal as any);
 
         return new Response(JSON.stringify(services), {
             status: 201,
