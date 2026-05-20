@@ -1,6 +1,6 @@
-export const dynamic = 'force-dynamic';
-
 'use client'
+
+export const dynamic = 'force-dynamic';
 
 import Header from "@/componentes/general/Header";
 import HeaderDesktop from "@/componentes/general/HeaderDesktop";
@@ -10,7 +10,6 @@ import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderSer
 import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber";
 import { useHomePage } from "@/hooks/UseHomePage";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function Home() {
 
