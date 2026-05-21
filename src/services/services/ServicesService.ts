@@ -39,7 +39,7 @@ export const pullServices = async() => {
     }
 
     catch(error){
-        console.log();
+        console.log(error);
     }
 }
 
@@ -63,7 +63,8 @@ export const pullOneService = async(id: string , token?: string) => {
     }
 
     catch(error){
-        console.log();
+                console.log(error);
+
     }
 }
 
@@ -89,7 +90,8 @@ export const pullQueueServices = async(value?: string) => {
     }
 
     catch(error){
-        console.log();
+                console.log(error);
+
     }
 }
 
@@ -113,7 +115,8 @@ export const UserSelectService = async(dados: dataService, token: string, idConv
     }
 
     catch(error){
-        console.log();
+                console.log(error);
+
     }
 }
 
@@ -200,6 +203,7 @@ export const deleteService = async(id: number, token: string) => {
     }
 
     catch(error){
-        console.log();
+                console.log(error);
+
     }
 }
