@@ -15,6 +15,11 @@ export default function RenderComments(
 ){
         //logical of generation of how many pages of comments gonna have;
         const [actualPage, setActualPage] = useState(1);
+
+        if (!Array.isArray(comments)) {
+            console.error("Comments is not an array:", comments);
+            return <div>Error loading comments.</div>;
+        }
         
         const commentsPerPage = 3;
         //define the quantity of pages and ceil to define the quantity of pages

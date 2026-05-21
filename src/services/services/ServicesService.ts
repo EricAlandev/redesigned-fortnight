@@ -2,7 +2,7 @@ import { dataService, ServiceAndData } from "@/types/TypeService";
 
 export const searchService = async(searchValue: string) => {
     try{    
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/pesquisa/api`, {
+        const request = await fetch(`/pesquisa/api`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -26,7 +26,7 @@ export const pullServices = async() => {
     try{    
 
 
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/api`, {
+        const request = await fetch(`/servicos/api`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
@@ -52,7 +52,7 @@ export const pullOneService = async(id: string , token?: string) => {
             headers = {...headers, 'Authorization' : `Bearer ${token}`};
         }
 
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
+        const request = await fetch(`/servicos/${id}/api`, {
             method: 'GET',
             headers: headers
         })
@@ -74,7 +74,7 @@ export const pullQueueServices = async(value?: string) => {
             values = value
         }
         console.log("servicecs queue, before", value);
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/admin/servicesList/api?values=${values}`, {
+        const request = await fetch(`$/servicos/admin/servicesList/api?values=${values}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
@@ -99,7 +99,7 @@ export const UserSelectService = async(dados: dataService, token: string, idConv
 
         console.log(dados);
 
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/service/${idConvertido}`, {
+        const request = await fetch(`/user/service/${idConvertido}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -119,7 +119,7 @@ export const UserSelectService = async(dados: dataService, token: string, idConv
 
 
 export const createService = async(dados: ServiceAndData, token: string) => {
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/api`, {
+        const request = await fetch(`/servicos/api`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -140,7 +140,7 @@ export const createService = async(dados: ServiceAndData, token: string) => {
 }
 
 export const createNewData = async(dados: dataService, token: string, id: number) => {
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
+        const request = await fetch(`/servicos/${id}/api`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -162,7 +162,7 @@ export const createNewData = async(dados: dataService, token: string, id: number
 }
 
 export const changeActualService = async(id: number, dados: ServiceAndData, token: string) => {   
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
+        const request = await fetch(`/servicos/${id}/api`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -185,7 +185,7 @@ export const changeActualService = async(id: number, dados: ServiceAndData, toke
 
 export const deleteService = async(id: number, token: string) => {
     try{    
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/servicos/${id}/api`, {
+        const request = await fetch(`/servicos/${id}/api`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',

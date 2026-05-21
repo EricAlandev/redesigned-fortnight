@@ -13,7 +13,7 @@ type MessageObject = {
 export const changeDataUser = async(data: DataUser ,token: string) => {
         console.log("Data change", data, token);
         
-        const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/dataChange/api`, {
+        const request = await fetch(`/user/dataChange/api`, {
             method: 'PUT',
             headers: {
                 'Content-type' : 'application/json',
@@ -40,7 +40,7 @@ export const changeDataUser = async(data: DataUser ,token: string) => {
 export const putComents = async(data: DataAvaliation ,token: string, idService : string) => {
     
     console.log('inside servces before route', idService);
-    const request = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/comentario/api`, {
+    const request = await fetch(`/user/comentario/api`, {
         method: 'PUT',
         headers: {
             'Content-type' : 'application/json',

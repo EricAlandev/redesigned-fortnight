@@ -2,7 +2,7 @@ import { dadoCadastro, dadoLogin, loginType } from "@/types/TypeLoginCadastro";
 
 
 export const loginFunction = async(loginData: dadoLogin) => {
-        const login = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/login/api`, {
+        const login = await fetch(`/login/api`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'
@@ -28,7 +28,7 @@ export const loginFunction = async(loginData: dadoLogin) => {
 
 
 export const registerFunction = async(registerData: dadoCadastro) => {
-    const register = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/cadastro/api`, {
+    const register = await fetch(`/cadastro/api`, {
         method: 'POST',
         headers: {
                 'Content-Type' : 'application/json'
