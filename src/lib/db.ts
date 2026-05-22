@@ -21,7 +21,7 @@ export const AppDataSource = new DataSource({
         connectionLimit: 10
     },
     synchronize: false,
-    logging: true,
+    logging: false,
     entities: [Authorizations,UserNumber, DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario, NComentsUser, Coments,  AvaliationServices,]
 });
 
