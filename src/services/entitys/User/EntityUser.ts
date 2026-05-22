@@ -24,8 +24,9 @@ export class User {
     @OneToOne("EndressUser", (eu : any) => eu.user)
     endress!: UserNumber
 
-    @OneToMany("AutoUser", (auto : any) => auto.user)
-    authorizations!: AutoUser[]
+    // Replace (auto) => auto.user with a string literal pointing to the property name
+    @OneToMany("AutoUser", "user")
+    authorizations!: AutoUser[];
 
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.usuarios)
     servicosEscolhidos!: UsuarioServicos[];

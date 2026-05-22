@@ -7,12 +7,13 @@ export class AutoUser {
     @PrimaryGeneratedColumn() 
     id!: number;
 
-    @ManyToOne("User", (user : any) => user.authorizations)
-    @JoinColumn({name: "usuario_id"})
-    user!: User
+   // Replace the arrow function targets with pure strings
+    @ManyToOne("User", "authorizations")
+    @JoinColumn({ name: "usuario_id" })
+    user!: User;
 
-    @ManyToOne("Authorizations", (auto : any) => auto.autorizacoes)
-    @JoinColumn({name: "autorizacoes_id"})
-    authorization!: Authorizations
+    @ManyToOne("Authorizations", "autorizacoes")
+    @JoinColumn({ name: "autorizacoes_id" })
+    authorization!: Authorizations;
 
 }

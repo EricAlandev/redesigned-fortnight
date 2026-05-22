@@ -10,7 +10,7 @@ export class Authorizations {
     @Column()
     authorization!: string;
 
-    @OneToMany("AutoUser", (auto : any) => auto.authorization)
-    autorizacoes!: AutoUser[]
+    @OneToMany("AutoUser", "authorization")
+    autorizacoes!: AutoUser[];
 
 }
