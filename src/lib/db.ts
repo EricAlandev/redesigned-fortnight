@@ -21,7 +21,7 @@ export const AppDataSource = new DataSource({
     },
     synchronize: false,
     logging: false,
-    entities: [Authorizations,UserNumber, DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario, NComentsUser, Coments,  AvaliationServices,]
+    entities: [UserNumber, Authorizations,DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario, NComentsUser, Coments,  AvaliationServices,]
 });
 
 export const getDataSource = async() => {
