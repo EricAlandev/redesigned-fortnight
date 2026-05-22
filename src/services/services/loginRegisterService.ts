@@ -1,8 +1,9 @@
 import { dadoCadastro, dadoLogin, loginType } from "@/types/TypeLoginCadastro";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export const loginFunction = async(loginData: dadoLogin) => {
-        const login = await fetch(`/login/api`, {
+        const login = await fetch(`${API_BASE_URL}/login/api`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json'

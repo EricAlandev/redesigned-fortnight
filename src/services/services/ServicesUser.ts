@@ -10,10 +10,13 @@ type MessageObject = {
     message: string
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+
 export const changeDataUser = async(data: DataUser ,token: string) => {
         console.log("Data change", data, token);
         
-        const request = await fetch(`/user/dataChange/api`, {
+        const request = await fetch(`${API_BASE_URL}/user/dataChange/api`, {
             method: 'PUT',
             headers: {
                 'Content-type' : 'application/json',
@@ -40,7 +43,7 @@ export const changeDataUser = async(data: DataUser ,token: string) => {
 export const putComents = async(data: DataAvaliation ,token: string, idService : string) => {
     
     console.log('inside servces before route', idService);
-    const request = await fetch(`/user/comentario/api`, {
+    const request = await fetch(`${API_BASE_URL}/user/comentario/api`, {
         method: 'PUT',
         headers: {
             'Content-type' : 'application/json',
