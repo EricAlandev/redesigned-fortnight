@@ -11,7 +11,7 @@ export class AutoUser {
     @JoinColumn({name: "usuario_id"})
     user!: User
 
-    @ManyToOne("Authorizations", (auto : any) => auto.authorization)
+    @ManyToOne("Authorizations", (auto : any) => auto.autorizacoes)
     @JoinColumn({name: "autorizacoes_id"})
     authorization!: Authorizations
 
