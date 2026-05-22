@@ -16,12 +16,24 @@ export const AppDataSource = new DataSource({
     type: "postgres", 
     url: process.env.DATABASE_URL, 
     extra: {
-        authPlugin: 'mysql_native_password',
         connectionLimit: 10
     },
     synchronize: false,
     logging: false,
-    entities: [UserNumber, Authorizations,DataService, User, EndressUser, Services, AutoUser, UsuarioServicos, NServicosDataHorario, NComentsUser, Coments,  AvaliationServices,]
+    entities: [
+        User,
+        AutoUser,
+        Authorizations,
+        UserNumber, 
+        DataService, 
+        EndressUser, 
+        Services, 
+        UsuarioServicos, 
+        NServicosDataHorario, 
+        NComentsUser, 
+        Coments,  
+        AvaliationServices
+    ]
 });
 
 export const getDataSource = async() => {
