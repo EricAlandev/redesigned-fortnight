@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
-import type { User } from "../User/EntityUser";
-import { AutoUser } from "./EntityAutoUser";
+import type { AutoUser } from "./EntityAutoUser";
 
 @Entity("autorizacoes")
 export class Authorizations {

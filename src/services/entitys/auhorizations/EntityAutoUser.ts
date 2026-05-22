@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne} from "typeorm";
 import type { User } from "../User/EntityUser";
-import { Authorizations } from "./EntityAuthorization";
+import type { Authorizations } from "./EntityAuthorization";
 
 @Entity("n_autorizacoesUser")
 export class AutoUser {

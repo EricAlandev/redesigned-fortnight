@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
 import type { UserNumber } from "./EntityUserNumber";
-import { AutoUser } from "../auhorizations/EntityAutoUser";
-import { UsuarioServicos } from "./EntityUserServices";
-import { NComentsUser } from "../coments/EntityNComentsUser";
+import type { AutoUser } from "../auhorizations/EntityAutoUser";
+import type { UsuarioServicos } from "./EntityUserServices";
+import type { NComentsUser } from "../coments/EntityNComentsUser";
 
 @Entity("usuarios")
 export class User {
