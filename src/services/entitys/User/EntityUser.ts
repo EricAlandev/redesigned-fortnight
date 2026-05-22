@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
 import type { UserNumber } from "./EntityUserNumber";
-import type { AutoUser } from "../auhorizations/EntityAutoUser";
+import { AutoUser } from "../auhorizations/EntityAutoUser";
 import type { UsuarioServicos } from "./EntityUserServices";
 import type { NComentsUser } from "../coments/EntityNComentsUser";
 
@@ -25,7 +25,7 @@ export class User {
     endress!: UserNumber
 
     // Replace (auto) => auto.user with a string literal pointing to the property name
-    @OneToMany("AutoUser", "user")
+    @OneToMany(() => AutoUser, (user: any) => user.authorization)
     authorizations!: AutoUser[];
 
     @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.usuarios)
