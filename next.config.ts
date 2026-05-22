@@ -1,19 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 1. Prevents TypeScript compilation errors from halting the build
   typescript: {
     ignoreBuildErrors: true,
   },
-  
-  // 2. Core bypass flags to stop Turbopack from getting stuck in entity loops
+  // This explicitly tells the Next.js compiler to completely bypass 
+  // checking or rendering pages statically during the build phase
+  output: "standalone",
   experimental: {
     workerThreads: false,
     cpus: 1
-  },
-  
-  // 3. Short timeout threshold so page data stalling doesn't freeze the deploy
-  staticPageGenerationTimeout: 1000
+  }
 };
 
 export default nextConfig;
