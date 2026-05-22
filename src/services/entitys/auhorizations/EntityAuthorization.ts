@@ -6,7 +6,7 @@ export class Authorizations {
     @PrimaryGeneratedColumn() 
     id!: number;
 
-    @Column()
+    @Column({name: "authorization"})
     authorization!: string;
 
     @OneToMany("AutoUser", "authorization")

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne
 import type { User } from "../User/EntityUser";
 import type { Authorizations } from "./EntityAuthorization";
 
-@Entity("n_autorizacoesUser")
+@Entity("n_autorizacoesuser")
 export class AutoUser {
     @PrimaryGeneratedColumn() 
     id!: number;
