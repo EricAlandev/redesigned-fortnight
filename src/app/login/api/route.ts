@@ -1,33 +1,34 @@
 export const dynamic = 'force-dynamic';
 
-import { loginController } from "@/services/controllers/loginRegisterController";
+import { NextResponse } from "next/server";
+
+// ❌ REMOVED the top-level import from here!
 
 export async function POST(req: Request){
-    try{
-        const {loginData} = await req.json();
+    try {
+        const { loginData } = await req.json();
+
+        //  ADDED: Lazy-load the controller right here inside the function execution phase
+        const { loginController } = await import("@/services/controllers/loginRegisterController");
 
         const login = await loginController(loginData);
 
-        return new Response(JSON.stringify
-            (login), {
-                status: 200,
-                headers: {
-                    'Content-type' : 'application/json'
-                }
+        return NextResponse.json(JSON.stringify(login), {
+            status: 200,
+            headers: {
+                'Content-type' : 'application/json'
             }
-        )
+        });
     }
 
     catch(error : any){
         const errorMessage = error.message || "Ocorreu um erro inesperado";
 
-        return new Response(JSON.stringify
-            ({message:errorMessage}), {
-                status: 400,
-                headers: {
-                    'Content-type' : 'application/json'
-                }
+        return new Response(JSON.stringify({ message: errorMessage }), {
+            status: 400,
+            headers: {
+                'Content-type' : 'application/json'
             }
-        )
+        });
     }
 }

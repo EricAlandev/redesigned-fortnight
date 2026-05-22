@@ -1,6 +1,8 @@
-import { VerifyToken } from "@/lib/functions/VerifyToken";
-import { ChangeDataOfUser } from "@/services/controllers/UserController";
+export const dynamic = 'force-dynamic';
 
+import { VerifyToken } from "@/lib/functions/VerifyToken";
+
+// ❌ REMOVED: import { ChangeDataOfUser } from "@/services/controllers/UserController";
 
 export async function PUT(req: Request){
     try{
@@ -19,6 +21,8 @@ export async function PUT(req: Request){
         const enderecoConvertido = endereco.trim();
         const numero_casaConvertido = numero_casa.trim();
       
+        // 🔄 Lazy-load the user controller right here before execution
+        const { ChangeDataOfUser } = await import("@/services/controllers/UserController");
         const dataChange = await ChangeDataOfUser(idUser, nomeConvertido, enderecoConvertido, numero_casaConvertido, dd, numero)
 
         return new Response(JSON.stringify(dataChange), {

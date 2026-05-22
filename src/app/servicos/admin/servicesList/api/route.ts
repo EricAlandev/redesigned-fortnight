@@ -1,5 +1,6 @@
-import { pullQueueOfServices } from "@/services/controllers/ServicesController";
+export const dynamic = 'force-dynamic';
 
+// ❌ REMOVED: import { pullQueueOfServices } from "@/services/controllers/ServicesController";
 
 export async function GET(req: Request){
 
@@ -14,12 +15,13 @@ export async function GET(req: Request){
         }
         console.log("valueBody", valueBody);
 
-
         console.log("Before the queueServices")
+        
+        //  ADDED: Lazy-load the controller right before using it
+        const { pullQueueOfServices } = await import("@/services/controllers/ServicesController");
         const services = await pullQueueOfServices(valueBody);
 
         console.log("after the queueServices", services);
-
 
         return new Response(JSON.stringify(services), {
             status: 201,

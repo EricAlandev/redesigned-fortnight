@@ -1,7 +1,9 @@
-import { VerifyToken, verifyTokenWithOutBreking } from "@/lib/functions/VerifyToken";
-import { AddNewDataController, changeService, deleteService, pullOneService } from "@/services/controllers/ServicesController";
+export const dynamic = 'force-dynamic';
 
-// Next.js 15+ Type: params must be a Promise
+import { VerifyToken, verifyTokenWithOutBreking } from "@/lib/functions/VerifyToken";
+
+// ❌ REMOVED: import { AddNewDataController, changeService, deleteService, pullOneService } from "@/services/controllers/ServicesController";
+
 type RouteContext = {
     params: Promise<{
         id: string;
@@ -17,7 +19,6 @@ export async function GET(req: Request, context: RouteContext) {
             idUser = (user as any)?.id;
         }
 
-        // Await the params from context
         const { id } = await context.params;
         const idConvertido = Number(id);
 
@@ -26,6 +27,8 @@ export async function GET(req: Request, context: RouteContext) {
             idUser: idUser
         };
 
+        //  Lazy-load controller logic for GET
+        const { pullOneService } = await import("@/services/controllers/ServicesController");
         const services = await pullOneService(finalObject);
 
         return new Response(JSON.stringify(services), {
@@ -54,6 +57,8 @@ export async function POST(req: Request, context: RouteContext) {
             throw new Error("you need to put all of the values");
         }
 
+        //  Lazy-load controller logic for POST
+        const { AddNewDataController } = await import("@/services/controllers/ServicesController");
         const services = await AddNewDataController(dia_horario.dia_horario, idConvertido);
 
         return new Response(JSON.stringify(services), {
@@ -73,7 +78,6 @@ export async function PUT(req: Request, context: RouteContext) {
         await VerifyToken(req);
         
         const { id } = await context.params;
-
         const body = await req.json();
 
         const bodyFinal = {
@@ -84,11 +88,12 @@ export async function PUT(req: Request, context: RouteContext) {
             preco: body?.dados?.preco
         };
 
-        // Logic check: ensuring at least one field is provided
         if (!id && !body?.dados?.nome_servico) {
             throw new Error('Identificador ou nome do serviço ausente');
         }
 
+        //  Lazy-load controller logic for PUT
+        const { changeService } = await import("@/services/controllers/ServicesController");
         const services = await changeService(bodyFinal as any);
 
         return new Response(JSON.stringify(services), {
@@ -108,6 +113,9 @@ export async function DELETE(req: Request, context: RouteContext) {
         await VerifyToken(req);
 
         const { id } = await context.params;
+
+        //  Lazy-load controller logic for DELETE
+        const { deleteService } = await import("@/services/controllers/ServicesController");
         const services = await deleteService(id);
 
         return new Response(JSON.stringify(services), {
