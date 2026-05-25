@@ -7,12 +7,11 @@ export async function POST(req: Request){
     try {
         const { loginData } = await req.json();
 
-        //  ADDED: Lazy-load the controller right here inside the function execution phase
         const { loginController } = await import("@/services/controllers/loginRegisterController");
 
         const login = await loginController(loginData);
 
-        return NextResponse.json(JSON.stringify(login), {
+        return NextResponse.json((login), {
             status: 200,
             headers: {
                 'Content-type' : 'application/json'

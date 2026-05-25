@@ -1,7 +1,11 @@
-/** @type {import('next').Config} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
+  serverExternalPackages: ['typeorm'], // Ensures TypeORM isn't over-processed
+  webpack: (config : any) => {
+    config.optimization.mangleExports = false;
+    config.optimization.minimize = false; // Only do this if mangleExports isn't enough
+    return config;
+  },
 };
 
 export default nextConfig;
