@@ -1,5 +1,5 @@
 
-import "./globals.css";
+import './global.css'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GlobalProvider } from "@/lib/GlobalContext";
