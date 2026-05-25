@@ -6,6 +6,7 @@ const nextConfig = {
       fullUrl: true
     }
   },
+  serverExternalPackages: ['typeorm'],
   webpack: (config: any, { isServer }: any) => {
     if (isServer) {
       config.optimization.minimizer = config.optimization.minimizer.map((minimizer: any) => {
