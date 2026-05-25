@@ -25,7 +25,7 @@ export const AppDataSource = new DataSource({
     synchronize: false,
     logging: false,
     entities: [
-        Authorizations,
+        User,
         AutoUser,
         Coments,
         NComentsUser,
@@ -34,9 +34,9 @@ export const AppDataSource = new DataSource({
         NServicosDataHorario,
         Services,
         EndressUser,
-        User,
         UserNumber,
-        UsuarioServicos
+        UsuarioServicos,
+                Authorizations,
     ],
     metadataTableName: "typeorm_metadata"
 });
