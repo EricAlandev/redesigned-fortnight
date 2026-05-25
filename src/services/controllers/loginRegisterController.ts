@@ -1,7 +1,7 @@
 import { getDataSource } from "@/lib/db";
 import { dadoCadastro, dadoLogin } from "@/types/TypeLoginCadastro";
 
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { User } from "../entitys/User/EntityUser";
