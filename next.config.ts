@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['typeorm'],
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
+  transpilePackages: ['typeorm'],
+  compiler: {
+    // This replaces the need for all those Babel plugins
+    styledComponents: true, 
+  },
+  experimental: {
+    // This helps with the TypeORM decorators
+    swcPlugins: [] 
+  }
 };
-
 export default nextConfig;
