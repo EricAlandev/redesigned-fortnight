@@ -41,6 +41,10 @@ export const AppDataSource = new DataSource({
 });
 
 export const getDataSource = async() => {
+    if (process.env.NODE_ENV === 'production' && process.env.BUILDING === 'true') {
+        throw new Error('Cannot connect to DB during build');
+    }
+    
     if(!AppDataSource.isInitialized){
         await AppDataSource.initialize();
     }
