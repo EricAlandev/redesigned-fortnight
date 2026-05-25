@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_DISABLE_MANGLE=true next build && echo 'Skipping page data collection validation'",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
