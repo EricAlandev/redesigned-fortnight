@@ -6,8 +6,7 @@ const nextConfig = {
     fetches: {
       fullUrl: true
     }
-  },
-  turbopack: false
+  }
 };
 
 export default nextConfig;
