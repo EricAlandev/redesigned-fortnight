@@ -13,6 +13,8 @@ export async function POST(req: Request){
             throw new Error("Necessário preencher todos os campos");
         }
 
+        const {registerController} = await import("@/services/controllers/loginRegisterController");
+
         const register = await registerController(registerData);
 
         console.log("after register");

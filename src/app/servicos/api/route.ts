@@ -1,7 +1,5 @@
 export const dynamic = 'force-dynamic';
 
-import { VerifyToken } from "@/lib/functions/VerifyToken";
-
 // ❌ REMOVED: import { createService, pullServices } from "@/services/controllers/ServicesController";
 
 export async function GET(){
@@ -37,6 +35,8 @@ export async function GET(){
 export async function POST(req: Request){
 
     try{
+        const {VerifyToken} = await import("@/lib/functions/VerifyToken")
+
         await VerifyToken(req);
 
         const {dados} = await req.json();
