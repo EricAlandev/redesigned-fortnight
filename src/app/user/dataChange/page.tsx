@@ -4,7 +4,7 @@ import Header from "@/componentes/general/Header";
 import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import FormDataChange from "@/componentes/pages/UserPage/FormDataChange";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
-import UseUser from "@/hooks/UseUser";
+import UseUser from "@/hooks/useUser";
 import { useGlobal } from "@/lib/GlobalContext";
 import { returnForPopUp, TypePopUp } from "@/types/TypePopUp";
 import { useRouter } from "next/navigation";

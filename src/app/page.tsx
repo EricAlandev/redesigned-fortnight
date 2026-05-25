@@ -9,7 +9,7 @@ import SearchBar from "@/componentes/pages/homePage/SearchBar";
 import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage";
 import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderServices";
 import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber";
-import { useHomePage } from "@/hooks/UseHomePage";
+import { useHomePage } from "@/hooks/useHomePage";
 import { useRouter } from "next/navigation";
 
 // 2. Create a separate component for the content

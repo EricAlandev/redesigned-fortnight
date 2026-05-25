@@ -6,7 +6,7 @@ import Header from "@/componentes/general/Header";
 import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import FormLogin from "@/componentes/pages/login/FormLogin";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
-import UseLoginRegister from "@/hooks/UseLoginRegister";
+import UseLoginRegister from "@/hooks/useLoginRegister";
 import { returnForPopUp, TypePopUp } from "@/types/TypePopUp";
 import { useState } from "react";
 

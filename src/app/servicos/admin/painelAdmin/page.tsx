@@ -12,7 +12,7 @@ import RenderServices from "@/componentes/pages/servicosAdmin/services/RenderSer
 import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import EsqPopUpDelete from "@/componentes/skeletons/popup/EsqPopUpDelete";
-import {useServicesAdmin} from "@/hooks/UseServiceAdmin";
+import {useServicesAdmin} from "@/hooks/useServiceAdmin";
 import { useGlobal } from "@/lib/GlobalContext";
 import { TypePopUp } from "@/types/TypePopUp";
 

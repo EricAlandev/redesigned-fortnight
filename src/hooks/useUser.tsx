@@ -5,7 +5,7 @@ import { changeDataUser, putComents } from "@/services/services/ServicesUser";
 import { DataAvaliation } from "@/types/TypeAvaliation";
 import { DataUser } from "@/types/TypeUsuarios"
 
-export default function UseUser(){
+export default function useUser(){
 
     const {token, login} = useGlobal();
 

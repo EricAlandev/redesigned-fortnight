@@ -5,7 +5,7 @@ import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import RenderServices from "@/componentes/pages/servicesList/RenderServicesList";
 import NumberPage from "@/componentes/pages/servicoPage/comments/NumberPage";
 import useLogicalNumber from "@/componentes/skeletons/numberPage/logicalNumber";
-import { useServicesAdmin } from "@/hooks/UseServiceAdmin";
+import { useServicesAdmin } from "@/hooks/useServiceAdmin";
 
 import { type ServicesList } from "@/types/TypeService";
 import { useEffect, useState } from "react";

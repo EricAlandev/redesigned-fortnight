@@ -9,7 +9,7 @@ import PutComent from "@/componentes/pages/servicoPage/PutComent";
 import RenderComments from "@/componentes/pages/servicoPage/RenderComments";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
 import useService from "@/hooks/UseService";
-import UseUser from "@/hooks/UseUser";
+import UseUser from "@/hooks/useUser";
 import { useGlobal } from "@/lib/GlobalContext";
 import { TypePopUp } from "@/types/TypePopUp";
 
