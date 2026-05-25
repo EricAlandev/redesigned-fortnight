@@ -9,9 +9,21 @@ export default function GlobalError({
 }) {
   return (
     <html>
-      <body>
+      <body style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100vh',
+        fontFamily: 'sans-serif' 
+      }}>
         <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <button 
+          onClick={() => reset()}
+          style={{ padding: '10px 20px', cursor: 'pointer' }}
+        >
+          Try again
+        </button>
       </body>
     </html>
   );
