@@ -1,21 +1,28 @@
+import webpack from 'webpack';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // This forces Webpack to ignore the drivers that don't exist in Vercel
-      config.externals.push({
-        'react-native-sqlite-storage': 'react-native-sqlite-storage',
-        'sqlite3': 'sqlite3',
-        'mysql2': 'mysql2',
-        'oracledb': 'oracledb',
-        'pg-query-stream': 'pg-query-stream',
-        '@sap/hana-client': '@sap/hana-client',
-        'hdb-pool': 'hdb-pool',
-        'antlr4ts': 'antlr4ts',
-      });
+      config.plugins.push(
+        new webpack.IgnorePlugin({
+          resourceRegExp: /^( @sap\/hana-client|react-native-sqlite-storage|ioredis|redis|typeorm-aurora-data-api-driver|pg-native|mongodb|hdb-pool|mysql|mysql2|oracledb|pg-query-stream|sql.js|sqlite3|better-sqlite3)$/,
+        })
+      );
     }
+    
+    // Fallback for client-side just in case
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+
     return config;
   },
 };
