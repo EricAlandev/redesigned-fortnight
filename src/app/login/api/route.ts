@@ -1,3 +1,5 @@
+
+import "reflect-metadata";
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from "next/server";
