@@ -1,6 +1,5 @@
-import { loginController, registerController } from "@/services/controllers/loginRegisterController";
-import { s } from "framer-motion/client";
-import { headers } from "next/headers";
+import {registerController } from "@/services/controllers/loginRegisterController";
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request){
     try{

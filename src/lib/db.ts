@@ -20,6 +20,7 @@ export const AppDataSource = new DataSource({
     extra: {
         connectionLimit: 10
     },
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
     synchronize: false,
     logging: false,
     entities: [
