@@ -8,7 +8,7 @@ import HeaderServico from "@/componentes/pages/servicoPage/HeaderServico";
 import PutComent from "@/componentes/pages/servicoPage/PutComent";
 import RenderComments from "@/componentes/pages/servicoPage/RenderComments";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
-import useService from "@/hooks/UseService";
+import useService from "@/hooks/useService";
 import UseUser from "@/hooks/useUser";
 import { useGlobal } from "@/lib/GlobalContext";
 import { TypePopUp } from "@/types/TypePopUp";
