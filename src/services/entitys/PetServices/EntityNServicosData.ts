@@ -17,15 +17,15 @@ export class NServicosDataHorario {
     @Column()
     choosed!: boolean;
 
-    @ManyToOne("Services", (s: any) => s.ServicesData)
+    @ManyToOne(() => Services, (s: any) => s.ServicesData)
     @JoinColumn({name: "servicos_id"})
     services!: Services
 
-    @ManyToOne("DataService", (data: any) => data.relationDataService)
+    @ManyToOne(() => DataService, (data: any) => data.relationDataService)
     @JoinColumn({name: "data_horario_id"})
     DataService!: DataService
 
     //array of the UserServices - maked to be possible to pick the data with the userServices
-    @OneToMany("UsuarioServicos", (service: any) => service.NServicosData)
+    @OneToMany(() => UsuarioServicos, (service: any) => service.NServicosData)
     usuarioServices!: UsuarioServicos[]
 }

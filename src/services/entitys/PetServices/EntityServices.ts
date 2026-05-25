@@ -22,18 +22,18 @@ export class Services {
     descricao!: string;
 
     //users who selected services;
-    @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.servicos)
+    @OneToMany(() => UsuarioServicos, (UsuServ : any) => UsuServ.servicos)
     UsuariosDoService!: UsuarioServicos[];
 
     //data of the service;
-    @OneToMany("NServicosDataHorario", (sericDataHorario : any) => sericDataHorario.services)
+    @OneToMany(() => NServicosDataHorario, (sericDataHorario : any) => sericDataHorario.services)
     ServicesData!: NServicosDataHorario[];
 
     //avalation of the service
-    @OneToOne("AvaliationServices", (av : any) => av.service)
+    @OneToOne(() => AvaliationServices, (av : any) => av.service)
     avaliacao!: AvaliationServices;
 
     //coments of the service;
-    @OneToMany("NComentsUser", (coments : any) => coments.servicos)
+    @OneToMany(() => NComentsUser, (coments : any) => coments.servicos)
     comentsService!: NComentsUser[];
 }

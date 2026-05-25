@@ -1,6 +1,6 @@
 import { Min, Max } from "class-validator";
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
-import type { NComentsUser } from "./EntityNComentsUser";
+import  { NComentsUser } from "./EntityNComentsUser";
 @Entity("comentarios")
 export class Coments {
     @PrimaryGeneratedColumn() 
@@ -17,6 +17,6 @@ export class Coments {
     @Column("timestamp")
     horario!: Date;
 
-    @OneToMany("NComentsUser", (coment: any) => coment.comentarios)
+    @OneToMany(() => NComentsUser, (coment: any) => coment.comentarios)
     comentariosUser!: NComentsUser[]
 }
