@@ -15,11 +15,11 @@
     "framer-motion": "^12.35.2",
     "jsonwebtoken": "^9.0.3",
     "mysql": "^2.18.1",
-    "next": "^15.3.2",
+    "next": "^14.2.35",
     "node-cron": "^4.2.1",
     "pg": "^8.21.0",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "reflect-metadata": "^0.2.2",
     "swiper": "^12.1.2",
     "typeorm": "^0.3.28"
@@ -37,11 +37,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    
     "babel-plugin-react-compiler": "1.0.0",
     "babel-plugin-transform-typescript-metadata": "^0.4.0",
-    "eslint": "^9",
-    "eslint-config-next": "^15.1.6",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
