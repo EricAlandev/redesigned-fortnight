@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { registerFunction } from "@/services/services/loginRegisterService";
 import { dadoCadastro } from "@/types/TypeLoginCadastro";
 
-export default function UseLoginRegister(){
+export default function useLoginRegister(){
 
         const {login} = useGlobal();
         const router = useRouter();

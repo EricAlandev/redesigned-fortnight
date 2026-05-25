@@ -4,7 +4,7 @@ import Header from "@/componentes/general/Header";
 import HeaderDesktop from "@/componentes/general/HeaderDesktop";
 import FormCadastro from "@/componentes/pages/cadastro/FormCadastro";
 import EsqPopUp from "@/componentes/skeletons/popup/EsqPopUp";
-import UseLoginRegister from "@/hooks/UseLoginRegister";
+import useLoginRegister from "@/hooks/UseLoginRegister";
 import { TypePopUp } from "@/types/TypePopUp";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ export default function CadastroPage(){
 
     const [popUp, setPopUp] = useState<TypePopUp>('none');
     const [message, setMessage] = useState<string>();
-    const {register} = UseLoginRegister();
+    const {register} = useLoginRegister();
 
     console.log("values popUp", message, popUp)
 
