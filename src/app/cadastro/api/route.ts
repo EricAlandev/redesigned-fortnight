@@ -1,5 +1,6 @@
-import {registerController } from "@/services/controllers/loginRegisterController";
 export const dynamic = 'force-dynamic';
+
+import {registerController } from "@/services/controllers/loginRegisterController";
 
 export async function POST(req: Request){
     try{

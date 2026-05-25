@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from "next/server";
 
-// ❌ REMOVED the top-level import from here!
 
 export async function POST(req: Request){
     try {
