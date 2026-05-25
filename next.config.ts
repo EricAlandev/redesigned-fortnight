@@ -1,6 +1,20 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
-  // This prevents the "Cannot access before initialization" crash during fetch
-  dynamicIO: false, 
+  typescript: { ignoreBuildErrors: true },
+  webpack: (config, context) => {
+    const { isServer } = context; // This usually tricks the linter into being quiet
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        "react-native-sqlite-storage": false,
+        "@sap/hana-client": false,
+        "hdb-pool": false,
+        "antlr4ts": false,
+      };
+    }
+    return config;
+  },
 };
+
+export default nextConfig;
