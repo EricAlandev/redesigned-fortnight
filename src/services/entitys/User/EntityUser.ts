@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
-import  { UserNumber } from "./EntityUserNumber";
-import  { AutoUser } from "../auhorizations/EntityAutoUser";
-import  { UsuarioServicos } from "./EntityUserServices";
-import  { NComentsUser } from "../coments/EntityNComentsUser";
-import { EndressUser } from "./EntityEnderecoUser";
+import  type { UserNumber } from "./EntityUserNumber";
+import  type { AutoUser } from "../auhorizations/EntityAutoUser";
+import  type { UsuarioServicos } from "./EntityUserServices";
+import  type { NComentsUser } from "../coments/EntityNComentsUser";
+import type { EndressUser } from "./EntityEnderecoUser";
 
 @Entity("usuarios")
 export class User {
@@ -19,19 +19,19 @@ export class User {
     @Column()
     token!: string;
 
-    @OneToOne(() => UserNumber, (numb : any) => numb.user)
+    @OneToOne("UserNumber", (numb : any) => numb.user)
     number!: UserNumber
 
-    @OneToOne(() => EndressUser, (eu : any) => eu.user)
+    @OneToOne("EndressUser", (eu : any) => eu.user)
     endress!: UserNumber
 
     // Replace (auto) => auto.user with a string literal pointing to the property name
-    @OneToMany(() => AutoUser, (user: any) => user.authorization)
+    @OneToMany("AutoUser", (user: any) => user.authorization)
     authorizations!: AutoUser[];
 
-    @OneToMany(() => UsuarioServicos, (UsuServ : any) => UsuServ.usuarios)
+    @OneToMany("UsuarioServicos", (UsuServ : any) => UsuServ.usuarios)
     servicosEscolhidos!: UsuarioServicos[];
 
-    @OneToMany(() => NComentsUser, (coments : any) => coments.usuarios)
+    @OneToMany("NComentsUser", (coments : any) => coments.usuarios)
     userCOments!: NComentsUser[]
 }

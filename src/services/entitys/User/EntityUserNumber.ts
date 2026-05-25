@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn} from "typeorm";
-import  { User } from "./EntityUser";
+import  type { User } from "./EntityUser";
 
 
 @Entity("usuario_numero")
@@ -13,7 +13,7 @@ export class UserNumber {
     @Column()
     numero!: string;
 
-    @OneToOne(() => User, (user : any) => user.number)
+    @OneToOne("User", (user : any) => user.number)
     @JoinColumn({name: "usuario_id"})
     user!: User
 

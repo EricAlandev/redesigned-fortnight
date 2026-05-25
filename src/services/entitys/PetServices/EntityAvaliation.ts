@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
-import { Services } from "./EntityServices";
-import { NComentsUser } from "../coments/EntityNComentsUser";
+import type{ Services } from "./EntityServices";
+import type{ NComentsUser } from "../coments/EntityNComentsUser";
 
 @Entity("avaliacao_servicos")
 export class AvaliationServices {
@@ -16,7 +16,7 @@ export class AvaliationServices {
     @Column()
     servicos_id!: number;
 
-    @OneToOne(() => NComentsUser, (coment: any) => coment.avaliacao)
+    @OneToOne("NComentsUser", (coment: any) => coment.avaliacao)
     @JoinColumn({name: "servicos_id"})
     service!: Services
 }

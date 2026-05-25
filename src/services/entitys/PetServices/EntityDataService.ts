@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany} from "typeorm";
-import { NServicosDataHorario } from "./EntityNServicosData";
+import type{ NServicosDataHorario } from "./EntityNServicosData";
 
 @Entity("data_horario")
 export class DataService {
@@ -9,6 +9,6 @@ export class DataService {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     dia_horario!: Date;
 
-    @OneToMany(() => NServicosDataHorario, (dataHorario: any) => dataHorario.DataService)
+    @OneToMany("NServicosDataHorario", (dataHorario: any) => dataHorario.DataService)
     relationDataService!: NServicosDataHorario[]
 }

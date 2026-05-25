@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany, ManyToOne} from "typeorm";
-import { User } from "./EntityUser";
-import { Services } from "../PetServices/EntityServices";
-import { NServicosDataHorario } from "../PetServices/EntityNServicosData";
+import type { User } from "./EntityUser";
+import type { Services } from "../PetServices/EntityServices";
+import type { NServicosDataHorario } from "../PetServices/EntityNServicosData";
 
 @Entity("usuarios_servicos")
 export class UsuarioServicos {
@@ -20,15 +20,15 @@ export class UsuarioServicos {
     @Column()
     comentado!: boolean;
 
-    @ManyToOne(() => User, (user: any) => user.servicosEscolhidos)
+    @ManyToOne("User", (user: any) => user.servicosEscolhidos)
     @JoinColumn({name: "usuario_id"})
     usuarios!: User
 
-    @ManyToOne(() => Services, (user: any) => user.UsuariosDoService)
+    @ManyToOne("Services", (user: any) => user.UsuariosDoService)
     @JoinColumn({name: "servicos_id"})
     servicos!: Services
 
-    @ManyToOne(() => NServicosDataHorario, (servicosData: any) => servicosData.usuarioServices)
+    @ManyToOne("NServicosDataHorario", (servicosData: any) => servicosData.usuarioServices)
     @JoinColumn({name: "servicos_data_horario_id"})
     NServicosData!: NServicosDataHorario
 }
