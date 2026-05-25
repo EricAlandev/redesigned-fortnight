@@ -37,7 +37,8 @@ export const AppDataSource = new DataSource({
         User,
         UserNumber,
         UsuarioServicos
-    ]
+    ],
+    metadataTableName: "typeorm_metadata"
 });
 
 export const getDataSource = async() => {

@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request){
     try {
         const { loginData } = await req.json();
-
+        
         const { loginController } = await import("@/services/controllers/loginRegisterController");
 
         const login = await loginController(loginData);
