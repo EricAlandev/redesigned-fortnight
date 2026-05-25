@@ -1,4 +1,6 @@
-import webpack from 'webpack';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const webpack = require('webpack');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,20 +10,19 @@ const nextConfig = {
     if (isServer) {
       config.plugins.push(
         new webpack.IgnorePlugin({
-          resourceRegExp: /^( @sap\/hana-client|react-native-sqlite-storage|ioredis|redis|typeorm-aurora-data-api-driver|pg-native|mongodb|hdb-pool|mysql|mysql2|oracledb|pg-query-stream|sql.js|sqlite3|better-sqlite3)$/,
+          // The magic is the asterisk at the end of the regex
+          resourceRegExp: /(@sap\/hana-client.*|react-native-sqlite-storage.*|ioredis.*|redis.*|mongodb.*|oracle.*|mysql.*)/,
         })
       );
     }
     
-    // Fallback for client-side just in case
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+      child_process: false,
+    };
 
     return config;
   },
