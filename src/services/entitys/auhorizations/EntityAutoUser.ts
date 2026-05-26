@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne} from "typeorm";
 import  type { User } from "../User/EntityUser";
-import  type { Authorizations } from "./EntityAuthorization";
+import  type { Autorizacoess } from "./EntityAuthorization";
 
 @Entity("n_autorizacoesuser")
 export class AutoUser {
@@ -14,5 +14,5 @@ export class AutoUser {
 
     @ManyToOne("Authorizations", (auto: any) => auto.authorizations)
     @JoinColumn({ name: "autorizacoes_id" })
-    authorizationAutoUser!: Authorizations;
+    authorizationAutoUser!: Autorizacoess;
 }

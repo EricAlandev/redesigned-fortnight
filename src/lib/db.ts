@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { DataSource } from "typeorm";
 import path from "path";
-import { Authorizations } from "@/services/entitys/auhorizations/EntityAuthorization";
+import { Autorizacoess } from "@/services/entitys/auhorizations/EntityAuthorization";
 import { AutoUser } from "@/services/entitys/auhorizations/EntityAutoUser";
 import { Coments } from "@/services/entitys/coments/EntityComents";
 import { NComentsUser } from "@/services/entitys/coments/EntityNComentsUser";
@@ -36,7 +36,7 @@ export const AppDataSource = new DataSource({
         EndressUser,
         UserNumber,
         UsuarioServicos,
-                Authorizations,
+                Autorizacoess,
     ],
     metadataTableName: "typeorm_metadata"
 });

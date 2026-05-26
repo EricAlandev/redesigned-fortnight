@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../entitys/User/EntityUser";
 import { UserNumber } from "../entitys/User/EntityUserNumber";
 import { EndressUser } from "../entitys/User/EntityEnderecoUser";
-import { Authorizations } from "../entitys/auhorizations/EntityAuthorization";
+import { Autorizacoess } from "../entitys/auhorizations/EntityAuthorization";
 import { AutoUser } from "../entitys/auhorizations/EntityAutoUser";
 import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
 
@@ -26,13 +26,7 @@ export async function loginController(loginData: dadoLogin){
         where: {
             nome: nome
         },
-        relations: {
-            endress: true,
-            number: true,
-            authorizations: {
-                authorization: true
-            }
-        }
+        relations: ["endress", "number", "authorizations", "authorizations.authorization"]
     })
 
     if(!user){
