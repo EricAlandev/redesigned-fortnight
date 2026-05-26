@@ -12,4 +12,5 @@ export class Autorizacoess {
     @OneToMany("AutoUser", (userNumber : any) => userNumber.authorizationAutoUser)
     authorizations!: AutoUser[];
 
+    
 }
