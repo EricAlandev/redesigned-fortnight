@@ -7,7 +7,6 @@ import jwt from "jsonwebtoken";
 import { User } from "../entitys/User/EntityUser";
 import { UserNumber } from "../entitys/User/EntityUserNumber";
 import { EndressUser } from "../entitys/User/EntityEnderecoUser";
-import { Autorizacoess } from "../entitys/auhorizations/EntityAuthorization";
 import { AutoUser } from "../entitys/auhorizations/EntityAutoUser";
 import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
 
