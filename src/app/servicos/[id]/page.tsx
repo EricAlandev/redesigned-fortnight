@@ -37,12 +37,20 @@ export default function ServicosPage(){
     } = UseUser();
     
 
-    useEffect(() => {
-        if(id){
-            pullPageService(id as string, token || undefined);
-        }
+    // Adicione o id e o user.id na lista de dependências do useEffect
+useEffect(() => {
+  // Se o id não existe, não faz nada
+  if (!id) return;
 
-    }, [id])
+  // OPCIONAL: Se o seu sistema exige um usuário logado para ver a página,
+  // trave a execução até o user carregar:
+  // if (user === undefined) return; 
+
+  const userId = user?.id ? Number(user.id) : undefined;
+  
+  pullPageService(id as string, userId);
+
+}, [id, user?.id]); 
     
     return(
         <>

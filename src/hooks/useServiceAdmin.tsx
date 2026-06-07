@@ -1,14 +1,17 @@
 'use client'
 
-import { useGlobal } from "@/lib/GlobalContext";
-import { changeActualService, createNewData, createService, deleteService, pullServices } from "@/services/services/ServicesService";
-import { dataService, ServiceAndData, services } from "@/types/TypeService";
-import { pullQueueServices } from "@/services/services/ServicesService";
+import { useState } from "react";
+import { dataService, ServiceAndData, ServicesList } from "@/types/TypeService";
 
-import { useEffect, useState } from "react";
-
-import { ServicesList } from "@/types/TypeService";
-
+// Importing our clean, localized Server Actions bundle directly
+import { 
+  pullServices, 
+  createServiceAction, 
+  AddNewDataController, 
+  changeService, 
+  deleteService, 
+  pullQueueOfServices 
+} from "@/services/services/ServicesService";
 
 export function useServicesAdmin(){
         const [nextPage, setNextPage] = useState<string | null>("first page");
@@ -16,104 +19,89 @@ export function useServicesAdmin(){
         const [idDelete, setIdDelete] = useState<number>(-1);
         const [services, setServices] = useState<ServicesList>();
 
-
-        const {token} = useGlobal();
-
-        //crud services 
+        // 1. READ ALL SERVICES
         const pullAllServices = async() => {
-            try{
-                    const services = await pullServices();
-    
-                    console.log(services);
-                    setDataService(services);
+            try {
+                const fetchedServices = await pullServices();
+                console.log("Services loaded dynamically:", fetchedServices);
+                setDataService(fetchedServices as unknown as ServiceAndData[]);
             }
-    
-            catch(error){
-                
+            catch(error) {
+                console.error("Failed to read server records:", error);
             }
         }
     
+        // 2. CREATE SERVICE
         const addNewService = async(dados: ServiceAndData) => {
-            try{
-                if(token){
-                    const service = await createService(dados, token);
-                    pullAllServices();
-
-
-                    return {message: service?.message, status: 'sucess'}
-                }  
+            try {
+                const response = await createServiceAction(dados);
+                await pullAllServices(); // Hot reload local array view
+                return { message: response?.message, status: 'sucess' };
             }
-    
-            catch(error : any){
-                return {message: error?.message, status: 'error'}
+            catch(error: any) {
+                return { message: error?.message || "Erro desconhecido", status: 'error' };
             }
         }
     
+        // 3. ADD NEW TIME SLOT
         const addNewData = async(dados: dataService) => {
-            try{
-                if(token){
-                    const service = await createNewData(dados, token, idDelete);
-                    pullAllServices();
-                    return {message: service?.message, status: 'sucess'}
-
-                }  
+            try {
+                // Matches the controller parameters signature: (dia_horario, idConvertido)
+                const response = await AddNewDataController(dados.horario || "", idDelete);
+                await pullAllServices();
+                return { message: response?.message, status: 'sucess' };
             }
-    
-            catch(error : any){
-                return {message: error?.message, status: 'error'}
-                
+            catch(error: any) {
+                return { message: error?.message || "Erro ao adicionar horário", status: 'error' };
             }
         }
     
+        // 4. UPDATE SERVICE
         const changeValuesService = async(dados: ServiceAndData) => {
-            try{
-                if(idDelete !== -1){
-                    console.log("")
-                    const service = await changeActualService(idDelete,dados, token!);
-                    pullAllServices();
-
-                    return {message: service?.message , status: 'sucess'}
-
-                }  
+            try {
+                if (idDelete !== -1) {
+                    // Merges parameters with idParameter target identifier to match signature layout
+                    const response = await changeService({
+                        ...dados,
+                        idParameter: String(idDelete)
+                    });
+                    await pullAllServices();
+                    return { message: response?.mensagem, status: 'sucess' };
+                }
+                return { message: "Nenhum serviço selecionado", status: 'error' };
             }
-    
-            catch(error : any){
-                return {message: error?.message , status: 'error'}
-            }
-        }
-    
-        const deleteActualService = async(idDelete: number) => {
-            try{
-                if(idDelete !== -1){
-                    const service = await deleteService(idDelete, token!);
-                    pullAllServices();
-                }  
-            }
-    
-            catch(error){
-                
+            catch(error: any) {
+                return { message: error?.message || "Erro na alteração", status: 'error' };
             }
         }
+    
+        // 5. DELETE SERVICE
+        const deleteActualService = async(idToDeleteTarget: number) => {
+            try {
+                if (idToDeleteTarget !== -1) {
+                    await deleteService(String(idToDeleteTarget));
+                    await pullAllServices();
+                }  
+            }
+            catch(error) {
+                console.error("Failed to delete record item:", error);
+            }
+        }
 
-        //services list
+        // 6. METRICS BOOKING QUEUE FETCH
         const callQueue = async(enviar?: string) => {
-        
-                try{
-                    const queue = await pullQueueServices(enviar);
-                    setServices(queue);
-                }
-        
-                catch(error){
-                    console.log(error);
-                }
-        
+            try {
+                // Falls back to standard timeframe query fallback tracking strings inside controller
+                const queueData = await pullQueueOfServices(enviar || "semana");
+                setServices(queueData as unknown as ServicesList);
             }
+            catch(error) {
+                console.error("Error updating metric queue tracking details:", error);
+            }
+        }
         
     return {
-        //pull all services
         pullAllServices,
-
-        //crud/values
         addNewService,
         addNewData,
         changeValuesService,
@@ -124,9 +112,7 @@ export function useServicesAdmin(){
         setDataService,
         setNextPage,
         nextPage,
-
-        //services
         callQueue,
         services
-        }
+    };
 }

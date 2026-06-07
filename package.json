@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.29.7",
+    "@vercel/kv": "^3.0.0",
     "bcryptjs": "^3.0.3",
     "class-validator": "^0.15.1",
     "framer-motion": "^12.35.2",

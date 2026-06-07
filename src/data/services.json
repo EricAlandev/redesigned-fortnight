@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "nome_servico": "Lavagem de cabelos e perfumaria.",
+    "preco": 150,
+    "preco_desconto": 4,
+    "descricao": "12312",
+    "escolhido": false,
+    "avaliacao": {
+      "quantidade": 0,
+      "aprovacao_percentual": 0
+    },
+    "comentarios": [],
+    "slots": [
+      {
+        "idDate": 1,
+        "dia_horario": "2026-05-28T18:13",
+        "choosed": false
+      }
+    ]
+  }
+]

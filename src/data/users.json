@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "nome": "admin",
+    "senha": "admin",
+    "token": "file_session_jwt_eyJpZCI6MSwibm9tZSI6ImFkbWluIn0=",
+    "number": {
+      "dd": "11",
+      "numero": "999999999"
+    },
+    "endress": {
+      "endereco": "Rua Exemplo",
+      "numero_casa": "10"
+    },
+    "authorizations": [
+      {
+        "id": 1,
+        "authorization": {
+          "id": 1,
+          "name": "ADMIN"
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nome": "eric84",
+    "senha": "123",
+    "token": "",
+    "number": {
+      "dd": "85",
+      "numero": "86864233"
+    },
+    "endress": {
+      "endereco": "rua meton de alencar",
+      "numero_casa": "1324"
+    },
+    "authorizations": [
+      {
+        "id": 2,
+        "authorization": {
+          "id": 2,
+          "name": "USER"
+        }
+      }
+    ]
+  }
+]

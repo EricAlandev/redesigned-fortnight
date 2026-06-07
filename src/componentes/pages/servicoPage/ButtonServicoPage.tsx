@@ -37,14 +37,23 @@ export default function ButtonServicoPage({
 
     const { user, token } = useGlobal();
 
-    const arrayDates = ServicesData?.map((s) => {
-        const date = s?.DataService?.dia_horario;
-        let actualDate = "";
-        if (date) {
-            actualDate = ParseTheTime(date);
-        }
-        return { id: s?.DataService.id, date: actualDate }
-    }) || []; // Fallback to empty array to satisfy .length checks
+    // Modifique a lógica do arrayDates para ler de 'slots'
+    const arrayDates = ServicesData?.flatMap((s) => {
+        // Garante que 'slots' existe e mapeia cada slot individualmente
+        return (s?.slots || []).map((slot: any) => {
+            const date = slot?.dia_horario; // Altere para a propriedade real do seu slot (ex: 'dia_horario' ou 'hora')
+            let actualDate = "";
+            
+            if (date) {
+                actualDate = ParseTheTime(date);
+            }
+            
+            return { 
+                id: slot?.id || s.id, // Usa o id do slot, ou cai de volta pro id do serviço se não houver
+                date: actualDate 
+            };
+        });
+    }) || [];
 
     const handleChanger = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         const { name, value } = e.target;

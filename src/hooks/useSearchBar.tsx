@@ -1,10 +1,9 @@
-
 'use client'
 
-import { useRouter } from "next/navigation";
-import { searchService } from "@/services/services/ServicesService";
-import { ServiceAndData, services } from "@/types/TypeService";
+import { services } from "@/types/TypeService";
 import { useState } from "react";
+// Importing the direct serverless controller action we just created
+import { searchServiceController } from "@/services/services/ServicesService";
 
 type resultFetchSearch = {
   quantityResult: number,
@@ -17,34 +16,28 @@ export function useSearchBar(){
       const [quantityResult, setQuantityResult] = useState<number>();
 
       const FetchSearch = async (searchValue: string) => {
-        try{
-          const services: resultFetchSearch | null = await searchService(searchValue);
+        try {
+          // Calls the direct file-system search mapping without an HTTP overhead
+          const response: resultFetchSearch | null = await searchServiceController(searchValue);
 
-          if(services?.quantityResult && services.services){
-            setResultServices(services.services);
-            setQuantityResult(services.quantityResult);
-          }
-
-          else{
+          if (response?.quantityResult !== undefined && response.services) {
+            setResultServices(response.services);
+            setQuantityResult(response.quantityResult);
+          } else {
             setResultServices([]);
             setQuantityResult(0);
           }
-
-
         }
-    
-        catch(error){
-          console.log(error);
+        catch(error) {
+          console.error("Error executing search bar server action:", error);
+          setResultServices([]);
+          setQuantityResult(0);
         }
       }
-
 
       return {
         FetchSearch,
         quantityResult,
         resultServices
       }
-
-    
-    
 }

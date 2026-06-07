@@ -1,67 +1,59 @@
-import { DataAvaliation } from "@/types/TypeAvaliation";
-import { DataUser, typeUsuario } from "@/types/TypeUsuarios"
+"use server"
 
-type reutrnOfDataChange = {
-    user: typeUsuario,
-    message: string
+import { DataAvaliation } from "@/types/TypeAvaliation";
+import { DataUser } from "@/types/TypeUsuarios";
+// Import your database backend functions directly from your data controller
+import { ChangeDataOfUser, PutComentController } from "@/services/controllers/UserController";
+
+type ReturnOfDataChange = {
+  user: any;
+  message: string;
 }
 
 type MessageObject = {
-    message: string
+  message: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// ==========================================================
+// 1. BRIDGE ACTION: PROFILE MUTATION DATA
+// ==========================================================
+export const changeDataUser = async (data: DataUser): Promise<ReturnOfDataChange> => {
+  console.log("Directly changing profile data metrics:", data);
+  
+  try {
+    // Unpack interface structures to feed into data logic cleanly
+    const result = await ChangeDataOfUser(
+      Number(data.id),
+      data.nome || "",
+      data.endress?.endereco || "",
+      data.endress?.numero_casa || "",
+      data.number?.dd || "",
+      data.number?.numero || ""
+    );
 
+    return result;
+  } catch (error: any) {
+    // Re-throw raw messages to trigger the hook's catch blocks correctly
+    throw new Error(error.message || "Erro na alteração dos dados");
+  }
+};
 
-export const changeDataUser = async(data: DataUser ,token: string) => {
-        console.log("Data change", data, token);
-        
-        const request = await fetch(`${API_BASE_URL}/user/dataChange/api`, {
-            method: 'PUT',
-            headers: {
-                'Content-type' : 'application/json',
-                'Authorization' : `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                data
-            })
-        })
+// ==========================================================
+// 2. BRIDGE ACTION: SERVICE REVIEWS SUBMISSION
+// ==========================================================
+export const putComents = async (data: DataAvaliation, idService: string): Promise<MessageObject> => {
+  console.log("Directly mapping comment payload onto backend tree:", idService);
 
-        const response: reutrnOfDataChange = await request.json();
+  try {
+    const result = await PutComentController(
+      String(data.avaliacao),
+      data.comentario || "",
+      Number(data.idUser),
+      Number(idService)
+    );
 
-        console.log("afeter date change", response);
-
-        if (!request.ok) {
-            // We throw the message sent by your API (e.g., "O nome é igual ao nome atual")
-            throw new Error(response.message || "Erro na alteração dos dados");
-        }
-
-        return response;
-
-}
-
-export const putComents = async(data: DataAvaliation ,token: string, idService : string) => {
-    
-    console.log('inside servces before route', idService);
-    const request = await fetch(`${API_BASE_URL}/user/comentario/api`, {
-        method: 'PUT',
-        headers: {
-            'Content-type' : 'application/json',
-            'Authorization' : `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            data,
-            idService
-        })
-    })
-
-    const response: MessageObject = await request.json();
-
-    if (!request.ok) {
-        // We throw the message sent by your API (e.g., "O nome é igual ao nome atual")
-        throw new Error(response.message || "Erro na alteração dos dados");
-    }
-
-    return response;
-
-}
+    return result;
+  } catch (error: any) {
+    throw new Error(error.message || "Erro ao salvar o comentário");
+  }
+};

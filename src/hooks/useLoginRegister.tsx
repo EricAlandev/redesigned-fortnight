@@ -1,49 +1,40 @@
+// src/hooks/useLoginRegister.ts
 'use client'
-import { dadoLogin } from "@/types/TypeLoginCadastro";
-import { loginFunction } from "@/services/services/loginRegisterService";
-
+import { dadoLogin, dadoCadastro } from "@/types/TypeLoginCadastro";
+// Direct import! Next.js knows this runs on the server because of "use server" inside that file
+import { loginController, registerController } from "@/services/controllers/loginRegisterController";
 import { useGlobal } from "@/lib/GlobalContext";
 import { useRouter } from "next/navigation";
-import { registerFunction } from "@/services/services/loginRegisterService";
-import { dadoCadastro } from "@/types/TypeLoginCadastro";
 
-export default function useLoginRegister(){
+export default function useLoginRegister() {
+  const { login } = useGlobal();
+  const router = useRouter();
 
-        const {login} = useGlobal();
-        const router = useRouter();
-        
-        const makeLogin = async(loginData: dadoLogin) => {
-            try{
-                const valueLogin = await loginFunction(loginData);
-        
-                if(valueLogin?.user && valueLogin?.token){
-                    login(valueLogin?.user, valueLogin?.token);
-                    router.push("/")
-                }
-            }
-    
-        catch(error : any){
-            return {message: error?.message, status: 'error'}
-        }
+  const makeLogin = async (loginData: dadoLogin) => {
+    try {
+      // Calling the server function directly with zero fetch endpoints!
+      const valueLogin = await loginController(loginData);
+
+      if (valueLogin?.user && valueLogin?.token) {
+        login(valueLogin?.user, valueLogin?.token);
+        router.push("/");
+      }
+    } catch (error: any) {
+      return { message: error?.message || "Erro no login", status: 'error' as const };
     }
+  };
 
-    const register = async(dadoCadastro: dadoCadastro) => {
-        try{
-            console.log(dadoCadastro);
-            const regi = await registerFunction(dadoCadastro);
-
-            return {message: regi?.message, status: 'register'}
-        }
-    
-        catch(error: any){
-            return {message: error?.message, status: 'error'}
-        }
+  const register = async (dadoCadastro: dadoCadastro) => {
+    try {
+      const regi = await registerController(dadoCadastro);
+      return { message: regi?.mensagem, status: 'register' as const };
+    } catch (error: any) {
+      return { message: error?.message || "Erro no cadastro", status: 'error' as const };
     }
-    
+  };
 
-    return{
-            makeLogin,
-            register
-        }
-    
+  return {
+    makeLogin,
+    register
+  };
 }

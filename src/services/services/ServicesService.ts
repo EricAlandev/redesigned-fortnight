@@ -1,223 +1,334 @@
-import { dataService, ServiceAndData } from "@/types/TypeService";
+"use server"
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import fs from "fs";
+import path from "path";
+import { ServiceAndData, services as TypeServices } from "@/types/TypeService";
+import { ParseTheTime, ParseTimeNotComplete } from "@/lib/functions/ParseTheTime";
+import { PhotoImage } from "@/lib/functions/PhotoIMage";
 
-export const searchService = async(searchValue: string) => {
-    try {    
-        const request = await fetch(`${API_BASE_URL}/pesquisa/api`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                searchValue
-            })
-        });
+const servicesPath = path.join(process.cwd(), "src/data/services.json");
+const bookingsPath = path.join(process.cwd(), "src/data/bookings.json");
+const usersPath = path.join(process.cwd(), "src/data/users.json");
 
-        if (!request.ok) {
-            console.error(`searchService failed with status: ${request.status}`);
-            return []; // Return fallback array
-        }
+// --- JSON FILE DATABASE SYSTEM UTILITIES ---
+const getFileServices = (): any[] => {
+  try { return JSON.parse(fs.readFileSync(servicesPath, "utf-8")); } catch { return []; }
+};
+const saveFileServices = (data: any[]) => {
+  fs.writeFileSync(servicesPath, JSON.stringify(data, null, 2), "utf-8");
+};
+const getFileBookings = (): any[] => {
+  try { return JSON.parse(fs.readFileSync(bookingsPath, "utf-8")); } catch { return []; }
+};
+const saveFileBookings = (data: any[]) => {
+  fs.writeFileSync(bookingsPath, JSON.stringify(data, null, 2), "utf-8");
+};
+const getFileUsers = (): any[] => {
+  try { return JSON.parse(fs.readFileSync(usersPath, "utf-8")); } catch { return []; }
+};
 
-        const response = await request.json();
-        return Array.isArray(response) ? response : [];
-    }
-    catch(error) {
-        console.error("Error in searchService:", error);
-        return [];
-    }
-}
+type servicePutParameter = ServiceAndData & { idParameter: string }
+type pullOneServiceType = { idConvertido: number, idUser?: number }
 
-export const pullServices = async() => {
-    try {    
-        const request = await fetch(`${API_BASE_URL}/servicos/api`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            },
-        });
+// ==========================================================
+// 1. PULL ALL SERVICES (GET)
+// ==========================================================
+export async function pullServices() {
+  const services = getFileServices();
+  if (services.length === 0) return [];
 
-        // CRITICAL FIX: If Render sends a 400, return an empty array instead of letting it break the UI
-        if (!request.ok) {
-            console.error(`pullServices failed with status: ${request.status}`);
-            return []; 
-        }
-
-        const response = await request.json();
-        
-        // Double check that the data structure is a flat array before passing it along
-        return Array.isArray(response) ? response : [];
-    }
-    catch(error) {
-        console.error("Error in pullServices:", error);
-        return []; // Fallback array prevents p.slice is not a function
-    }
-}
-
-export const pullOneService = async(id: string, token?: string) => {
-    try {    
-        let headers: Record<string, string> = {'Content-type' : 'application/json'}
-
-        if(token !== undefined){
-            headers = {...headers, 'Authorization' : `Bearer ${token}`};
-        }
-
-        const request = await fetch(`${API_BASE_URL}/servicos/${id}/api`, {
-            method: 'GET',
-            headers: headers
-        });
-
-        if (!request.ok) {
-            console.error(`pullOneService failed with status: ${request.status}`);
-            return null;
-        }
-
-        const response = await request.json();
-        return response;
-    }
-    catch(error) {
-        console.error("Error in pullOneService:", error);
-        return null;
-    }
-}
-
-export const pullQueueServices = async(value?: string) => {
-    try {    
-        let values = null;
-        if(value){
-            values = value;
-        }
-        console.log("services queue, before", value);
-        const request = await fetch(`${API_BASE_URL}/servicos/admin/servicesList/api?values=${values}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            }
-        });
-
-        if (!request.ok) {
-            console.error(`pullQueueServices failed with status: ${request.status}`);
-            return [];
-        }
-
-        const response = await request.json();
-        console.log("services queue, after", response);
-        
-        return Array.isArray(response) ? response : [];
-    }
-    catch(error) {
-        console.error("Error in pullQueueServices:", error);
-        return [];
-    }
-}
-
-export const UserSelectService = async(dados: dataService, token: string, idConvertido:string, idDate: string) => {
-    try {    
-        console.log(dados);
-
-        const request = await fetch(`${API_BASE_URL}/user/service/${idConvertido}`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization' : `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                dados,
-                idDate
-            })
-        });
-
-        if (!request.ok) {
-            console.error(`UserSelectService failed with status: ${request.status}`);
-            return { error: true };
-        }
-
-        return await request.json();
-    }
-    catch(error) {
-        console.error("Error in UserSelectService:", error);
-        return { error: true };
-    }
-}
-
-export const createService = async(dados: ServiceAndData, token: string) => {
-    const request = await fetch(`${API_BASE_URL}/servicos/api`, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization' : `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            dados
-        })
+  let arrayServices = [];
+  for (let i = 0; i < services.length; i++) {
+    const urlPhotos = await PhotoImage(services[i].nome_servico);
+    arrayServices.push({
+      id: services[i].id,
+      nome_servico: services[i].nome_servico,
+      preco: services[i].preco,
+      preco_desconto: services[i].preco_desconto,
+      url: urlPhotos
     });
-
-    const response: any = await request.json();
-
-    if(!request.ok){
-        throw new Error(response?.message || "Failed to create service");
-    }
-
-    return {message: response?.message}
+  }
+  return arrayServices;
 }
 
-export const createNewData = async(dados: dataService, token: string, id: number) => {
-    const request = await fetch(`${API_BASE_URL}/servicos/${id}/api`, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization' : `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            dia_horario : dados
-        })
+// ==========================================================
+// 2. PULL ONE SPECIFIC SERVICE BY ID (GET [ID])
+// ==========================================================
+export async function pullOneService({ idConvertido, idUser }: pullOneServiceType) {
+  const services = getFileServices();
+  const bookings = getFileBookings();
+
+  const service = services.find(s => s.id === idConvertido);
+  if (!service) {
+    throw new Error("Fail to find the service");
+  }
+
+  // Filter available timeslots (where choosed === false)
+  const availableSlots = (service.slots || []).filter((slot: any) => !slot.choosed);
+
+  // Verification: Can the user review this item?
+  let userCanComment = false;
+  if (idUser !== undefined && idUser > 0) {
+    const now = new Date();
+    
+    // Scan booking collections for a past, unreviewed completion
+    const pastBooking = bookings.find(b => 
+      b.usuario_id === idUser && 
+      b.servicos_id === idConvertido &&
+      new Date(b.dia_horario) < now &&
+      (b.comentado === null || b.comentado !== true)
+    );
+
+    if (pastBooking) {
+      userCanComment = true;
+    }
+  }
+
+  // Parse custom metadata payloads for reviews
+  let cleanComments: any = [];
+  const rawComments = service.comentarios || [];
+  const users = getFileUsers();
+
+  for (let i = 0; i < rawComments.length; i++) {
+    const commentUser = users.find(u => u.id === rawComments[i].usuario_id);
+    cleanComments.push({
+      comentario: rawComments[i].comentario,
+      avaliacaoComentario: String(rawComments[i].avaliacao),
+      dataAvaliation: ParseTimeNotComplete(rawComments[i].horario),
+      idUser: rawComments[i].usuario_id,
+      nomeUser: commentUser ? commentUser.nome : "Usuário Anônimo"
     });
+  }
 
-    const response = await request.json();
-
-    if(!request.ok){
-        throw new Error(response?.message || "Failed to create new data");
-    }
-
-    return {message: response?.message}
+  return {
+    id: service.id,
+    nome_servico: service.nome_servico,
+    preco: service.preco,
+    preco_desconto: service.preco_desconto,
+    descricao: service.descricao,
+    url: await PhotoImage(service.nome_servico),
+    ServicesData: availableSlots,
+    avaliacao: String(service.avaliacao?.aprovacao_percentual || 0),
+    quantidadeAvaliacoes: rawComments.length,
+    comentarios: cleanComments,
+    userCanComment: userCanComment
+  };
 }
 
-export const changeActualService = async(id: number, dados: ServiceAndData, token: string) => {   
-    const request = await fetch(`${API_BASE_URL}/servicos/${id}/api`, {
-        method: 'PUT',
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization' : `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            dados
-        })
+// ==========================================================
+// 3. PULL QUEUE OF SERVICES (ADMIN METRICS FETCH)
+// ==========================================================
+export async function pullQueueOfServices(typeSearch: string) {
+  const bookings = getFileBookings();
+  const services = getFileServices();
+  const users = getFileUsers();
+
+  let dateLimit = new Date();
+  switch (typeSearch) {
+    case "semana": dateLimit.setDate(dateLimit.getDate() - 7); break;
+    case "trinta": dateLimit.setDate(dateLimit.getDate() - 30); break;
+    case "sesenta": dateLimit.setDate(dateLimit.getDate() - 60); break;
+    default: dateLimit.setDate(dateLimit.getDate() - 7); break;
+  }
+
+  // Filter schedules that match timeframe benchmarks
+  const activeBookings = bookings.filter(b => b.choosed && new Date(b.dia_horario) > dateLimit);
+
+  // Sort Descending ("DESC")
+  activeBookings.sort((a, b) => new Date(b.dia_horario).getTime() - new Date(a.dia_horario).getTime());
+
+  let finalArray = [];
+  for (let i = 0; i < activeBookings.length; i++) {
+    const booking = activeBookings[i];
+    const itemService = services.find(s => s.id === booking.servicos_id);
+    const itemUser = users.find(u => u.id === booking.usuario_id);
+
+    if (itemService && itemUser) {
+      finalArray.push({
+        idData: booking.idDate,
+        dia_horario: ParseTheTime(booking.dia_horario),
+        idServer: itemService.id,
+        nome_servico: itemService.nome_servico,
+        preco: itemService.preco,
+        preco_desconto: itemService.preco_desconto,
+        url: await PhotoImage(itemService.nome_servico),
+        idUser: itemUser.id,
+        authorizations: itemUser.authorizations,
+        nome: itemUser.nome,
+        endress: itemUser.endress,
+        number: itemUser.number
+      });
+    }
+  }
+
+  return finalArray;
+}
+
+// ==========================================================
+// 4. SEARCH SERVICE CONTROLLER
+// ==========================================================
+export async function searchServiceController(searchValue: string) {
+  const services = getFileServices();
+  const decodedSearch = decodeURIComponent(searchValue).trim();
+  const cleanSearch = decodedSearch.replace(/[^a-zA-Z0-9 ]/g, '');
+
+  if (cleanSearch === "") return { services: [], quantityResult: 0 };
+
+  const matches = services.filter(s => 
+    s.nome_servico?.toLowerCase().includes(cleanSearch.toLowerCase())
+  );
+
+  let finalArray: TypeServices[] = [];
+  for (let i = 0; i < matches.length; i++) {
+    finalArray.push({
+      id: matches[i].id,
+      descricao: matches[i].descricao,
+      nome_servico: matches[i].nome_servico,
+      preco: matches[i].preco,
+      preco_desconto: matches[i].preco_desconto,
+      url: await PhotoImage(matches[i].nome_servico)
     });
+  }
 
-    const response = await request.json();
-
-    if(!request.ok){
-        throw new Error(response?.mensagem || "Failed to change service");
-    }
-
-    return {message: response?.mensagem}
+  return { services: finalArray, quantityResult: finalArray.length };
 }
 
-export const deleteService = async(id: number, token: string) => {
-    try {    
-        const request = await fetch(`${API_BASE_URL}/servicos/${id}/api`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization' : `Bearer ${token}`
-            }
-        });
+// ==========================================================
+// 5. CREATE SERVICE (POST)
+// ==========================================================
+export async function createServiceAction({ nome_servico, preco, preco_desconto, horario, descricao }: ServiceAndData) {
+  const services = getFileServices();
 
-        const response = await request.json();
-        return response;
-    }
-    catch(error) {
-        console.error("Error in deleteService:", error);
-        return { error: true };
-    }
+  if (preco_desconto !== null && Number(preco_desconto) > Number(preco)) {
+    throw new Error("Preço desconto maior que preço normal");
+  }
+
+  const nextServiceId = services.length > 0 ? Math.max(...services.map(s => s.id)) + 1 : 1;
+
+  // Build the unified layout mapping related sub-entities inside a clean single object tree
+  const newService = {
+    id: nextServiceId,
+    nome_servico,
+    preco: Number(preco),
+    preco_desconto: (preco_desconto !== null && preco_desconto !== "") ? Number(preco_desconto) : null,
+    descricao,
+    escolhido: false,
+    avaliacao: { quantidade: 0, aprovacao_percentual: 0 },
+    comentarios: [],
+    slots: [
+      {
+        idDate: 1,
+        dia_horario: horario,
+        choosed: false
+      }
+    ]
+  };
+
+  services.push(newService);
+  saveFileServices(services);
+
+  return { 
+    message: "Serviço e horário criados com sucesso!", 
+    serviceId: nextServiceId 
+  };
+}
+
+// ==========================================================
+// 6. ADD NEW DATA/SLOT TO SERVICE (POST)
+// ==========================================================
+export async function AddNewDataController(dia_horario: string, idConvertido: number) {
+  const services = getFileServices();
+  const index = services.findIndex(s => s.id === idConvertido);
+
+  if (index === -1) throw new Error("Serviço não encontrado");
+
+  const slots = services[index].slots || [];
+  const nextDateId = slots.length > 0 ? Math.max(...slots.map((sl: any) => sl.idDate)) + 1 : 1;
+
+  slots.push({
+    idDate: nextDateId,
+    dia_horario: dia_horario,
+    choosed: false
+  });
+
+  services[index].slots = slots;
+  saveFileServices(services);
+
+  return { message: "Data adicionada!" };
+}
+
+// ==========================================================
+// 7. USER SELECT SERVICE / BOOKING OPERATION (POST)
+// ==========================================================
+export async function userSelectService(id: number, idService: number, horario: string, idDate: string) {
+  const services = getFileServices();
+  const bookings = getFileBookings();
+
+  const serviceIndex = services.findIndex(s => s.id === idService);
+  if (serviceIndex === -1) throw new Error("O serviço selecionado não existe.");
+
+  const slots = services[serviceIndex].slots || [];
+  const slotIndex = slots.findIndex((sl: any) => sl.idDate === Number(idDate));
+
+  if (slotIndex === -1 || slots[slotIndex].choosed) {
+    throw new Error("Este horário não está disponível para este serviço.");
+  }
+
+  // Lock timeslot on file array matrix
+  slots[slotIndex].choosed = true;
+  services[serviceIndex].slots = slots;
+  saveFileServices(services);
+
+  // Generate Booking record row entry
+  const nextBookingId = bookings.length > 0 ? Math.max(...bookings.map(b => b.id)) + 1 : 1;
+  bookings.push({
+    id: nextBookingId,
+    usuario_id: id,
+    servicos_id: idService,
+    idDate: Number(idDate),
+    dia_horario: slots[slotIndex].dia_horario,
+    choosed: true,
+    comentado: null
+  });
+  saveFileBookings(bookings);
+
+  return { success: true, message: "Serviço agendado com sucesso!" };
+}
+
+// ==========================================================
+// 8. CHANGE SERVICE DATA (PUT)
+// ==========================================================
+export async function changeService({ idParameter, nome_servico, preco_desconto, preco, descricao }: servicePutParameter) {
+  const services = getFileServices();
+  const index = services.findIndex(s => s.id === Number(idParameter));
+
+  if (index === -1) throw new Error("Não foi possível encontrar o serviço atual");
+
+  let parameters: any = {};
+  if (nome_servico && nome_servico !== "") parameters.nome_servico = nome_servico;
+  if (descricao && descricao !== "") parameters.descricao = descricao;
+  if (preco_desconto !== undefined && preco_desconto !== "") parameters.preco_desconto = Number(preco_desconto);
+  if (preco && preco !== "") parameters.preco = Number(preco);
+
+  if (Object.keys(parameters).length === 0) throw new Error("Nenhum campo para atualizar");
+
+  services[index] = { ...services[index], ...parameters };
+  saveFileServices(services);
+
+  return { mensagem: "Serviço atualizado com sucesso" };
+}
+
+// ==========================================================
+// 9. DELETE SERVICE (DELETE)
+// ==========================================================
+export async function deleteService(id: string) {
+  const services = getFileServices();
+  const updatedList = services.filter(s => s.id !== Number(id));
+
+  if (services.length === updatedList.length) {
+    throw new Error("Error in the delete of the service");
+  }
+
+  saveFileServices(updatedList);
+  return { mensagem: "service deleted" };
 }

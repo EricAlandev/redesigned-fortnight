@@ -1,153 +1,88 @@
-import { getDataSource } from "@/lib/db";
+// src/services/controllers/loginRegisterController.ts
+"use server" // 👈 This tells Next.js this is a Server Action!
+
 import { dadoCadastro, dadoLogin } from "@/types/TypeLoginCadastro";
+import fs from "fs";
+import path from "path";
 
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+const filePath = path.join(process.cwd(), "src/data/users.json");
 
-import { User } from "../entitys/User/EntityUser";
-import { UserNumber } from "../entitys/User/EntityUserNumber";
-import { EndressUser } from "../entitys/User/EntityEnderecoUser";
-import { AutoUser } from "../entitys/auhorizations/EntityAutoUser";
-import { VerifyAuthorization } from "@/lib/functions/VerifyAuthorization";
+const getFileUsers = (): any[] => {
+  try {
+    const fileData = fs.readFileSync(filePath, "utf-8");
+    return JSON.parse(fileData);
+  } catch (error) {
+    return [];
+  }
+};
 
+const saveFileUsers = (users: any[]) => {
+  fs.writeFileSync(filePath, JSON.stringify(users, null, 2), "utf-8");
+};
 
-export async function loginController(loginData: dadoLogin){
+export async function loginController(loginData: dadoLogin) {
+  const { nome, senha } = loginData;
+  const users = getFileUsers();
 
-    const AppDataSource = await getDataSource();
+  if (!nome || !senha) {
+    throw new Error("Faltando o nome ou a senha");
+  }
 
-    const {nome, senha} = loginData;
-    
-    if(!nome || !senha){
-        throw new Error("Faltando o nome ou a senha");
-    }
+  const user = users.find((u) => u.nome.toLowerCase() === nome.toLowerCase());
 
-    const user = await AppDataSource.getRepository(User).findOne({
-        where: {
-            nome: nome
-        },
-        relations: ["endress", "number", "authorizations", "authorizations.authorization"]
-    })
+  if (!user || user.senha !== senha) {
+    throw new Error("Usuário não existe ou senha errada");
+  }
 
-    if(!user){
-        throw new Error("Usuário não existe");
-    }
+  const token = `file_session_jwt_${btoa(JSON.stringify({ id: user.id, nome: user.nome }))}`;
+  
+  user.token = token;
+  saveFileUsers(users);
 
-    console.log("senha",senha, "nome", nome);
-    const password = await bcrypt.compare(senha, user.senha);
-    console.log("password", password);
-    
+  const isAdmin = user.authorizations?.some(
+    (auth: any) => auth.authorization?.id === 1 || auth.authorization?.name === "ADMIN"
+  );
 
-    if(!password){
-        throw new Error("Senha errada");
-    }
-
-    const SECRET_KEY = process.env.JWT_SECRET!
-
-    const payload = {
-        id: user.id,
-        nome: nome
-    }
-
-    const token = jwt.sign(payload, SECRET_KEY, {
-        expiresIn: "1h"
-    })
-
-    const updateUser = await AppDataSource.getRepository(User).update(
-        {
-        id: user.id
-        },
-        {
-            token: token
-        }
-    )
-
-    if(updateUser.affected === 0){
-        throw new Error("Falha para criar o token");
-    }
-
-    const admin = await VerifyAuthorization(user?.authorizations);
-
-    const finalUser = {
-        id: user?.id,
-        nome: user?.nome,
-        number: user?.number,
-        authorizations: user?.authorizations,
-        endress: user?.endress,
-        admin: admin
-    }
-
-    return {user : finalUser, token}
-
+  return {
+    user: {
+      id: user.id,
+      nome: user.nome,
+      number: user.number,
+      authorizations: user.authorizations,
+      endress: user.endress,
+      admin: isAdmin
+    },
+    token
+  };
 }
 
-
 export async function registerController(dadoCadastro: dadoCadastro) {
-    const AppDataSource = await getDataSource();
+  const { nome, senha, dd, numero, endereco, numero_casa } = dadoCadastro;
+  const users = getFileUsers();
 
-    // Use the transaction method
-    return await AppDataSource.transaction(async (transactionalEntityManager) => {
-        const { nome, senha, dd, numero, endereco, numero_casa } = dadoCadastro;
+  if (!nome || !senha) {
+    throw new Error("Faltando campos obrigatórios");
+  }
 
-        if (nome) {
-            const existingUser = await transactionalEntityManager.findOne(User, {
-                where: { nome: nome }
-            });
+  const existingUser = users.find((u) => u.nome.toLowerCase() === nome.toLowerCase());
+  if (existingUser) {
+    throw new Error("Já existe um usuário com esse nome");
+  }
 
-            if (existingUser) {
-                throw new Error("Já existe um usuário com esse nome");
-            }
-        }
+  const nextUserId = users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
 
-        const password = await bcrypt.hash(senha, 10);
+  const newLocalUser = {
+    id: nextUserId,
+    nome: nome,
+    senha: senha, 
+    token: "",
+    number: { dd, numero },
+    endress: { endereco, numero_casa },
+    authorizations: [{ id: nextUserId, authorization: { id: 2, name: "USER" } }]
+  };
 
-        const usuario = transactionalEntityManager.create(User, {
-            nome: nome,
-            senha: password
-        });
+  users.push(newLocalUser);
+  saveFileUsers(users);
 
-        const userFeito = await transactionalEntityManager.save(User, usuario);
-
-        if (!userFeito) {
-            throw new Error("Erro ao cadastrar o user");
-        }
-
-        const userId = userFeito.id;
-
-        const numberUser = transactionalEntityManager.create(UserNumber, {
-            dd: dd,
-            numero: numero,
-            user: { id: userId }
-        });
-
-        const numberCreated = await transactionalEntityManager.save(UserNumber, numberUser);
-
-        if (!numberCreated) {
-            throw new Error("Erro ao cadastrar o número");
-        }
-
-        const address = transactionalEntityManager.create(EndressUser, {
-            endereco: endereco,
-            numero_casa: numero_casa,
-            user: { id: userId }
-        });
-
-        const endressCreated = await transactionalEntityManager.save(EndressUser, address);
-
-        if (!endressCreated) {
-            throw new Error("Erro ao cadastrar o endereço");
-        }
-
-        const authorization = transactionalEntityManager.create(AutoUser, {
-            authorization: { id: 1 },
-            user: { id: userId }
-        });
-
-        const userAuthorization = await transactionalEntityManager.save(AutoUser, authorization);
-
-        if (!userAuthorization) {
-            throw new Error("Erro na criação da autorização do usuário");
-        }
-
-        return { mensagem: "Usuário criado!" };
-    });
+  return { mensagem: "Usuário criado!" };
 }
