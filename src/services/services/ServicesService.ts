@@ -118,50 +118,37 @@ export async function pullOneService({ idConvertido, idUser }: pullOneServiceTyp
 // ==========================================================
 // 3. PULL QUEUE OF SERVICES (ADMIN METRICS FETCH)
 // ==========================================================
-export async function pullQueueOfServices(typeSearch: string) {
-  const bookings = getFileBookings();
+// ==========================================================
+// 3. PULL QUEUE OF SERVICES (ADMIN METRICS FETCH)
+// ==========================================================
+export async function pullQueueOfServices(period: string = "semana") {
   const services = getFileServices();
+  const bookings = getFileBookings();
   const users = getFileUsers();
 
-  let dateLimit = new Date();
-  switch (typeSearch) {
-    case "semana": dateLimit.setDate(dateLimit.getDate() - 7); break;
-    case "trinta": dateLimit.setDate(dateLimit.getDate() - 30); break;
-    case "sesenta": dateLimit.setDate(dateLimit.getDate() - 60); break;
-    default: dateLimit.setDate(dateLimit.getDate() - 7); break;
-  }
+  const now = new Date();
 
-  // Filter schedules that match timeframe benchmarks
-  const activeBookings = bookings.filter(b => b.choosed && new Date(b.dia_horario) > dateLimit);
+  const upcomingBookings = bookings
+    .filter((b) => new Date(b.dia_horario) > now)
+    .sort((a, b) => new Date(a.dia_horario).getTime() - new Date(b.dia_horario).getTime());
 
-  // Sort Descending ("DESC")
-  activeBookings.sort((a, b) => new Date(b.dia_horario).getTime() - new Date(a.dia_horario).getTime());
+  // Return a flat array instead of a metrics object
+  const result = upcomingBookings.map((booking) => {
+    const service = services.find((s) => s.id === booking.servicos_id);
+    const user = users.find((u) => u.id === booking.usuario_id);
+    return {
+      idService: booking.servicos_id,
+      idData: booking.idDate,
+      nome_servico: service?.nome_servico || "",
+      preco: service?.preco || 0,
+      preco_desconto: service?.preco_desconto || null,
+      horario: booking.dia_horario,
+      nome: user?.nome || "Usuário Anônimo",
+      number: user?.number || ""
+    };
+  });
 
-  let finalArray = [];
-  for (let i = 0; i < activeBookings.length; i++) {
-    const booking = activeBookings[i];
-    const itemService = services.find(s => s.id === booking.servicos_id);
-    const itemUser = users.find(u => u.id === booking.usuario_id);
-
-    if (itemService && itemUser) {
-      finalArray.push({
-        idData: booking.idDate,
-        dia_horario: ParseTheTime(booking.dia_horario),
-        idServer: itemService.id,
-        nome_servico: itemService.nome_servico,
-        preco: itemService.preco,
-        preco_desconto: itemService.preco_desconto,
-        url: await PhotoImage(itemService.nome_servico),
-        idUser: itemUser.id,
-        authorizations: itemUser.authorizations,
-        nome: itemUser.nome,
-        endress: itemUser.endress,
-        number: itemUser.number
-      });
-    }
-  }
-
-  return finalArray;
+  return result; // ✅ plain array, .slice() will work
 }
 
 // ==========================================================

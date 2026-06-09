@@ -3,7 +3,7 @@
 import { ServiceAndData, services } from "@/types/TypeService";
 import { useEffect, useState } from "react";
 
-export default function useLogicalNumber(servicesArray: ServiceAndData[] | services[]){
+export default function useLogicalNumber(servicesArray: ServiceAndData[] | services[] | []){
 
     const [servicesPerPage, setServicesPerPage] = useState<number>(2);
     const [actualPageNumber, setActualPageNumber] = useState(1);

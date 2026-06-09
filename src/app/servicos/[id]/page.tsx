@@ -37,14 +37,8 @@ export default function ServicosPage(){
     } = UseUser();
     
 
-    // Adicione o id e o user.id na lista de dependências do useEffect
 useEffect(() => {
-  // Se o id não existe, não faz nada
   if (!id) return;
-
-  // OPCIONAL: Se o seu sistema exige um usuário logado para ver a página,
-  // trave a execução até o user carregar:
-  // if (user === undefined) return; 
 
   const userId = user?.id ? Number(user.id) : undefined;
   
@@ -74,31 +68,29 @@ useEffect(() => {
                             />
 
                             
-                            <ButtonServicoPage
-                                    enviar={async(data, idDate) => {
-                                    if(id && token){
-                                        const idString = id as string
-                                        userSelectServiceToBuy(data, idDate, idString, token)
-                                    }
-                                    }}
-                                    ServicesData={data?.ServicesData}
+    
+<ButtonServicoPage
+    enviar={async(data, idDate) => {
+        if(id && token){
+            const idString = id as string
+            userSelectServiceToBuy(data, idDate, idString, user?.id)
+        }
+    }}
+    
+    slots={data?.ServicesData} 
 
-                                    name={user?.nome}
-                                    endereco={user?.endress?.endereco}
-                                    numero_casa={user?.endress?.numero_casa}
-                                    nome_servico={data?.nome_servico}
-                                    preco={data?.preco}
-                                    preco_desconto={data?.preco_desconto}
-
-                                    //activate the popUp if the dosn't want its logged
-                                    actionPopUp={() => {
-                                        setPopUp('error')
-                                        setMessage('É ncessário estar logado para acessar o produto')
-                                    }}
-
-                                    changeProps="lg:absolute  lg:top-[-110px]  lg:right-[-50px]"
-                                />
-
+    name={user?.nome}
+    endereco={user?.endress?.endereco}
+    numero_casa={user?.endress?.numero_casa}
+    nome_servico={data?.nome_servico}
+    preco={data?.preco}
+    preco_desconto={data?.preco_desconto}
+    actionPopUp={() => {
+        setPopUp('error')
+        setMessage('É necessário estar logado para acessar o produto')
+    }}
+    changeProps="lg:absolute lg:top-[-110px] lg:right-[-50px]"
+/>
                             <BodyService
                                 descricao={data?.descricao}
                             />

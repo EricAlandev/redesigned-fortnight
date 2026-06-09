@@ -9,24 +9,22 @@ export default function HeaderUser({
     authorizations
 }: typeUsuario){
     
-    const adressUser = `${endress.endereco} ${endress.numero_casa}`
-    const numberFone = `(55) ${number?.dd}9${number?.numero}`
-    const arrayAuthorizations = authorizations.map((a, index) => {
+    const adressUser = `${endress?.endereco ?? ""} ${endress?.numero_casa ?? ""}`
+    const numberFone = `(55) ${number?.dd ?? ""}9${number?.numero ?? ""}`
+    const arrayAuthorizations = authorizations?.map((a, index) => {
         if((index + 1) >= authorizations.length){
             return {
                 id: a?.id,
-                authorizarion: (a?.authorization.authorization)
+                authorizarion: a?.authorization?.authorization ?? ""
             }
         }
-
         else{
             return {
                 id: a?.id,
-                authorizarion: (a?.authorization.authorization) + " "
+                authorizarion: (a?.authorization?.authorization ?? "") + " "
             }
         }
-        
-    });
+    }) ?? [];
 
     return(
         <>
@@ -86,12 +84,11 @@ export default function HeaderUser({
                                         <p
                                             key={a?.id}
                                         >
-                                            {(a?.authorizarion).replace(" ", ",")}
+                                            {(a?.authorizarion ?? "").replace(" ", ",")}
                                         </p>
                                     ))}
                                 </div>
                             )}
-
                         </div>
                 </div>
             </div>

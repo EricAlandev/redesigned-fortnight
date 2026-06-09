@@ -31,7 +31,7 @@ export default function EsqServiceList({
         <div className="flex flex-col gap-2 max-w-[350px]  lg:max-w-[250px]">
             {/*image product */}
             <img
-                src={url}
+                src={"/services/HydrateSkin.png"}
                 className=""
             />
             

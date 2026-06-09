@@ -17,7 +17,7 @@ export function useServicesAdmin(){
         const [nextPage, setNextPage] = useState<string | null>("first page");
         const [dataService, setDataService] = useState<ServiceAndData[]>([]);
         const [idDelete, setIdDelete] = useState<number>(-1);
-        const [services, setServices] = useState<ServicesList>();
+        const [services, setServices] = useState<ServicesList[]>([]);
 
         // 1. READ ALL SERVICES
         const pullAllServices = async() => {
@@ -93,7 +93,7 @@ export function useServicesAdmin(){
             try {
                 // Falls back to standard timeframe query fallback tracking strings inside controller
                 const queueData = await pullQueueOfServices(enviar || "semana");
-                setServices(queueData as unknown as ServicesList);
+                setServices(queueData as unknown as ServicesList[]);
             }
             catch(error) {
                 console.error("Error updating metric queue tracking details:", error);

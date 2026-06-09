@@ -7,39 +7,36 @@ import { ParseTheTime, ParseTimeNotComplete } from "@/lib/functions/ParseTheTime
 import { PhotoImage } from "@/lib/functions/PhotoIMage";
 import { config } from "process";
 
-const currentDir = path.dirname(new URL(import.meta.url).pathname);
+// 🌟 SOLUÇÃO INTERNA: Função para gerar caminhos limpos e decodificados sem caracteres de URL (%20)
+const getSafePath = (fileName: string) => {
+  const root = process.cwd();
+  // Centraliza todos os JSONs na pasta estável de dados: src/data/
+  const fullPath = path.join(root, 'src', 'data', fileName);
+  return decodeURIComponent(fullPath);
+};
 
+// --- UTILITÁRIOS DE LEITURA E ESCRITA UNIFICADOS ---
 
-const rootPath = path.resolve(currentDir, "..", "..", ".."); 
-
-const cleanRootPath = rootPath.startsWith('\\') ? rootPath.substring(1) : rootPath;
-
-const dbPathServices = path.join(cleanRootPath, "services.json");
-const dbPathBookings = path.join(cleanRootPath, "bookings.json");
-const dbPathUsers    = path.join(cleanRootPath, "users.json");
-
-// --- UTILITÁRIOS DE LEITURA E ESCRITA LOCAL ---
 export async function getFileServices() {
-  // process.cwd() garante que começamos na raiz do projeto
-  // path.join resolve as barras automaticamente para Windows ou Linux e remove o %20 dos espaços
-  const filePath = path.join(process.cwd(), 'src', 'data', 'services.json');
-
+  const filePath = getSafePath('services.json');
   try {
     const fileData = await fs.readFile(filePath, 'utf-8');
     return JSON.parse(fileData);
   } catch (error) {
-    console.error(`Erro real ao tentar ler o arquivo em: ${filePath}`, error);
+    console.error(`Erro ao tentar ler o arquivo em: ${filePath}`, error);
     throw error;
   }
 }
 
 const saveFileServices = async (data: any[]) => {
-  await fs.writeFile(dbPathServices, JSON.stringify(data, null, 2), "utf-8");
+  const filePath = getSafePath('services.json');
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 };
 
 const getFileBookings = async (): Promise<any[]> => {
+  const filePath = getSafePath('bookings.json');
   try { 
-    const data = await fs.readFile(dbPathBookings, "utf-8");
+    const data = await fs.readFile(filePath, "utf-8");
     return JSON.parse(data); 
   } catch { 
     return []; 
@@ -47,12 +44,14 @@ const getFileBookings = async (): Promise<any[]> => {
 };
 
 const saveFileBookings = async (data: any[]) => {
-  await fs.writeFile(dbPathBookings, JSON.stringify(data, null, 2), "utf-8");
+  const filePath = getSafePath('bookings.json');
+  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
 };
 
 const getFileUsers = async (): Promise<any[]> => {
+  const filePath = getSafePath('users.json');
   try { 
-    const data = await fs.readFile(dbPathUsers, "utf-8");
+    const data = await fs.readFile(filePath, "utf-8");
     return JSON.parse(data); 
   } catch { 
     return []; 

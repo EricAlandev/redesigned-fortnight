@@ -15,6 +15,31 @@
       {
         "idDate": 1,
         "dia_horario": "2026-05-28T18:13",
+        "choosed": true
+      },
+      {
+        "idDate": 2,
+        "dia_horario": "",
+        "choosed": true
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nome_servico": "produto lixo 2",
+    "preco": 200,
+    "preco_desconto": 180,
+    "descricao": "asasasasa",
+    "escolhido": false,
+    "avaliacao": {
+      "quantidade": 0,
+      "aprovacao_percentual": 0
+    },
+    "comentarios": [],
+    "slots": [
+      {
+        "idDate": 1,
+        "dia_horario": "2026-06-16T23:58",
         "choosed": false
       }
     ]

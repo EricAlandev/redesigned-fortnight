@@ -14,13 +14,13 @@ export default function ServicesList(){
 
     const {callQueue, services} = useServicesAdmin();
 
-    const {
-        actualPage, 
-        quantityOfPages, 
-        setActualPage, 
-        arrayWithNumberPages, 
-        actualServices
-    } = useLogicalNumber(services)
+ const {
+    actualPage, 
+    quantityOfPages, 
+    setActualPage, 
+    arrayWithNumberPages, 
+    actualServices
+} = useLogicalNumber(services || [])  // 👈 pass the array, not the whole object
     
     useEffect(() => {
         callQueue();

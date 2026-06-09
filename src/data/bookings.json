@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "usuario_id": 1,
+    "servicos_id": 1,
+    "idDate": 1,
+    "dia_horario": "2026-05-28T18:13",
+    "choosed": true,
+    "comentado": null
+  },
+  {
+    "id": 2,
+    "usuario_id": 1,
+    "servicos_id": 1,
+    "idDate": 2,
+    "dia_horario": "2026-06-28T18:13",
+    "choosed": true,
+    "comentado": null
+  }
+]

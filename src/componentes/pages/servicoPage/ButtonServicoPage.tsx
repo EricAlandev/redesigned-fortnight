@@ -1,26 +1,32 @@
 'use client'
 
-import { dataService, NServicosData } from "@/types/TypeService"
+import { dataService } from "@/types/TypeService"
 import Link from "next/link";
 import React, { useState } from "react"
 import { ParseTheTime } from "@/lib/functions/ParseTheTime";
 import { useGlobal } from "@/lib/GlobalContext";
 
+type SlotData = {
+    idDate: number;
+    dia_horario: string;
+    choosed: boolean;
+}
+
 type buttonOptions = {
     enviar: (data: dataService, idDate: string) => void,
     actionPopUp: () => void,
-    ServicesData?: NServicosData[],
+    slots?: SlotData[], 
     name?: string,
     endereco?: string,
     numero_casa?: string,
     nome_servico?: string,
-    preco?: string,
-    preco_desconto?: string,
+    preco?: string | number,
+    preco_desconto?: string | number,
     changeProps?: string
 }
 
 export default function ButtonServicoPage({
-    ServicesData,
+    slots,
     enviar,
     actionPopUp,
     name,
@@ -34,51 +40,45 @@ export default function ButtonServicoPage({
 
     const [data, setData] = useState<dataService>({ dia_horario: "" });
     const [idDate, setIdDate] = useState<string>("");
-
     const { user, token } = useGlobal();
 
-    // Modifique a lógica do arrayDates para ler de 'slots'
-    const arrayDates = ServicesData?.flatMap((s) => {
-        // Garante que 'slots' existe e mapeia cada slot individualmente
-        return (s?.slots || []).map((slot: any) => {
-            const date = slot?.dia_horario; // Altere para a propriedade real do seu slot (ex: 'dia_horario' ou 'hora')
+    // Filtra e formata os horários vindos de ServicesData (mapeados aqui como slots)
+    const arrayDates = (slots || [])
+        .filter((h) => h && h.choosed === false) 
+        .map((h) => {
+            const date = h?.dia_horario;
             let actualDate = "";
             
             if (date) {
-                actualDate = ParseTheTime(date);
+                actualDate = ParseTheTime(date); 
             }
             
             return { 
-                id: slot?.id || s.id, // Usa o id do slot, ou cai de volta pro id do serviço se não houver
-                date: actualDate 
+                id: h?.idDate, 
+                date: actualDate,
+                rawDate: date
             };
         });
-    }) || [];
 
-    const handleChanger = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-        const { name, value } = e.target;
-        const dataValue = arrayDates.find((a) => a.date === value);
+    const handleChanger = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = e.target.value;
+        const dataValue = arrayDates.find((a) => String(a.id) === selectedId);
 
-        if (dataValue && dataValue.id) {
-            // Force ID to string to satisfy setIdDate(string)
+        if (dataValue) {
             setIdDate(String(dataValue.id));
-
-            setData((d) => ({
-                ...d,
-                [name]: dataValue.date
-            }));
+            setData({ dia_horario: dataValue.date }); 
         } else {
             setIdDate("");
-            setData((d) => ({ ...d, [name]: "" }));
+            setData({ dia_horario: "" });
         }
     };
 
-    const message = `Ola pessoa! Eu sou a pessoa ${name}. Moro na rua ${endereco}, ${numero_casa}. Gostaria de fazer contigo o serviço ${nome_servico} no preco de R$${preco_desconto || preco} no horario de ${data.dia_horario}`;
+    const message = `Olá! Eu sou ${name || ''}. Moro na rua ${endereco || ''}, nº ${numero_casa || ''}. Gostaria de agendar o serviço "${nome_servico || ''}" por R$${preco_desconto || preco || '0.00'} no horário: ${data.dia_horario}`;
     const encodedMessage = encodeURIComponent(message);
 
     return (
         <div className="relative">
-            <div className={`fixed bottom-5 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-[#FFFFFF] opacity-85 lg:w-max ${changeProps}`}>
+            <div className={`fixed bottom-5 left-1/2 -translate-x-1/2 md:bottom-auto md:left-auto md:translate-x-0 w-full bg-white opacity-95 lg:w-max ${changeProps || ''} z-50 shadow-md rounded-lg border border-gray-200`}>
                 <form
                     id="form-id"
                     onSubmit={(e) => {
@@ -89,16 +89,15 @@ export default function ButtonServicoPage({
                 >
                     <select
                         name="dia_horario"
-                        value={data.dia_horario}
+                        value={idDate} 
                         onChange={handleChanger}
-                        className="text-center p-2 border rounded"
+                        className="text-center p-2 border rounded bg-white text-black text-sm w-full outline-none"
                     >
-                        {/* Safe length check using the fallback array */}
                         {arrayDates.length > 0 ? (
                             <>
                                 <option value="">Selecione um horário</option>
                                 {arrayDates.map((d) => (
-                                    <option key={d.id} value={d.date}>
+                                    <option key={d.id} value={String(d.id)}>
                                         {d.date}
                                     </option>
                                 ))}
@@ -116,14 +115,14 @@ export default function ButtonServicoPage({
                                 const form = document.getElementById('form-id') as HTMLFormElement;
                                 if (form) form.requestSubmit();
                             }}
-                            className={`p-2 text-center text-white rounded-md ${!data.dia_horario ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600'}`}
+                            className={`p-2 text-center text-white rounded-md font-medium transition-all ${!idDate ? 'bg-gray-400 cursor-not-allowed pointer-events-none' : 'bg-green-600 hover:bg-green-700'}`}
                         >
                             Escolher serviço
                         </Link>
                     ) : (
                         <button
                             type="button"
-                            className="p-2 text-center text-white rounded-md bg-gray-400"
+                            className="p-2 text-center text-white rounded-md bg-gray-400 font-medium"
                             onClick={() => actionPopUp()}
                         >
                             Escolher um serviço

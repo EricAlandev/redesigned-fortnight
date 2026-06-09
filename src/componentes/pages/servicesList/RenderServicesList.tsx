@@ -38,6 +38,8 @@ export default function RenderServices(
         enviar(data?.ordem)
     }, [data])
 
+    console.log("services", services)
+
     return(
         <div
          className=" h-[75vh] mx-auto transform-none mt-5 lg:max-h-[800px]"

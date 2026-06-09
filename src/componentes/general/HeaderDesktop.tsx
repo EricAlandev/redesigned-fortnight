@@ -39,12 +39,11 @@ export default function HeaderDesktop(){
                                     {/*Name of user */}
                                     {(user && token ) && (
                                         <>
-                                            <Link
-                                            href={"/user"}
+                                            <div
                                             className=" pb-1 border-[white] border-b-[2px] cursor-pointer"
                                             >
                                                 {user?.nome}
-                                            </Link>
+                                            </div>
                                         </>
                                     )}
 
