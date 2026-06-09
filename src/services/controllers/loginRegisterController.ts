@@ -36,9 +36,6 @@ export async function loginController(loginData: dadoLogin) {
 
   const token = `file_session_jwt_${btoa(JSON.stringify({ id: user.id, nome: user.nome }))}`;
   
-  user.token = token;
-  saveFileUsers(users);
-
   const isAdmin = user.authorizations?.some(
     (auth: any) => auth.authorization?.id === 1 || auth.authorization?.name === "ADMIN"
   );
